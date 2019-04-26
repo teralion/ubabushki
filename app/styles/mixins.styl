@@ -1,0 +1,100 @@
+
+x(n = 1)
+  $normalized = (n / $defaultFontSize)
+  return 1rem * $normalized
+
+fontSize(n = 1)
+  return x(n)
+
+/* fonts */
+defineFont(font-family, filename, font-weight, font-style)
+  @font-face
+    font-family font-family
+    font-weight font-weight
+    font-style font-style
+    font-display auto
+    src url('./fonts/' + filename + '.otf') format('truetype')
+
+/* media queries */
+media($condition)
+  $media = unquote($viewports[$condition] || $condition)
+
+  @media $media
+    {block}
+
+media1x(query)
+  return 'only screen and ' + query
+
+media2x(query)
+  q =     'only screen and (-webkit-min-device-pixel-ratio: 1.5)      and ' + query + ','
+  q = q + 'only screen and (   min--moz-device-pixel-ratio: 1.5)      and ' + query + ','
+  q = q + 'only screen and (     -o-min-device-pixel-ratio: 1.5/1)    and ' + query + ','
+  q = q + 'only screen and (        min-device-pixel-ratio: 1.5)      and ' + query + ','
+  q = q + 'only screen and (                min-resolution: 192dpi)   and ' + query + ','
+  q = q + 'only screen and (                min-resolution: 2dppx)    and ' + query
+
+  return q
+
+media3x(query)
+  q =     'only screen and (-webkit-min-device-pixel-ratio: 3)      and ' + query + ','
+  q = q + 'only screen and (   min--moz-device-pixel-ratio: 3)      and ' + query + ','
+  q = q + 'only screen and (     -o-min-device-pixel-ratio: 3/1)    and ' + query + ','
+  q = q + 'only screen and (        min-device-pixel-ratio: 3)      and ' + query + ','
+  q = q + 'only screen and (                min-resolution: 220dpi) and ' + query + ','
+  q = q + 'only screen and (                min-resolution: 3dppx)  and ' + query
+
+  return q
+
+$viewports = {
+  phonePortrait:        media1x('(max-width: 414px)')
+  phonePortrait2x:   media2x('(max-width: 414px)')
+  phonePortrait3x:   media3x('(max-width: 414px)')
+
+  phoneLandscape:       media1x('(max-width: 736px)')
+  phoneLandscape2x:  media2x('(max-width: 736px)')
+  phoneLandscape3x:  media3x('(max-width: 736px)')
+
+  phone:           media1x('(max-width: 736px)')
+  phone2x:      media2x('(max-width: 736px)')
+  phone3x:      media3x('(max-width: 736px)')
+
+  tablet:          media1x('(min-width: 736px) and (max-width: 1023px)')
+  tablet2x:     media2x('(min-width: 736px) and (max-width: 1023px)')
+  tablet3x:     media3x('(min-width: 736px) and (max-width: 1023px)')
+
+  desk:            media1x('(min-width: 1024px)')
+  desk2x:       media2x('(min-width: 1024px)')
+  desk3x:       media3x('(min-width: 1024px)')
+
+  smallLaptop:            media1x('(max-width: 1024px)')
+  smallLaptop2x:       media2x('(max-width: 1024px)')
+  smallLaptop3x:       media3x('(max-width: 1024px)')
+
+  laptop:            media1x('(max-width: 1280px)')
+  laptop2x:       media2x('(max-width: 1280px)')
+  laptop3x:       media3x('(max-width: 1280px)')
+
+  mediumDesk:     media1x('(max-width: 1140px)')
+  mediumDesk2x:media2x('(max-width: 1140px)')
+  mediumDesk3x:media3x('(max-width: 1140px)')
+
+  wideDesk:       media1x('(min-width: 2100px)')
+  wideDesk2x:  media2x('(min-width: 2100px)')
+  wideDesk3x:  media3x('(min-width: 2100px)')
+
+  smallScreen:       media1x('(max-width: 1600px)')
+  smallScreen2x:  media2x('(max-width: 1600px)')
+  smallScreen3x:  media3x('(max-width: 1600px)')
+
+  bigScreen:       media1x('(min-width: 1600px)')
+  bigScreen2x:  media2x('(min-width: 1600px)')
+  bigScreen3x:  media3x('(min-width: 1600px)')
+
+  ultraBigScreen:       media1x('(min-width: 1920px)')
+  ultraBigScreen2x:  media2x('(min-width: 1920px)')
+  ultraBigScreen3x:  media3x('(min-width: 1920px)')
+
+  mediumLaptop:            media1x('(max-width: 1440px)')
+  mediumLaptop2x:       media2x('(max-width: 1440px)')
+  mediumLaptop3x:       media3x('(max-width: 1440px)')
+}
