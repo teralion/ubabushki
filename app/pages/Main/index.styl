@@ -1,0 +1,74 @@
+
+/* utils */
+.image
+  sectionGradient("../../../public/pasta.jpg")
+  width x(962)
+  height x(62)
+
+.separator
+  width 100%
+  border-bottom x(2) solid rgba(63, 59, 59, 0.4)
+  box-shadow x(0) x(1) x(2) rgba(63, 59, 59, 0.25)
+
+/* end utils */
+
+/* info */
+.info
+  display flex
+  justify-content center
+  align-items center
+  flex-flow row wrap
+  width 100%
+  height x(55)
+  background-color $gray
+
+  .item
+    font-family $fontRegular
+    font-size x(30)
+    color $lightGray
+
+.phone
+  text-decoration none
+
+.slash
+  width x(3)
+  height x(45)
+  margin-left x(16)
+  margin-right x(16)
+  background-color $logo
+  transform rotate(27deg)
+
+/* end info */
+
+/* header */
+.header
+  display flex
+  justify-content space-between
+  align-items center
+  flex-flow row wrap
+  height x(142)
+  width 100%
+  max-width x(960)
+  margin-left auto
+  margin-right auto
+
+  .navLink
+    font-family $fontRegular
+    font-size x(24 )
+    color $gray
+    text-decoration none
+    text-transform lowercase
+
+  .logo
+    display flex
+    justify-content center
+    align-items center
+    height x(60)
+    width x(340)
+    background-color $gray
+    border-radius x(16)
+    text-transform uppercase
+    color $logo
+    font-size x(50)
+
+/* end header */

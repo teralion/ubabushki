@@ -13,7 +13,7 @@ defineFont(font-family, filename, font-weight, font-style)
     font-weight font-weight
     font-style font-style
     font-display auto
-    src url('./fonts/' + filename + '.otf') format('truetype')
+    src url('./fonts/' + filename + '.ttf') format('truetype')
 
 /* media queries */
 media($condition)
@@ -98,3 +98,24 @@ $viewports = {
   mediumLaptop2x:       media2x('(max-width: 1440px)')
   mediumLaptop3x:       media3x('(max-width: 1440px)')
 }
+
+sectionGradient(url)
+  background: -moz-linear-gradient(
+          left,
+          rgba(255,255,255,1) 8%,
+          rgba(255,255,255,0.37) 66%,
+          rgba(255,255,255,0) 100%
+  ), url(url); /* FF3.6-15 */
+  background: -webkit-linear-gradient(
+          left,
+          rgba(255,255,255,1) 8%,
+          rgba(255,255,255,0.37) 66%,
+          rgba(255,255,255,0) 100%
+  ), url(url); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(
+          to right,
+          rgba(255,255,255,1) 8%,
+          rgba(255,255,255,0.37) 66%,
+          rgba(255,255,255,0) 100%
+  ), url(url); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=1 )" /* IE6-9 */
