@@ -1,0 +1,20 @@
+
+.input
+  display block
+  height x(40)
+  width 100%
+  padding x(10) x(12)
+  font-size x(16)
+  line-height x(20)
+  border x(1) solid $gray
+  background-color $white
+  resize none
+  outline none
+
+.disabled
+  .input
+    border-style dashed
+    white-space nowrap
+    text-overflow ellipsis
+    overflow hidden
+    cursor not-allowed
