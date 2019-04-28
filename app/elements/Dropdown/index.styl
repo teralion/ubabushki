@@ -1,0 +1,60 @@
+
+withButtonStyle()
+  width 100%
+  height auto
+  padding x(10) x(12)
+  font-size x(16)
+  line-height x(20)
+  background-color $white
+  text-align left
+  resize none
+  outline none
+  border none
+
+  &:hover
+    background-color $lightGray
+
+  &:active
+    background-color $lightGrayActive
+
+.wrap
+  position relative
+  width 100%
+
+.dropdown
+  display block
+  position relative
+  withButtonStyle()
+  border x(1) solid $gray
+
+  &.disabled
+    border-style dashed
+    white-space nowrap
+    text-overflow ellipsis
+    overflow hidden
+    cursor not-allowed
+
+.list
+  position absolute
+  display flex
+  flex-flow column nowrap
+  border x(1) solid $gray
+  width 100%
+  margin-top x(6)
+
+  .item
+    withButtonStyle()
+
+.icon
+  position absolute
+  right x(12)
+  margin-top x(8)
+  border x(6) solid $gray
+  border-color transparent transparent
+  border-top-color inherit
+
+  &.open
+    margin-top x(0)
+    border-color transparent transparent
+    border-bottom-color inherit
+

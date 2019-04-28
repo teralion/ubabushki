@@ -11,7 +11,7 @@ import Checkout from 'app/pages/Checkout';
 function Routes() {
   return (
     <Switch>
-      <Route path="/" render={() => <Main />} />
+      <Route path="/" render={Main} />
       <Route path="/delivery" render={Delivery} />
       <Route path="/contacts" render={Contacts} />
       <Route path="/privacy" render={Privacy} />

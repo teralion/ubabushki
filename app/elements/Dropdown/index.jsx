@@ -3,6 +3,9 @@ import T from 'prop-types';
 
 import isServer from 'helpers/isServer';
 
+import cx from 'classnames';
+import css from './index.styl';
+
 function selectCurrentValue(props) {
   const {
     items,
@@ -29,19 +32,25 @@ function selectCurrentValue(props) {
     : foundedItem;
 }
 
-function onItemClick(props, item) {
+function onItemClick(item, props, state) {
   return function handleItemClick() {
-    const { onSelect, keyName } = props;
+    const { isOpen, changeOpen } = state;
+    const {
+      onSelect,
+      keyName,
+      shouldCloseOnClick,
+    } = props;
 
     const key = typeof item === 'object'
       ? item[keyName]
       : item;
 
     onSelect(key);
+    if (shouldCloseOnClick && isOpen) changeOpen(false);
   };
 }
 
-function renderList(props) {
+function renderList(props, state) {
   const {
     items,
     keyName,
@@ -64,7 +73,8 @@ function renderList(props) {
       <button
         type="button"
         key={`${key}-${value}`}
-        onClick={onItemClick(props, item)}
+        onClick={onItemClick(item, props, state)}
+        className={css.item}
       >
         {value}
       </button>
@@ -92,30 +102,48 @@ function closeDropdownEffect(props, value, updater) {
 }
 
 export default function Dropdown(props) {
-  const { name } = props;
-  const [isOpen, toggleOpen] = useState(false);
+  const { name, disabled, withIcon } = props;
+
+  const [isOpen, changeOpen] = useState(false);
+  const state = { isOpen, changeOpen };
+
   useEffect(
     () => closeDropdownEffect(
-      props, isOpen, toggleOpen,
+      props, isOpen, changeOpen,
     ),
   );
 
   const value = selectCurrentValue(props);
 
   return (
-    <main>
+    <div className={css.wrap}>
       <button
         type="button"
-        onClick={() => toggleOpen(!isOpen)}
+        onClick={() => changeOpen(!isOpen)}
+        className={cx(
+          css.dropdown,
+          { [css.disabled]: disabled },
+        )}
       >
         {value}
+        {withIcon && (
+          <span
+            className={cx(
+              css.icon,
+              { [css.open]: isOpen },
+            )}
+          />
+        )}
       </button>
       { isOpen && (
-        <div data-dropdown={name}>
-          {renderList(props)}
+        <div
+          data-dropdown={name}
+          className={css.list}
+        >
+          {renderList(props, state)}
         </div>
       ) }
-    </main>
+    </div>
   );
 }
 
@@ -123,6 +151,8 @@ export default function Dropdown(props) {
 Dropdown.propTypes = {
   name: T.string.isRequired,
   takeFirst: T.bool,
+  shouldCloseOnClick: T.bool,
+  withIcon: T.bool,
   items: T.array,
   keyName: T.oneOfType([T.string, T.number]),
   valueName: T.oneOfType([T.string, T.number]),
@@ -134,6 +164,8 @@ Dropdown.propTypes = {
 };
 Dropdown.defaultProps = {
   takeFirst: false,
+  shouldCloseOnClick: true,
+  withIcon: true,
   items: [],
   keyName: '',
   valueName: '',

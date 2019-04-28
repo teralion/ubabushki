@@ -3,6 +3,7 @@ import React from 'react';
 import ContactInfo from 'app/sections/ContactInfo';
 import MainHeader from 'app/sections/MainHeader';
 import OrderInputs from 'app/sections/OrderInputs';
+import CatalogSection from 'app/sections/CatalogSection';
 
 import css from './index.styl';
 
@@ -14,10 +15,9 @@ export default function Main() {
 
       <div className={css.separator} />
 
-      <OrderInputs />
-
       <main className={css.main}>
-        <div className={css.image} />
+        <OrderInputs className={css.inputs} />
+        <CatalogSection />
       </main>
     </>
   );

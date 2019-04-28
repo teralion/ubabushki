@@ -1,0 +1,45 @@
+
+.counter
+  display flex
+  justify-content center
+  align-items center
+  flex-flow row nowrap
+  width 100%
+  height x(40)
+
+.input
+  margin-left x(6)
+  margin-right @margin-left
+  height 100%
+  width x(190)
+  font-size x(30)
+  background-color $gray
+  color $lightGray
+  text-align center
+  border none
+  box-shadow 0 0 x(22) x(-5) $gray
+
+.inc
+.dec
+  height 100%
+  width x(40)
+  font-size x(30)
+  background-color $gray
+  color $lightGray
+  transition 0.15s opacity ease-in, 0.1s box-shadow ease-in
+  box-shadow 0 0 x(22) x(-5) $gray
+
+  &.disabled
+    cursor default
+    opacity 0.6
+
+  &:active
+    box-shadow 0 0 x(10) x(-5) $gray
+
+.inc
+  border-top-left-radius x(8)
+  border-bottom-left-radius @border-top-left-radius
+
+.dec
+  border-top-right-radius x(8)
+  border-bottom-right-radius @border-top-right-radius

@@ -1,0 +1,33 @@
+
+h3
+  margin x(0)
+  font-weight normal
+
+.button
+  display flex
+  flex-flow row
+  justify-content flex-start
+  align-items center
+  width 100%
+  height x(62)
+  max-width x($maxWidth)
+  border-radius x(16)
+  transition 0.15s box-shadow ease-in-out
+  box-shadow 0 0 x(17) x(-3) $gray
+  font-size x(40)
+  color $orange
+
+  &:hover
+    box-shadow 0 0 x(12) x(-3) $gray
+
+  &:active
+    box-shadow 0 0 x(8) x(-3) $gray
+
+.icon
+  display flex
+  align-items center
+  justify-content flex-start
+  height x(32)
+  width x(32)
+  margin-right x(16)
+  margin-left @margin-right
