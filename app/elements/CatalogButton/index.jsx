@@ -33,9 +33,7 @@ export default function CatalogButton(props) {
       {...otherProps}
     >
       {withIcon && renderIcon(isOpen)}
-      <h3 className={css.label}>
-        {label}
-      </h3>
+      <h3>{label}</h3>
     </button>
   );
 }

@@ -4,21 +4,20 @@
   position relative
 
   .slide
-    display flex
-    justify-content center
-    align-items center
-    flex-flow row nowrap
+    flexCenter()
+
+.item + .item
+  margin-left x(55)
 
 .control
+  flexCenter()
   position absolute
   top 45%
   z-index 1
-  display flex
-  justify-content center
-  align-items center
   padding 0
-  width x(44)
-  height x(44)
+  min-width x(44)
+  width @min-width
+  height @width
   font-size x(30)
   border-radius x(40)
 
@@ -26,6 +25,10 @@
     display block
     position absolute
     height x(49)
+
+  &.disabled
+    cursor default
+    opacity 0.3
 
 .prev
   left x(0)

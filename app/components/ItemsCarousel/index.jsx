@@ -8,7 +8,7 @@ import cx from 'classnames';
 import css from './index.styl';
 
 function renderSlides(items, state, props) {
-  const { itemsPerSlide } = props;
+  const { itemsPerSlide, slideClassName } = props;
   const { slidesAmount } = state;
 
   const slides = [];
@@ -19,10 +19,11 @@ function renderSlides(items, state, props) {
     const endItemIndex = startItemIndex + itemsPerSlide;
 
     slides.push(
-      <div className={css.slide} key={`slide-${i}`}>
+      <div className={cx(css.slide, slideClassName)} key={`slide-${i}`}>
         {items.slice(startItemIndex, endItemIndex).map(item => (
           <ItemCard
             key={`${item.title}-${item.id}`}
+            className={css.item}
             {...item}
           />
         ))}
@@ -51,7 +52,7 @@ function updateIndex(nextIndex, state) {
 }
 
 export default function ItemsCarousel(props) {
-  const { items, itemsPerSlide } = props;
+  const { items, itemsPerSlide, className } = props;
   const [index, changeIndex] = useState(0);
 
   const slidesAmount = Math.ceil(items.length / itemsPerSlide);
@@ -66,10 +67,14 @@ export default function ItemsCarousel(props) {
   );
 
   return (
-    <div className={css.slider}>
+    <div className={cx(css.slider, className)}>
       <button
         type="button"
-        className={cx(css.prev, css.control)}
+        className={cx(
+          css.prev,
+          css.control,
+          { [css.disabled]: slidesAmount === 1 },
+        )}
         onClick={updateIndexFunc(index - 1)}
       >
         <div className={css.icon}>←</div>
@@ -86,7 +91,11 @@ export default function ItemsCarousel(props) {
 
       <button
         type="button"
-        className={cx(css.next, css.control)}
+        className={cx(
+          css.next,
+          css.control,
+          { [css.disabled]: slidesAmount === 1 },
+        )}
         onClick={updateIndexFunc(index + 1)}
       >
         <div className={css.icon}>→</div>
@@ -101,11 +110,13 @@ ItemsCarousel.propTypes = {
   items: T.array,
   itemsPerSlide: T.number,
   className: T.string,
+  slideClassName: T.string,
 }
 ItemsCarousel.defaultProps = {
   name: '',
   items: [],
   itemsPerSlide: 3,
   className: '',
+  slideClassName: '',
 }
 /* eslint-enable */

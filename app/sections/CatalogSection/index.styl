@@ -5,6 +5,19 @@
 .section
   margin-bottom x(45)
 
+.transition
+  max-height x(500)
+  overflow hidden
+  transition .3s ease
+  .ease
+    transition opacity .3s ease
+    opacity 1
+
+  &.transitionClose
+    max-height x(0)
+    .ease
+      opacity 0
+
 .soupImg
   sectionGradient('../../../public/soup.jpg')
 

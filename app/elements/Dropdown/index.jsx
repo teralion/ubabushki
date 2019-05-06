@@ -107,11 +107,9 @@ export default function Dropdown(props) {
   const [isOpen, changeOpen] = useState(false);
   const state = { isOpen, changeOpen };
 
-  useEffect(
-    () => closeDropdownEffect(
-      props, isOpen, changeOpen,
-    ),
-  );
+  useEffect(() => closeDropdownEffect(
+    props, isOpen, changeOpen,
+  ));
 
   const value = selectCurrentValue(props);
 

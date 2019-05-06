@@ -14,6 +14,7 @@ export default function ItemCard(props) {
     price,
     isInCard,
     addToCard,
+    className,
   } = props;
 
   const [countInCard, updateCount] = useState(0);
@@ -21,6 +22,7 @@ export default function ItemCard(props) {
   return (
     <div className={cx(
       css.card,
+      className,
       { [css.inCard]: isInCard },
     )}
     >
@@ -30,32 +32,34 @@ export default function ItemCard(props) {
         className={css.image}
       />
 
-      <span className={css.title}>
-        { title }
-      </span>
+      <div className={css.content}>
+        <span className={css.title}>
+          { title }
+        </span>
 
-      <div className={css.price}>
-        <span className={css.piece}>
-          { `${piece} /`}
-        </span>
-        <span className={css.price}>
-          { `${price} р.` }
-        </span>
+        <div className={css.price}>
+          <span className={css.piece}>
+            { `${piece} /`}
+          </span>
+          <span className={css.price}>
+            { `${price} р.` }
+          </span>
+        </div>
+
+        <Counter
+          value={countInCard}
+          handleChange={updateCount}
+          className={css.counter}
+        />
+
+        <button
+          type="button"
+          onClick={addToCard}
+          className={css.addToCard}
+        >
+          в корзину!
+        </button>
       </div>
-
-      <Counter
-        value={countInCard}
-        handleChange={updateCount}
-        className={css.counter}
-      />
-
-      <button
-        type="button"
-        onClick={addToCard}
-        className={css.addToCard}
-      >
-        в корзину!
-      </button>
     </div>
   );
 }
