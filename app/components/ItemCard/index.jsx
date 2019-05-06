@@ -8,7 +8,7 @@ import css from './index.styl';
 
 export default function ItemCard(props) {
   const {
-    img,
+    url,
     title,
     piece,
     price,
@@ -24,7 +24,11 @@ export default function ItemCard(props) {
       { [css.inCard]: isInCard },
     )}
     >
-      <img src={img} alt={title} className={css.img} />
+      <img
+        src={url}
+        alt={title}
+        className={css.image}
+      />
 
       <span className={css.title}>
         { title }
@@ -59,20 +63,22 @@ export default function ItemCard(props) {
 /* eslint-disable */
 ItemCard.propTypes = {
   title: T.string,
-  img: T.string,
-  id: T.string,
-  piece: T.string,
-  price: T.string,
+  url: T.string,
+  id: T.number,
+  piece: T.number,
+  entity: T.string,
+  price: T.number,
   className: T.string,
   isInCard: T.bool,
   addToCard: T.func,
 }
 ItemCard.defaultProps = {
   title: '',
-  img: '',
-  id: '',
-  piece: '',
-  price: '',
+  url: '',
+  id: undefined,
+  piece: undefined,
+  entity: 'шт.',
+  price: undefined,
   className: '',
   isInCard: false,
   addToCard: () => {},
