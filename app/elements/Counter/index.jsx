@@ -35,21 +35,15 @@ function onInputChange(e, props) {
 function incCounter(props) {
   const { value, handleChange, maxValue } = props;
 
-  const nextValue = (value + 1) > maxValue
-    ? value
-    : value + 1;
-
-  handleChange(nextValue);
+  if (value + 1 > maxValue) return;
+  handleChange(value + 1);
 }
 
 function decCounter(props) {
   const { value, handleChange, minValue } = props;
 
-  const nextValue = (value - 1) < minValue
-    ? value
-    : value - 1;
-
-  handleChange(nextValue);
+  if (value - 1 < minValue) return;
+  handleChange(value - 1);
 }
 
 export default function Counter(props) {
