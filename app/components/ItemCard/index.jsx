@@ -11,6 +11,7 @@ export default function ItemCard(props) {
     url,
     title,
     piece,
+    entity,
     price,
     isInCard,
     addToCard,
@@ -21,8 +22,8 @@ export default function ItemCard(props) {
 
   return (
     <div className={cx(
-      css.card,
       className,
+      css.card,
       { [css.inCard]: isInCard },
     )}
     >
@@ -37,9 +38,9 @@ export default function ItemCard(props) {
           { title }
         </span>
 
-        <div className={css.price}>
+        <div className={css.amount}>
           <span className={css.piece}>
-            { `${piece} /`}
+            { `${piece} ${entity} /`}
           </span>
           <span className={css.price}>
             { `${price} р.` }
@@ -50,12 +51,14 @@ export default function ItemCard(props) {
           value={countInCard}
           handleChange={updateCount}
           className={css.counter}
+          inputClassName={css.input}
+          buttonClassName={css.buttons}
         />
 
         <button
           type="button"
           onClick={addToCard}
-          className={css.addToCard}
+          className={css.addToCardButton}
         >
           в корзину!
         </button>

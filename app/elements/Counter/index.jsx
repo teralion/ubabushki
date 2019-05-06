@@ -55,9 +55,11 @@ function decCounter(props) {
 export default function Counter(props) {
   const {
     value,
-    className,
     maxValue,
     minValue,
+    className,
+    inputClassName,
+    buttonClassName,
   } = props;
 
   return (
@@ -66,6 +68,7 @@ export default function Counter(props) {
         type="button"
         onClick={() => incCounter(props)}
         className={cx(
+          buttonClassName,
           css.inc,
           { [css.disabled]: value >= maxValue },
         )}
@@ -77,13 +80,14 @@ export default function Counter(props) {
         type="text"
         value={value}
         onChange={e => onInputChange(e, props)}
-        className={css.input}
+        className={cx(css.input, inputClassName)}
       />
 
       <button
         type="button"
         onClick={() => decCounter(props)}
         className={cx(
+          buttonClassName,
           css.dec,
           { [css.disabled]: value <= minValue },
         )}
@@ -101,6 +105,8 @@ Counter.propTypes = {
   maxValue: T.number,
   handleChange: T.func,
   className: T.string,
+  inputClassName: T.string,
+  buttonClassName: T.string,
 }
 Counter.defaultProps = {
   value: 0,
@@ -108,5 +114,7 @@ Counter.defaultProps = {
   maxValue: 999999,
   handleChange: () => {},
   className: '',
+  inputClassName: '',
+  buttonClassName: '',
 }
 /* eslint-enable */
