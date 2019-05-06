@@ -154,8 +154,37 @@ const items = {
       price: 40,
     },
   ],
-  salads: [],
-  supplements: [],
+  salads: [
+    {
+      id: 19,
+      url: 'https://ubabushki.com/files/dishes/540-360/2760da7178e92f179d7c76aaa82ec064.jpg',
+      title: 'Винегрет',
+      description: 'Все по классике: свекла, морковь, картофель, капуста, соленые огурцы, лук и немного растительного масла.',
+      piece: 100,
+      entity: 'гр.',
+      price: 40,
+    },
+    {
+      id: 20,
+      url: 'https://ubabushki.com/files/dishes/540-360/a63851ac61df5010ecd836ebc232ca62.jpg',
+      title: 'Оливье',
+      description: 'Новогоднее настроение круглый год!',
+      piece: 100,
+      entity: 'гр.',
+      price: 40,
+    },
+  ],
+  supplements: [
+    {
+      id: 21,
+      url: 'https://ubabushki.com/files/dishes/540-360/e3926ef8789a78940a34873e8eed1d91.jpg',
+      title: 'Хлеб',
+      description: '',
+      piece: 20,
+      entity: 'гр.',
+      price: 5,
+    },
+  ],
 };
 
 export default items;

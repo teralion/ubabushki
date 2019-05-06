@@ -24,6 +24,18 @@ export default function CatalogSection() {
     isMainSectionOpen,
     toggleMainSection,
   ] = useState(false);
+  const [
+    isTrimmingsSectionOpen,
+    toggleTrimmingsSection,
+  ] = useState(false);
+  const [
+    isSaladsSectionOpen,
+    toggleSaladsSection,
+  ] = useState(false)
+  const [
+    isSupplementsSectionOpen,
+    toggleSupplementsSection,
+  ] = useState(false)
 
   return (
     <>
@@ -60,6 +72,60 @@ export default function CatalogSection() {
           css.section,
           css.transition,
           { [css.transitionClose]: !isMainSectionOpen },
+        )}
+      />
+
+      <CatalogButton
+        className={cx(css.trimmingsImg, css.section)}
+        label="Гарниры"
+        isOpen={isTrimmingsSectionOpen}
+        onClick={toggleInput(
+          isTrimmingsSectionOpen, toggleTrimmingsSection,
+        )}
+      />
+      <ItemsCarousel
+        items={items.trimmings}
+        slideClassName={css.ease}
+        className={cx(
+          css.section,
+          css.transition,
+          { [css.transitionClose]: !isTrimmingsSectionOpen },
+        )}
+      />
+
+      <CatalogButton
+        className={cx(css.saladsImg, css.section)}
+        label="Салаты"
+        isOpen={isSaladsSectionOpen}
+        onClick={toggleInput(
+          isSaladsSectionOpen, toggleSaladsSection,
+        )}
+      />
+      <ItemsCarousel
+        items={items.salads}
+        slideClassName={css.ease}
+        className={cx(
+          css.section,
+          css.transition,
+          { [css.transitionClose]: !isSaladsSectionOpen },
+        )}
+      />
+
+      <CatalogButton
+        className={cx(css.supplementsImg, css.section)}
+        label="Дополнительно"
+        isOpen={isSupplementsSectionOpen}
+        onClick={toggleInput(
+          isSupplementsSectionOpen, toggleSupplementsSection,
+        )}
+      />
+      <ItemsCarousel
+        items={items.supplements}
+        slideClassName={css.ease}
+        className={cx(
+          css.section,
+          css.transition,
+          { [css.transitionClose]: !isSupplementsSectionOpen },
         )}
       />
     </>

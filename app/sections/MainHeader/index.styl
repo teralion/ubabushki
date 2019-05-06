@@ -1,14 +1,13 @@
 
 .header
-  display flex
+  flexCenter()
   justify-content space-between
-  align-items center
-  flex-flow row wrap
   height x(142)
   width 100%
   max-width x(960)
   margin-left auto
   margin-right auto
+  padding-top x(55)
 
   .navLink
     font-family $fontRegular
@@ -18,9 +17,7 @@
     text-transform lowercase
 
   .logo
-    display flex
-    justify-content center
-    align-items center
+    flexCenter()
     height x(60)
     width x(340)
     background-color $gray
