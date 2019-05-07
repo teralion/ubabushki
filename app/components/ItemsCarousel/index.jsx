@@ -8,25 +8,34 @@ import cx from 'classnames';
 import css from './index.styl';
 
 function renderSlides(items, state, props) {
-  const { itemsPerSlide, slideClassName } = props;
+  const {
+    itemsPerSlide,
+    slideClassName,
+    updateOrder,
+  } = props;
   const { slidesAmount } = state;
 
   const slides = [];
-
   /* eslint-disable-next-line no-plusplus */
   for (let i = 0; i < slidesAmount; i++) {
     const startItemIndex = i * itemsPerSlide;
     const endItemIndex = startItemIndex + itemsPerSlide;
 
     slides.push(
-      <div className={cx(css.slide, slideClassName)} key={`slide-${i}`}>
-        {items.slice(startItemIndex, endItemIndex).map(item => (
-          <ItemCard
-            key={`${item.title}-${item.id}`}
-            className={css.item}
-            {...item}
-          />
-        ))}
+      <div
+        key={`slide-${i}`}
+        className={cx(css.slide, slideClassName)}
+      >
+        {items.slice(startItemIndex, endItemIndex).map(
+          item => (
+            <ItemCard
+              key={`${item.title}-${item.id}`}
+              className={css.item}
+              addToCart={updateOrder}
+              {...item}
+            />
+          ),
+        )}
       </div>,
     );
   }
@@ -55,7 +64,9 @@ export default function ItemsCarousel(props) {
   const { items, itemsPerSlide, className } = props;
   const [index, changeIndex] = useState(0);
 
-  const slidesAmount = Math.ceil(items.length / itemsPerSlide);
+  const slidesAmount = Math.ceil(
+    items.length / itemsPerSlide,
+  );
   const state = {
     index,
     changeIndex,
@@ -109,6 +120,7 @@ ItemsCarousel.propTypes = {
   name: T.string,
   items: T.array,
   itemsPerSlide: T.number,
+  updateOrder: T.func,
   className: T.string,
   slideClassName: T.string,
 }
@@ -116,6 +128,7 @@ ItemsCarousel.defaultProps = {
   name: '',
   items: [],
   itemsPerSlide: 3,
+  updateOrder: () => {},
   className: '',
   slideClassName: '',
 }

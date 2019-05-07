@@ -17,13 +17,13 @@ function touchElem(elem, className) {
 
 function handleCountChange(nextValue, state, props) {
   const { id } = props;
-  const { countInCard, updateCount } = state;
+  const { countInCart, updateCount } = state;
 
   if (isServer()) return;
 
   const elem = document.getElementById(`item-${id}`);
   if (elem) {
-    if (nextValue > countInCard) {
+    if (nextValue > countInCart) {
       touchElem(elem, css.inc);
     } else {
       touchElem(elem, css.dec);
@@ -31,6 +31,17 @@ function handleCountChange(nextValue, state, props) {
   }
 
   return updateCount(nextValue);
+}
+
+function updateCart(state, props) {
+  const { countInCart, updateCount } = state;
+  const { id, addToCart } = props;
+
+  if (countInCart === 0) {
+    updateCount(1);
+  }
+
+  addToCart(id, countInCart > 0 ? countInCart : 1);
 }
 
 export default function ItemCard(props) {
@@ -41,13 +52,12 @@ export default function ItemCard(props) {
     piece,
     entity,
     price,
-    addToCard,
     className,
   } = props;
 
-  const [countInCard, updateCount] = useState(0);
+  const [countInCart, updateCount] = useState(0);
   const state = {
-    countInCard,
+    countInCart,
     updateCount,
   };
 
@@ -58,7 +68,7 @@ export default function ItemCard(props) {
       className={cx(
         className,
         css.card,
-        { [css.inCart]: countInCard > 0 },
+        { [css.inCart]: countInCart > 0 },
       )}
     >
       <img
@@ -85,7 +95,7 @@ export default function ItemCard(props) {
           className={css.counter}
           inputClassName={css.input}
           buttonClassName={css.buttons}
-          value={countInCard}
+          value={countInCart}
           handleChange={nextValue => (
             handleCountChange(nextValue, state, props)
           )}
@@ -93,8 +103,8 @@ export default function ItemCard(props) {
 
         <button
           type="button"
-          onClick={addToCard}
-          className={css.addToCardButton}
+          onClick={() => updateCart(state, props)}
+          className={css.addToCartButton}
         >
           в корзину!
         </button>
@@ -112,8 +122,8 @@ ItemCard.propTypes = {
   entity: T.string,
   price: T.number,
   className: T.string,
-  isInCart: T.bool,
-  addToCard: T.func,
+  countInCart: T.number,
+  addToCart: T.func,
 }
 ItemCard.defaultProps = {
   title: '',
@@ -123,7 +133,7 @@ ItemCard.defaultProps = {
   entity: 'шт.',
   price: undefined,
   className: '',
-  isInCart: false,
-  addToCard: () => {},
+  countInCart: 0,
+  addToCart: () => {},
 }
 /* eslint-enable */

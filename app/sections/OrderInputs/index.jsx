@@ -4,18 +4,50 @@ import T from 'prop-types';
 import Counter from 'app/elements/Counter';
 import Dropdown from 'app/elements/Dropdown';
 
+import moment from 'helpers/moment';
+import {
+  MIN_GUESTS,
+  FIRST_GUEST,
+  DAYS_WINDOW,
+} from 'app/pages/Main';
+
 import cx from 'classnames';
 import css from './index.styl';
 
-const MIN_GUESTS = 1;
-const FIRST_GUEST = 1;
+function getDays() {
+  const daysElems = [];
+
+  /* eslint-disable-next-line no-plusplus */
+  for (let i = 0; i < DAYS_WINDOW; i++) {
+    daysElems.push(
+      moment().add(i, 'd').format('DD-MM-YYYY'),
+    );
+  }
+
+  return daysElems;
+}
+
+function getGuests(guests) {
+  const guestsElems = [];
+
+  /* eslint-disable-next-line no-plusplus */
+  for (let i = FIRST_GUEST; i <= guests; i++) {
+    guestsElems.push(i);
+  }
+
+  return guestsElems;
+}
 
 export default function OrderInputs(props) {
-  const { day: initialDay, className } = props;
+  const {
+    day,
+    handleDay,
+    guest,
+    handleGuest,
+    className,
+  } = props;
 
-  const [day, handleDay] = useState(initialDay);
   const [guests, handleGuests] = useState(MIN_GUESTS);
-  const [guest, handleGuest] = useState(FIRST_GUEST);
 
   return (
     <div className={cx(css.inputs, className)}>
@@ -26,7 +58,7 @@ export default function OrderInputs(props) {
         <Dropdown
           takeFirst
           name="day"
-          items={['abc', 'edc', 'eae', 'dsd', 'bfd']}
+          items={getDays(props)}
           selectedItemKey={day}
           onSelect={handleDay}
         />
@@ -36,6 +68,7 @@ export default function OrderInputs(props) {
           Количество гостей
         </div>
         <Counter
+          minValue={MIN_GUESTS}
           value={guests}
           handleChange={handleGuests}
         />
@@ -47,7 +80,7 @@ export default function OrderInputs(props) {
         <Dropdown
           takeFirst
           name="guests"
-          items={[1, 2, 3, 4, 5]}
+          items={getGuests(guests, props)}
           selectedItemKey={guest}
           onSelect={handleGuest}
         />
@@ -58,9 +91,15 @@ export default function OrderInputs(props) {
 
 OrderInputs.propTypes = {
   day: T.string,
+  handleDay: T.func,
+  guest: T.number,
+  handleGuest: T.func,
   className: T.string,
 };
 OrderInputs.defaultProps = {
   day: `${new Date()}`,
+  handleDay: () => {},
+  guest: FIRST_GUEST,
+  handleGuest: () => {},
   className: '',
 };

@@ -1,4 +1,22 @@
 
+const meta = {
+  soups: {
+    name: 'Супы',
+  },
+  main: {
+    name: 'Горячее',
+  },
+  trimmings: {
+    name: 'Гарниры',
+  },
+  salads: {
+    name: 'Салаты',
+  },
+  supplements: {
+    name: 'Дополнительно',
+  },
+};
+
 const items = {
   soups: [
     {
@@ -188,3 +206,4 @@ const items = {
 };
 
 export default items;
+export { meta };

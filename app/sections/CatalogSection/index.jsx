@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import T from 'prop-types';
 
 import CatalogButton from 'app/elements/CatalogButton';
 import ItemsCarousel from 'app/components/ItemsCarousel';
 
-import items from 'helpers/data';
+import items, { meta } from 'helpers/data';
 
 import cx from 'classnames';
 import css from './index.styl';
@@ -15,128 +15,120 @@ function toggleInput(value, toggler) {
   };
 }
 
-export default function CatalogSection() {
+function getItems(type, state, props) {
+  return items[type]
+  // const { order } = state;
+  // const { day, guest } = props;
+  //
+  // return (items[type] || []).map((item) => {
+  //   if (item.day !== day) return {};
+  //
+  //   let countInCart = 0;
+  //   if (order[guest]) {
+  //     const itemInCart = order[guest].find(
+  //       v => v.id === item.id,
+  //     );
+  //     if (itemInCart) {
+  //       /* eslint-disable-next-line prefer-destructuring */
+  //       countInCart = itemInCart.countInCart;
+  //     }
+  //   }
+  //
+  //   return {
+  //     ...item,
+  //     countInCart,
+  //   };
+  // });
+}
+
+function updateOrder(props) {
+  return function updateOrderValues(id, amount) {
+    // countInCart
+  };
+}
+
+function renderSections(state, props) {
+  const labels = Object.keys(items);
+
+  return labels.map((label) => {
+    const openState = state[`${label}SectionIsOpen`];
+    const toggler = state[`${label}SectionToggle`];
+    const classImg = css[`${label}Img`];
+    const { name } = meta[label];
+
+    return (
+      <Fragment key={label}>
+        <CatalogButton
+          className={cx(classImg, css.section)}
+          label={name}
+          isOpen={openState}
+          onClick={toggleInput(openState, toggler)}
+        />
+        <ItemsCarousel
+          items={getItems(label, state, props)}
+          updateOrder={updateOrder(props)}
+          slideClassName={css.ease}
+          className={cx(
+            css.section,
+            css.transition,
+            { [css.transitionClose]: !openState },
+          )}
+        />
+      </Fragment>
+    );
+  });
+}
+
+export default function CatalogSection(props) {
+  /* eslint-disable-next-line no-unused-vars */
+  const [order, handleOrder] = useState({});
   const [
-    isSoupSectionOpen,
-    toggleSoupSection,
+    soupsSectionIsOpen,
+    soupsSectionToggle,
   ] = useState(false);
   const [
-    isMainSectionOpen,
-    toggleMainSection,
+    mainSectionIsOpen,
+    mainSectionToggle,
   ] = useState(false);
   const [
-    isTrimmingsSectionOpen,
-    toggleTrimmingsSection,
+    trimmingsSectionIsOpen,
+    trimmingsSectionToggle,
   ] = useState(false);
   const [
-    isSaladsSectionOpen,
-    toggleSaladsSection,
-  ] = useState(false)
+    saladsSectionIsOpen,
+    saladsSectionToggle,
+  ] = useState(false);
   const [
-    isSupplementsSectionOpen,
-    toggleSupplementsSection,
-  ] = useState(false)
+    supplementsSectionIsOpen,
+    supplementsSectionToggle,
+  ] = useState(false);
 
-  return (
-    <>
-      <CatalogButton
-        className={cx(css.soupImg, css.section)}
-        label="Супы"
-        isOpen={isSoupSectionOpen}
-        onClick={toggleInput(
-          isSoupSectionOpen, toggleSoupSection,
-        )}
-      />
-      <ItemsCarousel
-        items={items.soups}
-        slideClassName={css.ease}
-        className={cx(
-          css.section,
-          css.transition,
-          { [css.transitionClose]: !isSoupSectionOpen },
-        )}
-      />
+  const state = {
+    order,
+    soupsSectionIsOpen,
+    soupsSectionToggle,
+    mainSectionIsOpen,
+    mainSectionToggle,
+    trimmingsSectionIsOpen,
+    trimmingsSectionToggle,
+    saladsSectionIsOpen,
+    saladsSectionToggle,
+    supplementsSectionIsOpen,
+    supplementsSectionToggle,
+  };
 
-      <CatalogButton
-        className={cx(css.mainImg, css.section)}
-        label="Горячее"
-        isOpen={isMainSectionOpen}
-        onClick={toggleInput(
-          isMainSectionOpen, toggleMainSection,
-        )}
-      />
-      <ItemsCarousel
-        items={items.main}
-        slideClassName={css.ease}
-        className={cx(
-          css.section,
-          css.transition,
-          { [css.transitionClose]: !isMainSectionOpen },
-        )}
-      />
-
-      <CatalogButton
-        className={cx(css.trimmingsImg, css.section)}
-        label="Гарниры"
-        isOpen={isTrimmingsSectionOpen}
-        onClick={toggleInput(
-          isTrimmingsSectionOpen, toggleTrimmingsSection,
-        )}
-      />
-      <ItemsCarousel
-        items={items.trimmings}
-        slideClassName={css.ease}
-        className={cx(
-          css.section,
-          css.transition,
-          { [css.transitionClose]: !isTrimmingsSectionOpen },
-        )}
-      />
-
-      <CatalogButton
-        className={cx(css.saladsImg, css.section)}
-        label="Салаты"
-        isOpen={isSaladsSectionOpen}
-        onClick={toggleInput(
-          isSaladsSectionOpen, toggleSaladsSection,
-        )}
-      />
-      <ItemsCarousel
-        items={items.salads}
-        slideClassName={css.ease}
-        className={cx(
-          css.section,
-          css.transition,
-          { [css.transitionClose]: !isSaladsSectionOpen },
-        )}
-      />
-
-      <CatalogButton
-        className={cx(css.supplementsImg, css.section)}
-        label="Дополнительно"
-        isOpen={isSupplementsSectionOpen}
-        onClick={toggleInput(
-          isSupplementsSectionOpen, toggleSupplementsSection,
-        )}
-      />
-      <ItemsCarousel
-        items={items.supplements}
-        slideClassName={css.ease}
-        className={cx(
-          css.section,
-          css.transition,
-          { [css.transitionClose]: !isSupplementsSectionOpen },
-        )}
-      />
-    </>
-  );
+  return renderSections(state, props);
 }
 
 /* eslint-disable */
 CatalogSection.propTypes = {
   className: T.string,
+  day: T.string,
+  guest: T.number,
 }
 CatalogSection.defaultProps = {
   className: '',
+  day: '',
+  guest: 1,
 }
 /* eslint-enable */

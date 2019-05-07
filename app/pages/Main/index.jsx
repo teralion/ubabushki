@@ -1,13 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import ContactInfo from 'app/sections/ContactInfo';
 import MainHeader from 'app/sections/MainHeader';
 import OrderInputs from 'app/sections/OrderInputs';
 import CatalogSection from 'app/sections/CatalogSection';
 
+import moment from 'helpers/moment';
+
 import css from './index.styl';
 
+export const FIRST_GUEST = 1;
+export const MIN_GUESTS = 1;
+export const DAYS_WINDOW = 5;
+export const NOW = moment().format('DD-MM-YYYY');
+
 export default function Main() {
+  const [guest, handleGuest] = useState(FIRST_GUEST);
+  const [day, handleDay] = useState(NOW);
+
   return (
     <>
       <ContactInfo />
@@ -16,8 +26,17 @@ export default function Main() {
       <div className={css.separator} />
 
       <main className={css.main}>
-        <OrderInputs className={css.inputs} />
-        <CatalogSection />
+        <OrderInputs
+          className={css.inputs}
+          guest={guest}
+          handleGuest={handleGuest}
+          day={day}
+          handleDay={handleDay}
+        />
+        <CatalogSection
+          day={day}
+          guest={guest}
+        />
       </main>
     </>
   );
