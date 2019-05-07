@@ -16,32 +16,36 @@ function touchElem(elem, className) {
 }
 
 function handleCountChange(nextValue, state, props) {
-  const { id } = props;
-  const { countInCart, updateCount } = state;
+  const { id, addToCart } = props;
+  const { countToAdd, updateCount } = state;
 
   if (isServer()) return;
 
   const elem = document.getElementById(`item-${id}`);
   if (elem) {
-    if (nextValue > countInCart) {
+    if (nextValue > countToAdd) {
       touchElem(elem, css.inc);
     } else {
       touchElem(elem, css.dec);
     }
   }
 
+  if (nextValue === 0) {
+    addToCart(id, 0);
+  }
+
   return updateCount(nextValue);
 }
 
 function updateCart(state, props) {
-  const { countInCart, updateCount } = state;
+  const { countToAdd, updateCount } = state;
   const { id, addToCart } = props;
 
-  if (countInCart === 0) {
+  if (countToAdd === 0) {
     updateCount(1);
   }
 
-  addToCart(id, countInCart > 0 ? countInCart : 1);
+  addToCart(id, countToAdd > 0 ? countToAdd : 1);
 }
 
 export default function ItemCard(props) {
@@ -55,9 +59,9 @@ export default function ItemCard(props) {
     className,
   } = props;
 
-  const [countInCart, updateCount] = useState(0);
+  const [countToAdd, updateCount] = useState(0);
   const state = {
-    countInCart,
+    countToAdd,
     updateCount,
   };
 
@@ -68,7 +72,7 @@ export default function ItemCard(props) {
       className={cx(
         className,
         css.card,
-        { [css.inCart]: countInCart > 0 },
+        { [css.inCart]: countToAdd > 0 },
       )}
     >
       <img
@@ -95,7 +99,7 @@ export default function ItemCard(props) {
           className={css.counter}
           inputClassName={css.input}
           buttonClassName={css.buttons}
-          value={countInCart}
+          value={countToAdd}
           handleChange={nextValue => (
             handleCountChange(nextValue, state, props)
           )}

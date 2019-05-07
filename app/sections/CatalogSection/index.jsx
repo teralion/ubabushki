@@ -1,9 +1,11 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import T from 'prop-types';
+import cloneDeep from 'lodash.clonedeep';
 
 import CatalogButton from 'app/elements/CatalogButton';
 import ItemsCarousel from 'app/components/ItemsCarousel';
 
+import { MIN_GUESTS, FIRST_GUEST } from 'app/pages/Main';
 import items, { meta } from 'helpers/data';
 
 import cx from 'classnames';
@@ -16,34 +18,49 @@ function toggleInput(value, toggler) {
 }
 
 function getItems(type, state, props) {
-  return items[type]
-  // const { order } = state;
-  // const { day, guest } = props;
-  //
-  // return (items[type] || []).map((item) => {
-  //   if (item.day !== day) return {};
-  //
-  //   let countInCart = 0;
-  //   if (order[guest]) {
-  //     const itemInCart = order[guest].find(
-  //       v => v.id === item.id,
-  //     );
-  //     if (itemInCart) {
-  //       /* eslint-disable-next-line prefer-destructuring */
-  //       countInCart = itemInCart.countInCart;
-  //     }
-  //   }
-  //
-  //   return {
-  //     ...item,
-  //     countInCart,
-  //   };
-  // });
+  const { order } = state;
+  const { guest } = props;
+
+  return (items[type] || []).map((item) => {
+    let countInCart = 0;
+    if (order[guest]) {
+      const itemInCart = order[guest].find(
+        v => v.id === item.id,
+      );
+      if (itemInCart) {
+        /* eslint-disable-next-line prefer-destructuring */
+        countInCart = itemInCart.countInCart;
+      }
+    }
+
+    return {
+      ...item,
+      countInCart,
+    };
+  });
 }
 
-function updateOrder(props) {
+function updateOrder(state, props) {
   return function updateOrderValues(id, amount) {
-    // countInCart
+    const { guest } = props;
+    const { order, handleOrder } = state;
+
+    const nextOrder = cloneDeep(order);
+    if (!nextOrder[guest]) {
+      nextOrder[guest] = [];
+    }
+
+    const item = nextOrder[guest].find(v => v.id === id);
+    if (!item) {
+      nextOrder[guest].push({
+        id,
+        countInCart: amount,
+      });
+    } else {
+      item.countInCart = amount;
+    }
+
+    handleOrder(nextOrder);
   };
 }
 
@@ -66,7 +83,7 @@ function renderSections(state, props) {
         />
         <ItemsCarousel
           items={getItems(label, state, props)}
-          updateOrder={updateOrder(props)}
+          updateOrder={updateOrder(state, props)}
           slideClassName={css.ease}
           className={cx(
             css.section,
@@ -79,8 +96,23 @@ function renderSections(state, props) {
   });
 }
 
+function clearGuests(state, props) {
+  const { order, handleOrder } = state;
+  const { guests } = props;
+
+  const nextOrder = {};
+  const reservedGuests = Object.keys(order);
+  reservedGuests.forEach((guestNum) => {
+    if (guestNum < guests) {
+      nextOrder[guestNum] = order[guestNum];
+    }
+  });
+
+  handleOrder(cloneDeep(nextOrder));
+}
+
 export default function CatalogSection(props) {
-  /* eslint-disable-next-line no-unused-vars */
+  const { guests } = props;
   const [order, handleOrder] = useState({});
   const [
     soupsSectionIsOpen,
@@ -105,6 +137,7 @@ export default function CatalogSection(props) {
 
   const state = {
     order,
+    handleOrder,
     soupsSectionIsOpen,
     soupsSectionToggle,
     mainSectionIsOpen,
@@ -117,6 +150,10 @@ export default function CatalogSection(props) {
     supplementsSectionToggle,
   };
 
+  useEffect(() => {
+    clearGuests(state, props);
+  }, [guests]);
+
   return renderSections(state, props);
 }
 
@@ -125,10 +162,12 @@ CatalogSection.propTypes = {
   className: T.string,
   day: T.string,
   guest: T.number,
+  guests: T.number,
 }
 CatalogSection.defaultProps = {
   className: '',
   day: '',
-  guest: 1,
+  guest: FIRST_GUEST,
+  guests: MIN_GUESTS,
 }
 /* eslint-enable */

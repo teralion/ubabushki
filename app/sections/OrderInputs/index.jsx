@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import T from 'prop-types';
 
 import Counter from 'app/elements/Counter';
@@ -44,10 +44,10 @@ export default function OrderInputs(props) {
     handleDay,
     guest,
     handleGuest,
+    guests,
+    handleGuests,
     className,
   } = props;
-
-  const [guests, handleGuests] = useState(MIN_GUESTS);
 
   return (
     <div className={cx(css.inputs, className)}>
@@ -89,11 +89,14 @@ export default function OrderInputs(props) {
   );
 }
 
+/* eslint-disable */
 OrderInputs.propTypes = {
   day: T.string,
   handleDay: T.func,
   guest: T.number,
   handleGuest: T.func,
+  guests: T.number,
+  handleGuests: T.func,
   className: T.string,
 };
 OrderInputs.defaultProps = {
@@ -101,5 +104,8 @@ OrderInputs.defaultProps = {
   handleDay: () => {},
   guest: FIRST_GUEST,
   handleGuest: () => {},
+  guests: MIN_GUESTS,
+  handleGuests: () => {},
   className: '',
 };
+/* eslint-enable */

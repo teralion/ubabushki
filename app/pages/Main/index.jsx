@@ -14,9 +14,35 @@ export const MIN_GUESTS = 1;
 export const DAYS_WINDOW = 5;
 export const NOW = moment().format('DD-MM-YYYY');
 
+function updateGuests(state) {
+  return function onGuestsUpdate(nextGuests) {
+    const {
+      guest,
+      handleGuest,
+      handleGuests,
+    } = state;
+
+    if (guest > nextGuests) {
+      handleGuest(nextGuests);
+    }
+
+    handleGuests(nextGuests);
+  };
+}
+
 export default function Main() {
+  const [guests, handleGuests] = useState(MIN_GUESTS);
   const [guest, handleGuest] = useState(FIRST_GUEST);
   const [day, handleDay] = useState(NOW);
+
+  const state = {
+    guest,
+    handleGuest,
+    guests,
+    handleGuests,
+    day,
+    handleDay,
+  };
 
   return (
     <>
@@ -30,12 +56,15 @@ export default function Main() {
           className={css.inputs}
           guest={guest}
           handleGuest={handleGuest}
+          guests={guests}
+          handleGuests={updateGuests(state)}
           day={day}
           handleDay={handleDay}
         />
         <CatalogSection
           day={day}
           guest={guest}
+          guests={guests}
         />
       </main>
     </>
