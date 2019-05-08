@@ -27,6 +27,7 @@ const items = {
       piece: 200,
       entity: 'мл.',
       price: 90,
+      dayWeeks: [0, 1, 2],
     },
     {
       id: 2,
@@ -36,6 +37,77 @@ const items = {
       piece: 200,
       entity: 'мл.',
       price: 90,
+      dayWeeks: [3, 4, 5],
+    },
+    {
+      id: 20,
+      url: 'https://ubabushki.com/files/dishes/540-360/0bd24571664d6b15981719f6b95c2f62.jpg',
+      title: 'Суп с фрикадельками',
+      description: 'Маленькие мясные шарики в наваристом курином бульоне, что может быть вкуснее.',
+      piece: 200,
+      entity: 'мл.',
+      price: 90,
+      dayWeeks: [1, 2, 6],
+    },
+    {
+      id: 21,
+      url: 'https://ubabushki.com/files/dishes/540-360/f8a49074812857e71f667ec247568548.jpg',
+      title: 'Харчо',
+      description: 'На говяжьем бульоне, терпкий ароматный суп с кавказским настроением.',
+      piece: 200,
+      entity: 'мл.',
+      price: 90,
+      dayWeeks: [2, 3, 4, 5],
+    },
+    {
+      id: 22,
+      url: 'https://ubabushki.com/files/dishes/540-360/b54691ec0e87e05496534daeb22e6606.jpg',
+      title: 'Уха',
+      description: 'Наваристый бульон на голове семги заправляется овощами.',
+      piece: 200,
+      entity: 'мл.',
+      price: 90,
+      dayWeeks: [0, 6],
+    },
+    {
+      id: 23,
+      url: 'https://ubabushki.com/files/dishes/540-360/40af206a81ec3c529b062649021848f0.jpg',
+      title: 'Сырный крем-суп',
+      description: 'Добавление чеддера и сливок превращают это блюдо в настоящий кулинарный шедевр.',
+      piece: 200,
+      entity: 'мл.',
+      price: 90,
+      dayWeeks: [3, 4, 5],
+    },
+    {
+      id: 24,
+      url: 'https://ubabushki.com/files/dishes/540-360/1ed976950de0d4fd30d0f478a8a2e9b3.jpg',
+      title: 'Грибной крем-суп',
+      description: 'На курином бульоне, умягчен добавлением сливок и сметаны.',
+      piece: 200,
+      entity: 'мл.',
+      price: 90,
+      dayWeeks: [0, 1, 6],
+    },
+    {
+      id: 25,
+      url: 'https://ubabushki.com/files/dishes/540-360/941f2819d898dbc34617d8b0ff3c4612.jpg',
+      title: 'Солянка',
+      description: 'Четыре вида колбас в наваристом бульоне с лимончиком и оливками. Невозможно оторваться!',
+      piece: 200,
+      entity: 'мл.',
+      price: 90,
+      dayWeeks: [0, 4, 5],
+    },
+    {
+      id: 26,
+      url: 'https://ubabushki.com/files/dishes/540-360/8c01026ca3fe9dc0bc36cdfb7ea3a50d.jpg',
+      title: 'Борщ',
+      description: 'Приготовлен на бульоне, который томился 3 часа, рубиновый, домашний.',
+      piece: 200,
+      entity: 'мл.',
+      price: 90,
+      dayWeeks: [2, 3, 4],
     },
   ],
   main: [
@@ -47,6 +119,7 @@ const items = {
       piece: 100,
       entity: 'гр.',
       price: 95,
+      dayWeeks: [0, 1, 2, 3, 4, 5, 6],
     },
     {
       id: 4,
@@ -56,6 +129,7 @@ const items = {
       piece: 100,
       entity: 'гр.',
       price: 95,
+      dayWeeks: [0, 1, 2, 3, 4, 5, 6],
     },
     {
       id: 5,
@@ -65,6 +139,7 @@ const items = {
       piece: 100,
       entity: 'гр.',
       price: 95,
+      dayWeeks: [0, 1, 2, 3, 4, 5, 6],
     },
     {
       id: 6,
@@ -74,6 +149,7 @@ const items = {
       piece: 100,
       entity: 'гр',
       price: 95,
+      dayWeeks: [0, 1, 2, 3, 4, 5, 6],
     },
     {
       id: 7,
@@ -83,6 +159,7 @@ const items = {
       piece: 100,
       entity: 'гр.',
       price: 125,
+      dayWeeks: [0, 1, 2, 3, 4, 5, 6],
     },
     {
       id: 8,
@@ -92,6 +169,7 @@ const items = {
       piece: 100,
       entity: 'гр.',
       price: 125,
+      dayWeeks: [0, 1, 2, 3, 4, 5, 6],
     },
     {
       id: 9,
@@ -101,6 +179,7 @@ const items = {
       piece: 15,
       entity: 'шт.',
       price: 95,
+      dayWeeks: [0, 1, 2, 3, 4, 5, 6],
     },
     {
       id: 10,
@@ -110,6 +189,7 @@ const items = {
       piece: 2,
       entity: 'шт.',
       price: 60,
+      dayWeeks: [0, 1, 2, 3, 4, 5, 6],
       options: [
         {
           id: 11,
@@ -143,6 +223,7 @@ const items = {
       piece: 150,
       entity: 'гр.',
       price: 30,
+      dayWeeks: [0, 1, 2, 3, 4, 5, 6],
     },
     {
       id: 16,
@@ -152,6 +233,7 @@ const items = {
       piece: 150,
       entity: 'гр.',
       price: 40,
+      dayWeeks: [0, 1, 2, 3, 4, 5, 6],
     },
     {
       id: 17,
@@ -161,6 +243,7 @@ const items = {
       piece: 150,
       entity: 'гр.',
       price: 40,
+      dayWeeks: [0, 1, 2, 3, 4, 5, 6],
     },
     {
       id: 18,
@@ -170,6 +253,7 @@ const items = {
       piece: 150,
       entity: 'гр.',
       price: 40,
+      dayWeeks: [0, 1, 2, 3, 4, 5, 6],
     },
   ],
   salads: [
@@ -181,6 +265,7 @@ const items = {
       piece: 100,
       entity: 'гр.',
       price: 40,
+      dayWeeks: [0, 1, 2, 3, 4, 5, 6],
     },
     {
       id: 20,
@@ -190,6 +275,7 @@ const items = {
       piece: 100,
       entity: 'гр.',
       price: 40,
+      dayWeeks: [0, 1, 2, 3, 4, 5, 6],
     },
   ],
   supplements: [
@@ -201,6 +287,7 @@ const items = {
       piece: 20,
       entity: 'гр.',
       price: 5,
+      dayWeeks: [0, 1, 2, 3, 4, 5, 6],
     },
   ],
 };

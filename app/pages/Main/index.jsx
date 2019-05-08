@@ -5,14 +5,14 @@ import MainHeader from 'app/sections/MainHeader';
 import OrderInputs from 'app/sections/OrderInputs';
 import CatalogSection from 'app/sections/CatalogSection';
 
-import moment from 'helpers/moment';
+import moment, { toISOString } from 'helpers/moment';
 
 import css from './index.styl';
 
 export const FIRST_GUEST = 1;
 export const MIN_GUESTS = 1;
 export const DAYS_WINDOW = 5;
-export const NOW = moment().format('DD-MM-YYYY');
+export const NOW = moment();
 
 function updateGuests(state) {
   return function onGuestsUpdate(nextGuests) {
@@ -32,7 +32,7 @@ function updateGuests(state) {
 export default function Main() {
   const [guests, handleGuests] = useState(MIN_GUESTS);
   const [guest, handleGuest] = useState(FIRST_GUEST);
-  const [day, handleDay] = useState(NOW);
+  const [day, handleDay] = useState(toISOString(NOW));
 
   const state = {
     guest,

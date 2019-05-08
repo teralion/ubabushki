@@ -4,7 +4,10 @@ import T from 'prop-types';
 import Counter from 'app/elements/Counter';
 import Dropdown from 'app/elements/Dropdown';
 
-import moment from 'helpers/moment';
+import moment, {
+  formatDay,
+  toISOString,
+} from 'helpers/moment';
 import {
   MIN_GUESTS,
   FIRST_GUEST,
@@ -20,11 +23,19 @@ function getDays() {
   /* eslint-disable-next-line no-plusplus */
   for (let i = 0; i < DAYS_WINDOW; i++) {
     daysElems.push(
-      moment().add(i, 'd').format('DD-MM-YYYY'),
+      formatDay(moment().add(i, 'd')),
     );
   }
 
   return daysElems;
+}
+
+function onDaySelect(props) {
+  const { handleDay } = props;
+  return function updateDay(day) {
+    const isoDay = toISOString(day);
+    handleDay(isoDay);
+  };
 }
 
 function getGuests(guests) {
@@ -41,7 +52,6 @@ function getGuests(guests) {
 export default function OrderInputs(props) {
   const {
     day,
-    handleDay,
     guest,
     handleGuest,
     guests,
@@ -58,9 +68,9 @@ export default function OrderInputs(props) {
         <Dropdown
           takeFirst
           name="day"
-          items={getDays(props)}
-          selectedItemKey={day}
-          onSelect={handleDay}
+          items={getDays()}
+          selectedItemKey={formatDay(day)}
+          onSelect={onDaySelect(props)}
         />
       </div>
       <div>

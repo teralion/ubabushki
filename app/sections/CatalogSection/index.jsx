@@ -7,6 +7,7 @@ import ItemsCarousel from 'app/components/ItemsCarousel';
 
 import { MIN_GUESTS, FIRST_GUEST } from 'app/pages/Main';
 import items, { meta } from 'helpers/data';
+import moment from 'helpers/moment';
 
 import cx from 'classnames';
 import css from './index.styl';
@@ -19,9 +20,15 @@ function toggleInput(value, toggler) {
 
 function getItems(type, state, props) {
   const { order } = state;
-  const { guest } = props;
+  const { day, guest } = props;
+
+  const dayWeek = moment(day).format('e');
 
   return (items[type] || []).map((item) => {
+    if (!item.dayWeeks.includes(Number(dayWeek))) {
+      return false;
+    }
+
     let countInCart = 0;
     if (order[guest]) {
       const itemInCart = order[guest].find(
@@ -37,7 +44,7 @@ function getItems(type, state, props) {
       ...item,
       countInCart,
     };
-  });
+  }).filter(Boolean);
 }
 
 function updateOrder(state, props) {
