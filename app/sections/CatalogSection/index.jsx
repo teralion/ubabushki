@@ -19,8 +19,7 @@ function toggleInput(value, toggler) {
 }
 
 function getItems(type, state, props) {
-  const { order } = state;
-  const { day, guest } = props;
+  const { day, guest, order } = props;
 
   const dayWeek = moment(day).format('e');
 
@@ -49,8 +48,7 @@ function getItems(type, state, props) {
 
 function updateOrder(state, props) {
   return function updateOrderValues(id, amount) {
-    const { guest } = props;
-    const { order, handleOrder } = state;
+    const { guest, order, handleOrder } = props;
 
     const nextOrder = cloneDeep(order);
     if (!nextOrder[guest]) {
@@ -106,8 +104,7 @@ function renderSections(state, props) {
 }
 
 function clearGuests(state, props) {
-  const { order, handleOrder } = state;
-  const { guests } = props;
+  const { guests, order, handleOrder } = props;
 
   const nextOrder = {};
   const reservedGuests = Object.keys(order);
@@ -122,7 +119,6 @@ function clearGuests(state, props) {
 
 export default function CatalogSection(props) {
   const { guests } = props;
-  const [order, handleOrder] = useState({});
   const [
     soupsSectionIsOpen,
     soupsSectionToggle,
@@ -145,8 +141,6 @@ export default function CatalogSection(props) {
   ] = useState(false);
 
   const state = {
-    order,
-    handleOrder,
     soupsSectionIsOpen,
     soupsSectionToggle,
     mainSectionIsOpen,
@@ -172,11 +166,15 @@ CatalogSection.propTypes = {
   day: T.string,
   guest: T.number,
   guests: T.number,
+  order: T.object,
+  handleOrder: T.func,
 }
 CatalogSection.defaultProps = {
   className: '',
   day: '',
   guest: FIRST_GUEST,
   guests: MIN_GUESTS,
+  order: {},
+  handleOrder: () => {},
 }
 /* eslint-enable */

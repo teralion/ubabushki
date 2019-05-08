@@ -109,10 +109,7 @@ export default function ItemCard(props) {
         <button
           type="button"
           onClick={() => updateCart(state, props)}
-          className={cx(
-            css.addToCartButton,
-            { [css.shouldUpdate]: countInCart !== countToAdd },
-          )}
+          className={css.addToCartButton}
         >
           в корзину!
         </button>

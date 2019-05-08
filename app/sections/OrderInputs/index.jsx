@@ -3,6 +3,7 @@ import T from 'prop-types';
 
 import Counter from 'app/elements/Counter';
 import Dropdown from 'app/elements/Dropdown';
+import Tooltip from 'app/elements/Tooltip';
 
 import moment, {
   formatDay,
@@ -65,13 +66,18 @@ export default function OrderInputs(props) {
         <div className={css.label}>
           День доставки
         </div>
-        <Dropdown
-          takeFirst
-          name="day"
-          items={getDays()}
-          selectedItemKey={formatDay(day)}
-          onSelect={onDaySelect(props)}
-        />
+        <Tooltip
+          text="Blah"
+          className={css.dropdownTooltip}
+        >
+          <Dropdown
+            takeFirst
+            name="day"
+            items={getDays()}
+            selectedItemKey={formatDay(day)}
+            onSelect={onDaySelect(props)}
+          />
+        </Tooltip>
       </div>
       <div>
         <div className={css.label}>

@@ -33,6 +33,7 @@ export default function Main() {
   const [guests, handleGuests] = useState(MIN_GUESTS);
   const [guest, handleGuest] = useState(FIRST_GUEST);
   const [day, handleDay] = useState(toISOString(NOW));
+  const [order, handleOrder] = useState({});
 
   const state = {
     guest,
@@ -64,6 +65,8 @@ export default function Main() {
           day={day}
           guest={guest}
           guests={guests}
+          order={order}
+          handleOrder={handleOrder}
         />
       </main>
     </>

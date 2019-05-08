@@ -1,0 +1,76 @@
+.main
+  display inline-block
+  position relative
+  cursor pointer
+
+  &:hover
+    .tooltip
+      visibility visible
+
+.tooltip
+  position absolute
+  padding x(8)
+  border-radius x(6)
+  background-color $gray
+  color $white
+  text-align left
+  box-shadow 0 x(4) x(8) 0 $shadow
+  white-space nowrap
+  visibility hidden
+  z-index 1
+
+  & > *
+    font-weight 300 !important
+
+  &::before
+    content ''
+    display block
+    width x(8)
+    height @width
+    position absolute
+    background-color $gray
+
+  &.left,
+  &.right
+    top 50%
+
+    &::before
+      top 50%
+      transform rotate(45deg) translate(-50%)
+
+  &.left
+    left x(-8)
+    transform translate(-100%, -50%)
+
+    &::before
+      right x(-7)
+
+  &.right
+    right x(-8)
+    transform translate(100%, -50%)
+
+    &::before
+      left x(-1)
+
+  &.top,
+  &.bottom
+    left 50%
+
+    &::before
+      left 50%
+      transform rotate(45deg) translate(-50%)
+
+  &.top
+    top x(-8)
+    transform translate(-50%, -100%)
+
+    &::before
+      bottom x(-7)
+
+  &.bottom
+    bottom x(-8)
+    transform translate(-50%, 100%)
+
+    &::before
+      top x(-1)
+
