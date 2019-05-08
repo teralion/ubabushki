@@ -1,0 +1,44 @@
+@keyframes modalShadow {
+  from {
+    opacity: 0.6
+    top: 100%
+  }
+  to {
+    opacity: 1
+    top: 20%
+  }
+}
+
+@keyframes backBackground {
+  from {
+    background-color alpha($gray, 0)
+  }
+  to {
+    background-color alpha($gray, 0.5)
+  }
+}
+
+.back
+  position fixed
+  z-index 2
+  top 0
+  left 0
+  right 0
+  bottom 0
+  background-color alpha($gray, 0.5)
+  animation backBackground 0.2s 1 ease-in-out
+  animation-fill-mode forwards
+
+.modal
+  position fixed
+  z-index 3
+  top 20%
+  left 50%
+  transform translate(-50%, -17%)
+  opacity 1
+  width x(100)
+  height x(100)
+  background-color $white
+  box-shadow 0 0 x(10) 0 alpha($gray, 0.2), 0 x(1) x(1) 0 alpha($gray, 0.05)
+  animation modalShadow 0.5s 1 ease-in-out
+  animation-fill-mode forwards

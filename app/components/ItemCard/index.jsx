@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import T from 'prop-types';
 
-import Modal from 'app/components/Modal';
+import ModalWrap from 'app/elements/ModalWrap';
 import Counter from 'app/elements/Counter';
 
 import isServer from 'helpers/isServer';
@@ -69,22 +69,26 @@ export default function ItemCard(props) {
   };
 
   return (
-    /* eslint-disable-next-line */
     <div
       id={`item-${id}`}
-      onClick={() => handleOpen(!isOpen)}
       className={cx(className, css.card,
         { [css.toAdd]: countToAdd > 0 })
       }
     >
+      {/* eslint-disable-next-line */}
       <img
         src={url}
         alt={title}
         className={css.image}
+        onClick={() => handleOpen(!isOpen)}
       />
 
       <div className={css.content}>
-        <span className={css.title}>
+        {/* eslint-disable-next-line */}
+        <span
+          className={css.title}
+          onClick={() => handleOpen(!isOpen)}
+        >
           { title }
         </span>
 
@@ -119,7 +123,14 @@ export default function ItemCard(props) {
         </button>
       </div>
 
-      {isOpen && <Modal id={`item-${id}`}>hi there</Modal>}
+      {isOpen && (
+        <ModalWrap
+          id={`item-${id}`}
+          handleOpen={() => handleOpen(!isOpen)}
+        >
+          hi there
+        </ModalWrap>
+      )}
     </div>
   );
 }
