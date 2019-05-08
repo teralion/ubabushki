@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import T from 'prop-types';
 
+import Modal from 'app/components/Modal';
 import Counter from 'app/elements/Counter';
 
 import isServer from 'helpers/isServer';
@@ -61,6 +62,7 @@ export default function ItemCard(props) {
   } = props;
 
   const [countToAdd, updateCount] = useState(countInCart);
+  const [isOpen, handleOpen] = useState(false);
   const state = {
     countToAdd,
     updateCount,
@@ -70,11 +72,10 @@ export default function ItemCard(props) {
     /* eslint-disable-next-line */
     <div
       id={`item-${id}`}
-      className={cx(
-        className,
-        css.card,
-        { [css.toAdd]: countToAdd > 0 },
-      )}
+      onClick={() => handleOpen(!isOpen)}
+      className={cx(className, css.card,
+        { [css.toAdd]: countToAdd > 0 })
+      }
     >
       <img
         src={url}
@@ -117,6 +118,8 @@ export default function ItemCard(props) {
           В корзину!
         </button>
       </div>
+
+      {isOpen && <Modal id={`item-${id}`}>hi there</Modal>}
     </div>
   );
 }
