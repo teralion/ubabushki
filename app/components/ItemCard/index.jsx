@@ -56,10 +56,11 @@ export default function ItemCard(props) {
     piece,
     entity,
     price,
+    countInCart,
     className,
   } = props;
 
-  const [countToAdd, updateCount] = useState(0);
+  const [countToAdd, updateCount] = useState(countInCart);
   const state = {
     countToAdd,
     updateCount,
@@ -72,7 +73,7 @@ export default function ItemCard(props) {
       className={cx(
         className,
         css.card,
-        { [css.inCart]: countToAdd > 0 },
+        { [css.toAdd]: countToAdd > 0 },
       )}
     >
       <img
@@ -108,7 +109,10 @@ export default function ItemCard(props) {
         <button
           type="button"
           onClick={() => updateCart(state, props)}
-          className={css.addToCartButton}
+          className={cx(
+            css.addToCartButton,
+            { [css.shouldUpdate]: countInCart !== countToAdd },
+          )}
         >
           в корзину!
         </button>

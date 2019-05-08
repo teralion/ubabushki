@@ -65,6 +65,7 @@ function updateOrder(state, props) {
 }
 
 function renderSections(state, props) {
+  const { guest } = props;
   const labels = Object.keys(items);
 
   return labels.map((label) => {
@@ -82,6 +83,7 @@ function renderSections(state, props) {
           onClick={toggleInput(openState, toggler)}
         />
         <ItemsCarousel
+          key={`guest-${guest}`}
           items={getItems(label, state, props)}
           updateOrder={updateOrder(state, props)}
           slideClassName={css.ease}
@@ -103,7 +105,7 @@ function clearGuests(state, props) {
   const nextOrder = {};
   const reservedGuests = Object.keys(order);
   reservedGuests.forEach((guestNum) => {
-    if (guestNum < guests) {
+    if (guestNum <= guests) {
       nextOrder[guestNum] = order[guestNum];
     }
   });

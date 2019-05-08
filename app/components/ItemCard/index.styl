@@ -8,7 +8,7 @@
   border-radius x(16)
   transition box-shadow .3s ease-in-out
 
-.inCart
+.toAdd
   box-shadow 0 0 x(12) x(-1) $green
 
 .image
@@ -61,6 +61,10 @@
   color $white
   margin-top x(10)
   border-radius x(8)
+  transition box-shadow .3s ease-in-out
+
+  &.shouldUpdate
+    box-shadow 0 0 x(12) x(-1) $orange
 
 
 /* service items */

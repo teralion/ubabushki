@@ -22,11 +22,10 @@ function updateGuests(state) {
       handleGuests,
     } = state;
 
+    handleGuests(nextGuests);
     if (guest > nextGuests) {
       handleGuest(nextGuests);
     }
-
-    handleGuests(nextGuests);
   };
 }
 
