@@ -19,7 +19,7 @@ function handleCountChange(nextValue, state, props) {
   const { id, addToCart } = props;
   const { countToAdd, updateCount } = state;
 
-  if (isServer()) return;
+  if (isServer) return;
 
   const elem = document.getElementById(`item-${id}`);
   if (elem) {

@@ -83,7 +83,7 @@ function renderList(props, state) {
 }
 
 function closeDropdownEffect(props, value, updater) {
-  if (isServer()) return;
+  if (isServer) return;
 
   function handleClose(e) {
     const { name } = props;
