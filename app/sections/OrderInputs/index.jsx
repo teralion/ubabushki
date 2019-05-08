@@ -57,8 +57,11 @@ export default function OrderInputs(props) {
     handleGuest,
     guests,
     handleGuests,
+    order,
     className,
   } = props;
+
+  const hideTooltip = Object.keys(order).length === 0;
 
   return (
     <div className={cx(css.inputs, className)}>
@@ -67,8 +70,10 @@ export default function OrderInputs(props) {
           День доставки
         </div>
         <Tooltip
-          text="Blah"
+          text="В корзине есть товары на выбранный день. Если изменить день, корзина сбросится."
+          disabled={hideTooltip}
           className={css.dropdownTooltip}
+          tooltipClassName={css.tooltip}
         >
           <Dropdown
             takeFirst
@@ -113,6 +118,7 @@ OrderInputs.propTypes = {
   handleGuest: T.func,
   guests: T.number,
   handleGuests: T.func,
+  order: T.object,
   className: T.string,
 };
 OrderInputs.defaultProps = {
@@ -122,6 +128,7 @@ OrderInputs.defaultProps = {
   handleGuest: () => {},
   guests: MIN_GUESTS,
   handleGuests: () => {},
+  order: {},
   className: '',
 };
 /* eslint-enable */

@@ -29,6 +29,25 @@ function updateGuests(state) {
   };
 }
 
+function updateDay(state) {
+  return function onDayUpdate(nextDay) {
+    const {
+      order,
+      handleOrder,
+      handleDay,
+      handleGuest,
+    } = state;
+
+    const isOrder = Object.keys(order).length > 0;
+    if (isOrder) {
+      handleOrder({});
+      handleGuest(FIRST_GUEST);
+    }
+
+    handleDay(nextDay);
+  };
+}
+
 export default function Main() {
   const [guests, handleGuests] = useState(MIN_GUESTS);
   const [guest, handleGuest] = useState(FIRST_GUEST);
@@ -42,6 +61,8 @@ export default function Main() {
     handleGuests,
     day,
     handleDay,
+    order,
+    handleOrder,
   };
 
   return (
@@ -59,7 +80,8 @@ export default function Main() {
           guests={guests}
           handleGuests={updateGuests(state)}
           day={day}
-          handleDay={handleDay}
+          handleDay={updateDay(state)}
+          order={order}
         />
         <CatalogSection
           day={day}
