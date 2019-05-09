@@ -1,0 +1,39 @@
+
+.list
+  list-style-type none
+  padding x(0)
+  margin x(0)
+  margin-top x(27)
+
+.row
+  display flex
+  flex-flow row wrap
+  justify-content space-between
+  align-items center
+  width 100%
+  font-size x(30)
+  padding x(10) x(18)
+  cursor pointer
+
+  &.grayRow
+    background-color $lightGray
+
+  &.whiteRow
+    background-color $white
+
+  &:hover
+    background-color $lightGrayActive
+
+.capital
+  font-size x(50)
+
+.small
+  font-size x(24)
+  margin-left x(8)
+
+.rowCount
+  color $orange
+
+.center
+  width 100%
+  text-align center
