@@ -43,21 +43,26 @@ function handleCountChange(
   }
 
   if (nextValue === 0) {
-    addToCart(id, 0);
+    addToCart({ id, amount: 0 });
   }
 
   return updateCount(nextValue);
 }
 
-function updateCart(state, props) {
+function updateCart(state, props, params) {
   const { countToAdd, updateCount } = state;
   const { id, addToCart } = props;
+  const { optionId } = params;
 
   if (countToAdd === 0) {
     updateCount(1);
   }
 
-  addToCart(id, countToAdd > 0 ? countToAdd : 1);
+  addToCart({
+    id,
+    optionId,
+    amount: countToAdd > 0 ? countToAdd : 1,
+  });
 }
 
 export default function ItemCard(props) {
@@ -83,7 +88,9 @@ export default function ItemCard(props) {
     handleCountChange(nextValue, state, props, rest)
   );
 
-  const updateCartFunc = () => updateCart(state, props);
+  const updateCartFunc = params => (
+    updateCart(state, props, params)
+  );
 
   const handleOpenFunc = () => handleOpen(true);
   const handleCloseFunc = () => handleOpen(false);
@@ -163,6 +170,7 @@ ItemCard.propTypes = {
   title: T.string,
   url: T.string,
   id: T.number,
+  optionId: T.number,
   piece: T.number,
   entity: T.string,
   name: T.string,
@@ -175,6 +183,7 @@ ItemCard.propTypes = {
 ItemCard.defaultProps = {
   title: '',
   url: '',
+  optionId: null,
   id: undefined,
   piece: undefined,
   entity: 'шт.',
@@ -195,5 +204,6 @@ ItemCard.itemProps = [
   'name',
   'price',
   'options',
+  'optionId',
   'countInCart',
 ];

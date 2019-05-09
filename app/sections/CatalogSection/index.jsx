@@ -29,6 +29,7 @@ function getItems(type, state, props) {
     }
 
     let countInCart = 0;
+    let optionId = null;
     if (order[guest]) {
       const itemInCart = order[guest].find(
         v => v.id === item.id,
@@ -36,18 +37,21 @@ function getItems(type, state, props) {
       if (itemInCart) {
         /* eslint-disable-next-line prefer-destructuring */
         countInCart = itemInCart.countInCart;
+        /* eslint-disable-next-line prefer-destructuring */
+        optionId = itemInCart.optionId;
       }
     }
 
     return {
       ...item,
+      optionId,
       countInCart,
     };
   }).filter(Boolean);
 }
 
 function updateOrder(state, props) {
-  return function updateOrderValues(id, amount) {
+  return function updateOrderValues({ id, amount, optionId }) {
     const { guest, order, handleOrder } = props;
 
     const nextOrder = cloneDeep(order);
@@ -55,14 +59,17 @@ function updateOrder(state, props) {
       nextOrder[guest] = [];
     }
 
+    const nextOptionId = optionId || null;
     const item = nextOrder[guest].find(v => v.id === id);
     if (!item) {
       nextOrder[guest].push({
         id,
         countInCart: amount,
+        optionId: nextOptionId,
       });
     } else {
       item.countInCart = amount;
+      item.optionId = nextOptionId;
     }
 
     handleOrder(nextOrder);

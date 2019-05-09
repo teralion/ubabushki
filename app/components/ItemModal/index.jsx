@@ -42,7 +42,7 @@ function renderOptionRow(data) {
       key={`${name}-row-${id}`}
       className={css.optionRow}
     >
-      <span className={css.name}>
+      <span>
         {name}
       </span>
       <div className={css.params}>
@@ -81,11 +81,23 @@ function renderOptions(state, props) {
   });
 }
 
+function updateCart(state, props) {
+  return function onCartUpdate() {
+    const { selectedOption } = state;
+    const { addToCart } = props;
+
+    addToCart({
+      optionId: selectedOption,
+    });
+  };
+}
+
 export default function ItemModal(props) {
   const {
     id,
     url,
     title,
+    optionId,
     description,
     options,
     countInCart,
@@ -99,7 +111,11 @@ export default function ItemModal(props) {
   const [
     selectedOption,
     handleOption,
-  ] = useState((options[INITIAL_OPTION_INDEX] || {}).id || id);
+  ] = useState(
+    optionId
+    || (options[INITIAL_OPTION_INDEX] || {}).id
+    || id,
+  );
 
   const state = {
     selectedOption,
@@ -148,7 +164,7 @@ export default function ItemModal(props) {
       />
       <button
         type="button"
-        onClick={addToCart}
+        onClick={updateCart(state, props)}
         className={cx(
           css.addToCartButton,
           { [css.shouldUpdate]: countInCart !== countToAdd },
@@ -161,8 +177,9 @@ export default function ItemModal(props) {
 }
 
 ItemModal.propTypes = {
-  id: T.oneOfType([T.string, T.number]).isRequired,
+  id: T.number.isRequired,
   isOpen: T.bool.isRequired,
+  optionId: T.number,
   handleOpen: T.func,
   countToAdd: T.number,
   handleChange: T.func,
@@ -184,6 +201,7 @@ ItemModal.defaultProps = {
   countToAdd: 0,
   handleChange: () => {},
   countInCart: 0,
+  optionId: null,
   url: '',
   title: '',
   description: '',
