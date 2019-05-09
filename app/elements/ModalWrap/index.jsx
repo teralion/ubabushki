@@ -8,6 +8,11 @@ import isServer from 'helpers/isServer';
 import cx from 'classnames';
 import css from './index.styl';
 
+function isHtmlLocked() {
+  const html = document.querySelector('html');
+  return html.classList.contains('lock');
+}
+
 function lockHtml() {
   if (isServer) return;
 
@@ -17,6 +22,10 @@ function lockHtml() {
 
 function unlockHtml() {
   if (isServer) return;
+
+  if (!isHtmlLocked()) {
+    return;
+  }
 
   const html = document.querySelector('html');
   html.classList.remove('lock');
@@ -36,16 +45,14 @@ export default function ModalWrap(props) {
   } = props;
 
   useEffect(() => {
-    if (shouldLockHtml && isOpen) {
-      lockHtml();
-    }
-
-    return () => {
-      if (shouldLockHtml) {
+    if (shouldLockHtml) {
+      if (isOpen) {
+        lockHtml();
+      } else {
         unlockHtml();
       }
-    };
-  });
+    }
+  }, [isOpen]);
 
   return (
     <Modal
@@ -62,7 +69,11 @@ export default function ModalWrap(props) {
         className={cx(css.modal, className)}
         id={modalId || `modal-window-${id}`}
       >
-        <div className={cx(css.crossIcon, iconClassName)}>
+        {/* eslint-disable-next-line */}
+        <div
+          className={cx(css.crossIcon, iconClassName)}
+          onClick={handleOpen}
+        >
           ✕
         </div>
         {children}

@@ -54,6 +54,9 @@ export default function ItemModal(props) {
         handleChange={
           nextValue => updateCounter(nextValue, props)
         }
+        className={css.counter}
+        inputClassName={css.counterInput}
+        buttonClassName={css.counterButton}
       />
       <button
         type="button"

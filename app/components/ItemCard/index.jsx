@@ -85,7 +85,8 @@ export default function ItemCard(props) {
 
   const updateCartFunc = () => updateCart(state, props);
 
-  const handleOpenFunc = () => handleOpen(!isOpen);
+  const handleOpenFunc = () => handleOpen(true);
+  const handleCloseFunc = () => handleOpen(false);
 
   return (
     <div
@@ -147,7 +148,7 @@ export default function ItemCard(props) {
       <ItemModal
         id={`item-${id}`}
         isOpen={isOpen}
-        handleOpen={handleOpenFunc}
+        handleOpen={handleCloseFunc}
         countToAdd={countToAdd}
         handleChange={handleCountChangeFunc}
         addToCart={updateCartFunc}

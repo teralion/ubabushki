@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import T from 'prop-types';
 
 import isServer from 'helpers/isServer';
 
-const ESCAPE_KEY_CODE = 27;
+const ESCAPE_CODE = 27;
 
 function findNode(props) {
   const { id } = props;
@@ -30,36 +30,21 @@ function destroyNode(props) {
   }
 }
 
-export default function Modal(props) {
-  const { children, isOpen } = props;
-
-  if (isServer) {
-    return;
-  }
+function Modal(props) {
+  const { children, onClose } = props;
 
   useEffect(() => {
-    function handleKeydown(event) {
-      if (event.keyCode === ESCAPE_KEY_CODE) {
-        props.onClose();
+    function onKeydown(e) {
+      if ((e || {}).keyCode === ESCAPE_CODE) {
+        onClose();
       }
     }
 
-    document.addEventListener('keydown', handleKeydown);
-
+    document.addEventListener('keydown', onKeydown);
     return () => {
-      document.removeEventListener('keydown', handleKeydown);
+      document.removeEventListener('keydown', onKeydown);
     };
-  });
-
-  useEffect(() => {
-    if (!isOpen) {
-      destroyNode(props);
-    }
-  }, [isOpen]);
-
-  if (!isOpen) {
-    return null;
-  }
+  }, []);
 
   let node = findNode(props);
   if (node === null) {
@@ -69,12 +54,31 @@ export default function Modal(props) {
   return createPortal(children, node);
 }
 
-Modal.propTypes = {
+/**
+ * @return {null}
+ */
+export default function ModalController(props) {
+  const { isOpen } = props;
+
+  if (isServer) {
+    return null;
+  }
+
+  useEffect(() => {
+    if (!isOpen) {
+      destroyNode(props);
+    }
+  }, [isOpen]);
+
+  return isOpen ? <Modal {...props} /> : null;
+}
+
+ModalController.propTypes = {
   id: T.string,
   isOpen: T.bool,
   onClose: T.func,
 };
-Modal.defaultProps = {
+ModalController.defaultProps = {
   id: 'modal',
   isOpen: false,
   onClose: () => {},
