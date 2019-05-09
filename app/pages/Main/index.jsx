@@ -4,6 +4,7 @@ import ContactInfo from 'app/sections/ContactInfo';
 import MainHeader from 'app/sections/MainHeader';
 import OrderInputs from 'app/sections/OrderInputs';
 import CatalogSection from 'app/sections/CatalogSection';
+import TotalSection from 'app/sections/TotalSection';
 
 import moment, { toISOString } from 'helpers/moment';
 
@@ -90,7 +91,29 @@ export default function Main() {
           order={order}
           handleOrder={handleOrder}
         />
+        <TotalSection
+          day={day}
+          order={order}
+          guest={guest}
+          guests={guests}
+        />
       </main>
     </>
   );
 }
+
+/*
+* order = {
+*   0: [
+*     {
+*       id: T.number,
+*       countInCart: T.number,
+*       optionId: T.number,
+*       ...
+*     },
+*     ...
+*   ],
+*   1: [...],
+*   ...
+* }
+* */

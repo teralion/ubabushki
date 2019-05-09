@@ -1,4 +1,8 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, {
+  Fragment,
+  useState,
+  useEffect,
+} from 'react';
 import T from 'prop-types';
 import cloneDeep from 'lodash.clonedeep';
 
@@ -51,8 +55,9 @@ function getItems(type, state, props) {
 }
 
 function updateOrder(state, props) {
-  return function updateOrderValues({ id, amount, optionId }) {
+  return function updateOrderValues(params) {
     const { guest, order, handleOrder } = props;
+    const { id, amount, optionId } = params;
 
     const nextOrder = cloneDeep(order);
     if (!nextOrder[guest]) {
