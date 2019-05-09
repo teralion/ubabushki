@@ -54,11 +54,18 @@ function getItems(type, state, props) {
   }).filter(Boolean);
 }
 
-function updateOrder(state, props) {
+function updateOrder(state, props, rest) {
   return function updateOrderValues(params) {
     const { guest, order, handleOrder } = props;
-    const { id, amount, optionId } = params;
+    const { label: parentLabel } = rest;
+    const {
+      id,
+      amount,
+      optionId,
+      label: childLabel,
+    } = params;
 
+    const label = parentLabel || childLabel || '';
     const nextOrder = cloneDeep(order);
     if (!nextOrder[guest]) {
       nextOrder[guest] = [];
@@ -69,12 +76,14 @@ function updateOrder(state, props) {
     if (!item) {
       nextOrder[guest].push({
         id,
+        label,
         countInCart: amount,
         optionId: nextOptionId,
       });
     } else {
       item.countInCart = amount;
       item.optionId = nextOptionId;
+      item.label = label;
     }
 
     handleOrder(nextOrder);
@@ -103,7 +112,11 @@ function renderSections(state, props) {
           key={`guest-${guest}-day-${day}`}
           name={label}
           items={getItems(label, state, props)}
-          updateOrder={updateOrder(state, props)}
+          updateOrder={updateOrder(
+            state,
+            props,
+            { label },
+          )}
           slideClassName={css.ease}
           className={cx(
             css.section,

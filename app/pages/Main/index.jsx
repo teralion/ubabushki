@@ -109,6 +109,7 @@ export default function Main() {
 *       id: T.number,
 *       countInCart: T.number,
 *       optionId: T.number,
+*       label: T.string,
 *       ...
 *     },
 *     ...
