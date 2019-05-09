@@ -77,7 +77,7 @@ function updateOrder(state, props) {
 }
 
 function renderSections(state, props) {
-  const { guest } = props;
+  const { guest, day } = props;
   const labels = Object.keys(items);
 
   return labels.map((label) => {
@@ -95,7 +95,7 @@ function renderSections(state, props) {
           onClick={toggleInput(openState, toggler)}
         />
         <ItemsCarousel
-          key={`guest-${guest}`}
+          key={`guest-${guest}-day-${day}`}
           name={label}
           items={getItems(label, state, props)}
           updateOrder={updateOrder(state, props)}
