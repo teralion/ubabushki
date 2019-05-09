@@ -13,7 +13,11 @@ function renderSlides(items, state, props) {
     slideClassName,
     updateOrder,
   } = props;
-  const { slidesAmount } = state;
+
+  const {
+    slidesAmount,
+    name,
+  } = state;
 
   const slides = [];
   /* eslint-disable-next-line no-plusplus */
@@ -23,13 +27,13 @@ function renderSlides(items, state, props) {
 
     slides.push(
       <div
-        key={`slide-${i}`}
+        key={`${name}-${i}`}
         className={cx(css.slide, slideClassName)}
       >
         {items.slice(startItemIndex, endItemIndex).map(
           item => (
             <ItemCard
-              key={`${item.title}-${item.id}`}
+              key={item.id}
               className={css.item}
               addToCart={updateOrder}
               {...item}

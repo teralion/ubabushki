@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react';
 import T from 'prop-types';
 import cloneDeep from 'lodash.clonedeep';
 
-import CatalogButton from 'app/elements/CatalogButton';
+import CatalogButton from 'app/components/CatalogButton';
 import ItemsCarousel from 'app/components/ItemsCarousel';
 
 import { MIN_GUESTS, FIRST_GUEST } from 'app/pages/Main';
@@ -89,6 +89,7 @@ function renderSections(state, props) {
         />
         <ItemsCarousel
           key={`guest-${guest}`}
+          name={label}
           items={getItems(label, state, props)}
           updateOrder={updateOrder(state, props)}
           slideClassName={css.ease}

@@ -1,32 +1,68 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import T from 'prop-types';
 
 import Modal from 'app/elements/Modal';
 
+import isServer from 'helpers/isServer';
+
 import cx from 'classnames';
 import css from './index.styl';
+
+function lockHtml() {
+  if (isServer) return;
+
+  const html = document.querySelector('html');
+  html.classList.add('lock');
+}
+
+function unlockHtml() {
+  if (isServer) return;
+
+  const html = document.querySelector('html');
+  html.classList.remove('lock');
+}
 
 export default function ModalWrap(props) {
   const {
     id,
     isOpen,
+    modalId,
     handleOpen,
+    shouldLockHtml,
     children,
+    className,
+    backClassName,
+    iconClassName,
   } = props;
 
-  if (!isOpen) {
-    return;
-  }
+  useEffect(() => {
+    if (shouldLockHtml && isOpen) {
+      lockHtml();
+    }
+
+    return () => {
+      if (shouldLockHtml) {
+        unlockHtml();
+      }
+    };
+  });
 
   return (
     <Modal
-      id={`modal-wrap-${id}`}
+      isOpen={isOpen}
       onClose={handleOpen}
+      id={`modal-wrap-${id}`}
     >
       {/* eslint-disable-next-line */}
-      <div className={css.back} onClick={handleOpen} />
-      <div className={css.modal}>
-        <div className={css.crossIcon}>
+      <div
+        className={cx(css.back, backClassName)}
+        onClick={handleOpen}
+      />
+      <div
+        className={cx(css.modal, className)}
+        id={modalId || `modal-window-${id}`}
+      >
+        <div className={cx(css.crossIcon, iconClassName)}>
           ✕
         </div>
         {children}
@@ -35,17 +71,22 @@ export default function ModalWrap(props) {
   );
 }
 
-/* eslint-disable */
 ModalWrap.propTypes = {
   id: T.oneOfType([T.string, T.number]).isRequired,
-  children: T.node,
-  isOpen: T.bool,
+  children: T.node.isRequired,
+  isOpen: T.bool.isRequired,
+  modalId: T.string,
+  shouldLockHtml: T.bool,
   handleOpen: T.func,
   className: T.string,
+  backClassName: T.string,
+  iconClassName: T.string,
 };
 ModalWrap.defaultProps = {
-  isOpen: true,
   handleOpen: () => {},
+  shouldLockHtml: true,
+  modalId: '',
   className: '',
+  backClassName: '',
+  iconClassName: '',
 };
-/* eslint-enable */

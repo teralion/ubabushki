@@ -1,1 +1,40 @@
 
+.modal
+  max-width x(350)
+  max-height x(600)
+  overflow auto
+  width 100%
+  height auto
+
+  .icon
+    top x(10)
+    right x(10)
+
+.image
+  border-radius x(12)
+  object-fit cover
+  width 100%
+
+.title
+  font-size x(40)
+  font-weight 500
+  margin-top x(8)
+  margin-bottom @margin-top
+
+.description
+  font-size x(18)
+
+.addToCartButton
+  background-color $green
+  max-height x(30)
+  width 100%
+  height 100%
+  font-size x(24)
+  color $white
+  margin-top x(10)
+  border-radius x(8)
+  transition box-shadow .3s ease-in-out
+
+  &.shouldUpdate
+    box-shadow 0 0 x(12) x(-1) $green
+

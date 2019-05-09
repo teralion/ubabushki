@@ -1,0 +1,98 @@
+import React from 'react';
+import T from 'prop-types';
+
+import ModalWrap from 'app/elements/ModalWrap';
+import Image from 'app/elements/Image';
+import Counter from 'app/elements/Counter';
+
+import cx from 'classnames';
+import css from './index.styl';
+
+function updateCounter(nextValue, props) {
+  const { id, handleChange } = props;
+
+  const modalElem = document.getElementById(`modal-window-${id}`);
+  handleChange(nextValue, { element: modalElem });
+}
+
+export default function ItemModal(props) {
+  const {
+    id,
+    url,
+    title,
+    description,
+    countInCart,
+    countToAdd,
+    handleChange,
+    addToCart,
+    ...otherProps
+  } = props;
+
+  return (
+    <ModalWrap
+      shouldLockHtml
+      id={`item-modal-${id}`}
+      modalId={`modal-window-${id}`}
+      className={css.modal}
+      iconClassName={css.icon}
+      {...otherProps}
+    >
+      <Image
+        id={`image-${id}`}
+        alt={title}
+        src={url}
+        className={css.image}
+      />
+
+      <h1 className={css.title}>{title}</h1>
+      <div className={css.description}>{description}</div>
+
+      <Counter
+        minValue={0}
+        value={countToAdd}
+        handleChange={
+          nextValue => updateCounter(nextValue, props)
+        }
+      />
+      <button
+        type="button"
+        onClick={addToCart}
+        className={cx(
+          css.addToCartButton,
+          { [css.shouldUpdate]: countInCart !== countToAdd },
+        )}
+      >
+        в корзину!
+      </button>
+    </ModalWrap>
+  );
+}
+
+ItemModal.propTypes = {
+  id: T.oneOfType([T.string, T.number]).isRequired,
+  isOpen: T.bool.isRequired,
+  handleOpen: T.func,
+  countToAdd: T.number,
+  handleChange: T.func,
+  countInCart: T.number,
+  url: T.string,
+  title: T.string,
+  description: T.string,
+  piece: T.number,
+  entity: T.string,
+  price: T.number,
+  addToCart: T.func,
+};
+ItemModal.defaultProps = {
+  handleOpen: () => {},
+  countToAdd: 0,
+  handleChange: () => {},
+  countInCart: 0,
+  url: '',
+  title: '',
+  description: '',
+  piece: 0,
+  entity: 0,
+  price: 0,
+  addToCart: () => {},
+};

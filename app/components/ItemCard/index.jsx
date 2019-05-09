@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import T from 'prop-types';
+import pick from 'lodash.pick';
 
-import ModalWrap from 'app/elements/ModalWrap';
+import ItemModal from 'app/components/ItemModal';
 import Counter from 'app/elements/Counter';
 
 import isServer from 'helpers/isServer';
@@ -16,18 +17,28 @@ function touchElem(elem, className) {
   }, 300);
 }
 
-function handleCountChange(nextValue, state, props) {
+function handleCountChange(
+  nextValue,
+  state,
+  props,
+  rest = {},
+) {
   const { id, addToCart } = props;
   const { countToAdd, updateCount } = state;
+  const { element, shouldHighlight = true } = rest;
 
   if (isServer) return;
 
-  const elem = document.getElementById(`item-${id}`);
-  if (elem) {
+  if (shouldHighlight) {
+    let elemToHighlight = element;
+    if (!elemToHighlight) {
+      elemToHighlight = document.getElementById(`item-${id}`);
+    }
+
     if (nextValue > countToAdd) {
-      touchElem(elem, css.inc);
+      touchElem(elemToHighlight, css.inc);
     } else {
-      touchElem(elem, css.dec);
+      touchElem(elemToHighlight, css.dec);
     }
   }
 
@@ -68,6 +79,14 @@ export default function ItemCard(props) {
     updateCount,
   };
 
+  const handleCountChangeFunc = (nextValue, rest) => (
+    handleCountChange(nextValue, state, props, rest)
+  );
+
+  const updateCartFunc = () => updateCart(state, props);
+
+  const handleOpenFunc = () => handleOpen(!isOpen);
+
   return (
     <div
       id={`item-${id}`}
@@ -80,14 +99,14 @@ export default function ItemCard(props) {
         src={url}
         alt={title}
         className={css.image}
-        onClick={() => handleOpen(!isOpen)}
+        onClick={handleOpenFunc}
       />
 
       <div className={css.content}>
         {/* eslint-disable-next-line */}
         <span
           className={css.title}
-          onClick={() => handleOpen(!isOpen)}
+          onClick={handleOpenFunc}
         >
           { title }
         </span>
@@ -106,36 +125,34 @@ export default function ItemCard(props) {
           inputClassName={css.input}
           buttonClassName={css.buttons}
           value={countToAdd}
-          handleChange={nextValue => (
-            handleCountChange(nextValue, state, props)
-          )}
+          handleChange={handleCountChangeFunc}
         />
 
         <button
           type="button"
-          onClick={() => updateCart(state, props)}
+          onClick={updateCartFunc}
           className={cx(
             css.addToCartButton,
             { [css.shouldUpdate]: countInCart !== countToAdd },
           )}
         >
-          В корзину!
+          в корзину!
         </button>
       </div>
 
-      {isOpen && (
-        <ModalWrap
-          id={`item-${id}`}
-          handleOpen={() => handleOpen(!isOpen)}
-        >
-          hi there
-        </ModalWrap>
-      )}
+      <ItemModal
+        id={`item-${id}`}
+        isOpen={isOpen}
+        handleOpen={handleOpenFunc}
+        countToAdd={countToAdd}
+        handleChange={handleCountChangeFunc}
+        addToCart={updateCartFunc}
+        {...pick(props, ItemCard.itemProps)}
+      />
     </div>
   );
 }
 
-/* eslint-disable */
 ItemCard.propTypes = {
   title: T.string,
   url: T.string,
@@ -146,7 +163,7 @@ ItemCard.propTypes = {
   className: T.string,
   countInCart: T.number,
   addToCart: T.func,
-}
+};
 ItemCard.defaultProps = {
   title: '',
   url: '',
@@ -157,5 +174,14 @@ ItemCard.defaultProps = {
   className: '',
   countInCart: 0,
   addToCart: () => {},
-}
-/* eslint-enable */
+};
+ItemCard.itemProps = [
+  'title',
+  'description',
+  'url',
+  'id',
+  'piece',
+  'entity',
+  'price',
+  'countInCart',
+];

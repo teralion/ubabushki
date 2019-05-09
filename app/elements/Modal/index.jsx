@@ -31,7 +31,7 @@ function destroyNode(props) {
 }
 
 export default function Modal(props) {
-  const { children } = props;
+  const { children, isOpen } = props;
 
   if (isServer) {
     return;
@@ -51,7 +51,15 @@ export default function Modal(props) {
     };
   });
 
-  useEffect(() => () => { destroyNode(props); });
+  useEffect(() => {
+    if (!isOpen) {
+      destroyNode(props);
+    }
+  }, [isOpen]);
+
+  if (!isOpen) {
+    return null;
+  }
 
   let node = findNode(props);
   if (node === null) {
@@ -63,9 +71,11 @@ export default function Modal(props) {
 
 Modal.propTypes = {
   id: T.string,
+  isOpen: T.bool,
   onClose: T.func,
 };
 Modal.defaultProps = {
   id: 'modal',
+  isOpen: false,
   onClose: () => {},
 };

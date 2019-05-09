@@ -35,10 +35,24 @@
   top 20%
   left 50%
   transform translate(-50%, -17%)
+  padding x(12)
   opacity 1
-  width x(100)
-  height x(100)
-  background-color $white
+  width x(150)
+  height x(200)
+  background-color $lightGray
+  border-radius x(16)
   box-shadow 0 0 x(10) 0 alpha($gray, 0.2), 0 x(1) x(1) 0 alpha($gray, 0.05)
   animation modalShadow 0.5s 1 ease-in-out
   animation-fill-mode forwards
+
+.crossIcon
+  position absolute
+  right x(12)
+  top x(12)
+  font-size x(20)
+  flexCenter()
+  color $gray
+  background-color $white
+  width x(32)
+  height x(32)
+  border-radius x(16)
