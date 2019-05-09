@@ -3,7 +3,6 @@ import T from 'prop-types';
 
 import { FIRST_GUEST, MIN_GUESTS } from 'app/pages/Main';
 import items from 'helpers/data';
-import isServer from 'helpers/isServer';
 
 import cx from 'classnames';
 import css from './index.styl';
@@ -34,20 +33,23 @@ function getMansTotal(mansOrder) {
   return total;
 }
 
-function getTotal() {
-  if (isServer) {
-    return;
-  }
+function getTotals(whoOrdered, props) {
+  const { order } = props;
 
-  return 0;
+  const totals = {
+    total: 0,
+  };
+  whoOrdered.forEach((man) => {
+    totals[man] = getMansTotal(order[man]);
+    totals.total += totals[man];
+  });
+
+  return totals;
 }
 
-function renderMansOrder(params, props) {
+function renderMansOrder(params) {
   /* eslint-disable-next-line */
-  const { order } = props;
-  const { man, i } = params;
-
-  const total = getMansTotal(order[man]);
+  const { man, i, total } = params;
 
   const color = i % 2 === 0 ? 'gray' : 'white';
   const className = cx(css.row, {
@@ -58,6 +60,7 @@ function renderMansOrder(params, props) {
     <div className={className} key={`man-${man}`}>
       <span className={css.rowName}>
         {`Гость ${man}`}
+        {' '}
       </span>
       <span className={css.rowCount}>
         {`${total} руб.`}
@@ -70,17 +73,22 @@ export default function TotalSection(props) {
   const { order } = props;
 
   const menWhoOrdered = Object.keys(order).sort();
+  const totals = getTotals(menWhoOrdered, props);
+
   return (
     <>
       {menWhoOrdered.map((man, i) => (
-        renderMansOrder({ man, i }, props)
+        renderMansOrder({
+          man, i, total: totals[man],
+        })
       ))}
       <div className={cx(css.row, css.capital)}>
         <span className={css.rowName}>
           Итого
+          {' '}
         </span>
         <span className={css.rowCount}>
-          {getTotal(order)}
+          {totals.total}
         </span>
       </div>
     </>
