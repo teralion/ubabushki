@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import T from 'prop-types';
 
 import ModalWrap from 'app/elements/ModalWrap';
 import Image from 'app/elements/Image';
 import Counter from 'app/elements/Counter';
+import Radio, { RadioGroup } from 'app/elements/Radio';
 
 import cx from 'classnames';
 import css from './index.styl';
@@ -29,6 +30,8 @@ export default function ItemModal(props) {
     ...otherProps
   } = props;
 
+  const [selectedOption, handleOption] = useState(`${title}-1`);
+
   return (
     <ModalWrap
       shouldLockHtml
@@ -47,6 +50,23 @@ export default function ItemModal(props) {
 
       <h1 className={css.title}>{title}</h1>
       <div className={css.description}>{description}</div>
+
+      <form>
+        <RadioGroup
+          name={`${title}-radio-options`}
+          selectedValue={selectedOption}
+          handleChange={handleOption}
+        >
+          <Radio
+            label={`${title}-1`}
+            value={`${title}-1`}
+          />
+          <Radio
+            label={`${title}-2`}
+            value={`${title}-2`}
+          />
+        </RadioGroup>
+      </form>
 
       <Counter
         minValue={0}

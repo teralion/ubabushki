@@ -27,6 +27,7 @@ const items = {
       piece: 200,
       entity: 'мл.',
       price: 90,
+      options: [],
       dayWeeks: [0, 1, 2],
     },
     {
@@ -37,6 +38,7 @@ const items = {
       piece: 200,
       entity: 'мл.',
       price: 90,
+      options: [],
       dayWeeks: [3, 4, 5],
     },
     {
@@ -47,6 +49,7 @@ const items = {
       piece: 200,
       entity: 'мл.',
       price: 90,
+      options: [],
       dayWeeks: [1, 2, 6],
     },
     {
@@ -57,6 +60,7 @@ const items = {
       piece: 200,
       entity: 'мл.',
       price: 90,
+      options: [],
       dayWeeks: [2, 3, 4, 5],
     },
     {
@@ -67,6 +71,7 @@ const items = {
       piece: 200,
       entity: 'мл.',
       price: 90,
+      options: [],
       dayWeeks: [0, 6],
     },
     {
@@ -77,6 +82,7 @@ const items = {
       piece: 200,
       entity: 'мл.',
       price: 90,
+      options: [],
       dayWeeks: [3, 4, 5],
     },
     {
@@ -87,6 +93,7 @@ const items = {
       piece: 200,
       entity: 'мл.',
       price: 90,
+      options: [],
       dayWeeks: [0, 1, 6],
     },
     {
@@ -97,6 +104,7 @@ const items = {
       piece: 200,
       entity: 'мл.',
       price: 90,
+      options: [],
       dayWeeks: [0, 4, 5],
     },
     {
@@ -107,6 +115,7 @@ const items = {
       piece: 200,
       entity: 'мл.',
       price: 90,
+      options: [],
       dayWeeks: [2, 3, 4],
     },
   ],
@@ -119,6 +128,7 @@ const items = {
       piece: 100,
       entity: 'гр.',
       price: 95,
+      options: [],
       dayWeeks: [0, 1, 2, 3, 4, 5, 6],
     },
     {
@@ -129,6 +139,7 @@ const items = {
       piece: 100,
       entity: 'гр.',
       price: 95,
+      options: [],
       dayWeeks: [0, 1, 2, 3, 4, 5, 6],
     },
     {
@@ -139,6 +150,7 @@ const items = {
       piece: 100,
       entity: 'гр.',
       price: 95,
+      options: [],
       dayWeeks: [0, 1, 2, 3, 4, 5, 6],
     },
     {
@@ -149,6 +161,7 @@ const items = {
       piece: 100,
       entity: 'гр',
       price: 95,
+      options: [],
       dayWeeks: [0, 1, 2, 3, 4, 5, 6],
     },
     {
@@ -159,6 +172,7 @@ const items = {
       piece: 100,
       entity: 'гр.',
       price: 125,
+      options: [],
       dayWeeks: [0, 1, 2, 3, 4, 5, 6],
     },
     {
@@ -169,6 +183,7 @@ const items = {
       piece: 100,
       entity: 'гр.',
       price: 125,
+      options: [],
       dayWeeks: [0, 1, 2, 3, 4, 5, 6],
     },
     {
@@ -179,6 +194,7 @@ const items = {
       piece: 15,
       entity: 'шт.',
       price: 95,
+      options: [],
       dayWeeks: [0, 1, 2, 3, 4, 5, 6],
     },
     {
@@ -223,6 +239,7 @@ const items = {
       piece: 150,
       entity: 'гр.',
       price: 30,
+      options: [],
       dayWeeks: [0, 1, 2, 3, 4, 5, 6],
     },
     {
@@ -233,6 +250,7 @@ const items = {
       piece: 150,
       entity: 'гр.',
       price: 40,
+      options: [],
       dayWeeks: [0, 1, 2, 3, 4, 5, 6],
     },
     {
@@ -243,6 +261,7 @@ const items = {
       piece: 150,
       entity: 'гр.',
       price: 40,
+      options: [],
       dayWeeks: [0, 1, 2, 3, 4, 5, 6],
     },
     {
@@ -253,6 +272,7 @@ const items = {
       piece: 150,
       entity: 'гр.',
       price: 40,
+      options: [],
       dayWeeks: [0, 1, 2, 3, 4, 5, 6],
     },
   ],
@@ -265,6 +285,7 @@ const items = {
       piece: 100,
       entity: 'гр.',
       price: 40,
+      options: [],
       dayWeeks: [0, 1, 2, 3, 4, 5, 6],
     },
     {
@@ -275,6 +296,7 @@ const items = {
       piece: 100,
       entity: 'гр.',
       price: 40,
+      options: [],
       dayWeeks: [0, 1, 2, 3, 4, 5, 6],
     },
   ],
@@ -287,6 +309,7 @@ const items = {
       piece: 20,
       entity: 'гр.',
       price: 5,
+      options: [],
       dayWeeks: [0, 1, 2, 3, 4, 5, 6],
     },
   ],

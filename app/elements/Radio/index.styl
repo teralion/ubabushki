@@ -1,0 +1,32 @@
+
+.wrap
+  position relative
+  display flex
+  align-items center
+  cursor pointer
+  height x(30)
+
+.label
+  margin-left x(30)
+
+.radio
+  position absolute
+  display flex
+  justify-content center
+  align-items center
+  width x(30)
+  height x(30)
+  margin-right x(10)
+  background-color $white
+  border x(1) solid $black
+  border-radius x(15)
+
+.dot
+  &.checked
+    width x(12)
+    height x(12)
+    background-color $green
+    border-radius x(15)
+
+.nativeInput
+  visibility hidden
