@@ -25,6 +25,7 @@ export default function ItemModal(props) {
     countToAdd,
     handleChange,
     addToCart,
+    className,
     ...otherProps
   } = props;
 
@@ -33,7 +34,7 @@ export default function ItemModal(props) {
       shouldLockHtml
       id={`item-modal-${id}`}
       modalId={`modal-window-${id}`}
-      className={css.modal}
+      className={cx(css.modal, className)}
       iconClassName={css.icon}
       {...otherProps}
     >
@@ -82,6 +83,7 @@ ItemModal.propTypes = {
   entity: T.string,
   price: T.number,
   addToCart: T.func,
+  className: T.string,
 };
 ItemModal.defaultProps = {
   handleOpen: () => {},
@@ -95,4 +97,5 @@ ItemModal.defaultProps = {
   entity: 0,
   price: 0,
   addToCart: () => {},
+  className: '',
 };

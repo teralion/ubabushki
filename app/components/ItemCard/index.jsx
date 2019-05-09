@@ -90,9 +90,12 @@ export default function ItemCard(props) {
   return (
     <div
       id={`item-${id}`}
-      className={cx(className, css.card,
-        { [css.toAdd]: countToAdd > 0 })
-      }
+      className={cx(
+        className,
+        css.card,
+        css.transition,
+        { [css.toAdd]: countToAdd > 0 },
+      )}
     >
       {/* eslint-disable-next-line */}
       <img
@@ -133,6 +136,7 @@ export default function ItemCard(props) {
           onClick={updateCartFunc}
           className={cx(
             css.addToCartButton,
+            css.transition,
             { [css.shouldUpdate]: countInCart !== countToAdd },
           )}
         >
@@ -147,6 +151,7 @@ export default function ItemCard(props) {
         countToAdd={countToAdd}
         handleChange={handleCountChangeFunc}
         addToCart={updateCartFunc}
+        className={css.transition}
         {...pick(props, ItemCard.itemProps)}
       />
     </div>
