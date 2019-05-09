@@ -50,9 +50,7 @@ export default function Radio(props) {
         {...nativeProps}
       />
 
-      <span className={css.label}>
-        {label}
-      </span>
+      {label}
     </label>
   );
 }

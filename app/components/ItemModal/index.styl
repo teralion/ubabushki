@@ -1,6 +1,6 @@
 
 .modal
-  max-width x(350)
+  max-width x(400)
   max-height x(600)
   overflow auto
   width 100%
@@ -24,6 +24,34 @@
 .description
   font-size x(18)
 
+.optionsForm
+  margin-top x(20)
+  margin-bottom @margin-top
+
+.radioOption + .radioOption
+  margin-top x(15)
+
+.optionRow
+  display flex
+  justify-content space-between
+  align-items center
+  flex-flow row wrap
+  width 100%
+  margin-left x(30)
+  font-size x(18)
+
+.params
+  display flex
+  flex-flow row nowrap
+
+.volume
+  margin-top x(4)
+
+.price
+  font-size x(30)
+  margin-left x(6)
+  color $orange
+
 .counter
 .counterInput
 .counterButton
@@ -32,6 +60,9 @@
 .counterInput
 .counterButton
   font-size x(35)
+
+.counterInput
+  max-width none
 
 .counterButton
   width x(80)

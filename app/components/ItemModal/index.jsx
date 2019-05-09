@@ -130,6 +130,7 @@ export default function ItemModal(props) {
           name={`${title}-radio-options`}
           selectedValue={selectedOption}
           handleChange={handleOption}
+          className={css.radioOption}
         >
           {renderOptions(state, props)}
         </RadioGroup>
