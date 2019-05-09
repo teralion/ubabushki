@@ -17,15 +17,13 @@ function touchElem(elem, className) {
   }, 300);
 }
 
-function handleCountChange(
-  nextValue,
-  state,
-  props,
-  rest = {},
-) {
-  const { id, addToCart } = props;
-  const { countToAdd, updateCount } = state;
-  const { element, shouldHighlight = true } = rest;
+function handleCountChange(nextValue, props, rest = {}) {
+  const { id, addToCart, countInCart } = props;
+  const {
+    element,
+    shouldHighlight = true,
+    optionId = null,
+  } = rest;
 
   if (isServer) return;
 
@@ -35,34 +33,14 @@ function handleCountChange(
       elemToHighlight = document.getElementById(`item-${id}`);
     }
 
-    if (nextValue > countToAdd) {
+    if (nextValue > countInCart) {
       touchElem(elemToHighlight, css.inc);
     } else {
       touchElem(elemToHighlight, css.dec);
     }
   }
 
-  if (nextValue === 0) {
-    addToCart({ id, amount: 0 });
-  }
-
-  return updateCount(nextValue);
-}
-
-function updateCart(state, props, params) {
-  const { countToAdd, updateCount } = state;
-  const { id, addToCart } = props;
-  const { optionId } = params;
-
-  if (countToAdd === 0) {
-    updateCount(1);
-  }
-
-  addToCart({
-    id,
-    optionId,
-    amount: countToAdd > 0 ? countToAdd : 1,
-  });
+  return addToCart({ id, optionId, amount: nextValue });
 }
 
 export default function ItemCard(props) {
@@ -77,23 +55,16 @@ export default function ItemCard(props) {
     className,
   } = props;
 
-  const [countToAdd, updateCount] = useState(countInCart);
   const [isOpen, handleOpen] = useState(false);
-  const state = {
-    countToAdd,
-    updateCount,
-  };
 
   const handleCountChangeFunc = (nextValue, rest) => (
-    handleCountChange(nextValue, state, props, rest)
-  );
-
-  const updateCartFunc = params => (
-    updateCart(state, props, params)
+    handleCountChange(nextValue, props, rest)
   );
 
   const handleOpenFunc = () => handleOpen(true);
   const handleCloseFunc = () => handleOpen(false);
+
+  const shouldShowCounter = countInCart > 0;
 
   return (
     <div
@@ -102,7 +73,7 @@ export default function ItemCard(props) {
         className,
         css.card,
         css.transition,
-        { [css.toAdd]: countToAdd > 0 },
+        { [css.toAdd]: countInCart > 0 },
       )}
     >
       {/* eslint-disable-next-line */}
@@ -131,34 +102,34 @@ export default function ItemCard(props) {
           </span>
         </div>
 
-        <Counter
-          className={css.counter}
-          inputClassName={css.input}
-          buttonClassName={css.buttons}
-          value={countToAdd}
-          handleChange={handleCountChangeFunc}
-        />
 
-        <button
-          type="button"
-          onClick={updateCartFunc}
-          className={cx(
-            css.addToCartButton,
-            css.transition,
-            { [css.shouldUpdate]: countInCart !== countToAdd },
-          )}
-        >
-          в корзину!
-        </button>
+        {shouldShowCounter ? (
+          <Counter
+            className={css.counter}
+            inputClassName={css.input}
+            buttonClassName={css.buttons}
+            value={countInCart}
+            handleChange={handleCountChangeFunc}
+          />
+        ) : (
+          <button
+            type="button"
+            onClick={() => handleCountChange(1, props)}
+            className={cx(
+              css.addToCartButton,
+              css.transition,
+            )}
+          >
+            в корзину!
+          </button>
+        )}
       </div>
 
       <ItemModal
         id={`item-${id}`}
         isOpen={isOpen}
         handleOpen={handleCloseFunc}
-        countToAdd={countToAdd}
         handleChange={handleCountChangeFunc}
-        addToCart={updateCartFunc}
         className={css.transition}
         {...pick(props, ItemCard.itemProps)}
       />

@@ -5,6 +5,8 @@ import MainHeader from 'app/sections/MainHeader';
 import OrderInputs from 'app/sections/OrderInputs';
 import CatalogSection from 'app/sections/CatalogSection';
 import TotalSection from 'app/sections/TotalSection';
+import CartSection from 'app/sections/CartSection';
+import NotificationsSection from 'app/sections/NotificationsSection';
 
 import moment, { toISOString } from 'helpers/moment';
 
@@ -91,13 +93,23 @@ export default function Main() {
           order={order}
           handleOrder={handleOrder}
         />
-        <TotalSection
+        {/*<TotalSection
           day={day}
           order={order}
           guest={guest}
           guests={guests}
-        />
+        />*/}
       </main>
+
+      <CartSection
+        day={day}
+        order={order}
+        guest={guest}
+        guests={guests}
+        className={css.cartSection}
+      />
+
+      <NotificationsSection order={order} />
     </>
   );
 }
