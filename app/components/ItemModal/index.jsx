@@ -6,8 +6,20 @@ import Image from 'app/elements/Image';
 import Counter from 'app/elements/Counter';
 import Radio, { RadioGroup } from 'app/elements/Radio';
 
+import pick from 'lodash.pick';
+
 import cx from 'classnames';
 import css from './index.styl';
+
+const INITIAL_OPTION_INDEX = 0;
+
+const rowValues = [
+  'id',
+  'name',
+  'piece',
+  'entity',
+  'price',
+];
 
 function updateCounter(nextValue, props) {
   const { id, handleChange } = props;
@@ -16,12 +28,66 @@ function updateCounter(nextValue, props) {
   handleChange(nextValue, { element: modalElem });
 }
 
+function renderOptionRow(data) {
+  const {
+    id,
+    name,
+    price,
+    piece,
+    entity,
+  } = data;
+
+  return (
+    <div
+      key={`${name}-row-${id}`}
+      className={css.optionRow}
+    >
+      <span className={css.name}>
+        {name}
+      </span>
+      <div className={css.params}>
+        <span className={css.volume}>
+          {`${piece} ${entity} /`}
+        </span>
+        <span className={css.price}>
+          {`${price} р.`}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function renderOptions(state, props) {
+  const { id, options } = props;
+
+  const optionsToRender = options.length > 0
+    ? options
+    : [{}];
+
+  return optionsToRender.map((option) => {
+    const data = {
+      ...pick(props, rowValues),
+      ...pick(option, rowValues),
+    };
+
+    const radioId = option.id || id;
+    return (
+      <Radio
+        key={`radio-option-${radioId}`}
+        value={radioId}
+        label={renderOptionRow(data)}
+      />
+    );
+  });
+}
+
 export default function ItemModal(props) {
   const {
     id,
     url,
     title,
     description,
+    options,
     countInCart,
     countToAdd,
     handleChange,
@@ -30,7 +96,15 @@ export default function ItemModal(props) {
     ...otherProps
   } = props;
 
-  const [selectedOption, handleOption] = useState(`${title}-1`);
+  const [
+    selectedOption,
+    handleOption,
+  ] = useState((options[INITIAL_OPTION_INDEX] || {}).id || id);
+
+  const state = {
+    selectedOption,
+    handleOption,
+  };
 
   return (
     <ModalWrap
@@ -51,20 +125,13 @@ export default function ItemModal(props) {
       <h1 className={css.title}>{title}</h1>
       <div className={css.description}>{description}</div>
 
-      <form>
+      <form className={css.optionsForm}>
         <RadioGroup
           name={`${title}-radio-options`}
           selectedValue={selectedOption}
           handleChange={handleOption}
         >
-          <Radio
-            label={`${title}-1`}
-            value={`${title}-1`}
-          />
-          <Radio
-            label={`${title}-2`}
-            value={`${title}-2`}
-          />
+          {renderOptions(state, props)}
         </RadioGroup>
       </form>
 
@@ -105,6 +172,9 @@ ItemModal.propTypes = {
   piece: T.number,
   entity: T.string,
   price: T.number,
+  /* eslint-disable-next-line react/forbid-prop-types */
+  options: T.array,
+  name: T.string,
   addToCart: T.func,
   className: T.string,
 };
@@ -118,7 +188,9 @@ ItemModal.defaultProps = {
   description: '',
   piece: 0,
   entity: 0,
+  name: 'порция',
   price: 0,
+  options: [],
   addToCart: () => {},
   className: '',
 };
