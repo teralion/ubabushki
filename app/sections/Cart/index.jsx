@@ -94,12 +94,24 @@ function renderItemMeta(fullItem, orderItem) {
     (itemOption.price || 0) * countInCart
   );
 
-  const nameWithEndings = fullItem.nameRoot
-    ? pluralizeWord(
+  /* eslint-disable-next-line prefer-destructuring */
+  let name = fullItem.name;
+  if (itemOption.nameRoot && itemOption.endings) {
+    name = pluralizeWord(
+      itemOption.nameRoot,
+      itemOption.endings,
+      countInCart,
+    );
+  } else if (itemOption.name) {
+    /* eslint-disable-next-line prefer-destructuring */
+    name = itemOption.name;
+  } else if (fullItem.nameRoot && fullItem.endings) {
+    name = pluralizeWord(
       fullItem.nameRoot,
       fullItem.endings,
       countInCart,
-    ) : fullItem.name;
+    );
+  }
 
   const itemData = { ...fullItem, ...itemOption };
   return (
@@ -108,7 +120,7 @@ function renderItemMeta(fullItem, orderItem) {
       <span className={css.count}>
         {`✕ 
           ${countInCart} 
-          ${nameWithEndings} =
+          ${name} =
           ${itemTotalPrice} руб. 
         `}
       </span>
@@ -299,7 +311,12 @@ export default function CartSection(props) {
         type="button"
         className={css.orderButton}
       >
-        ЗАКАЗАТЬ
+        {shouldShowList && 'ОФОРМИТЬ'}
+        {!shouldShowList && (
+          totals.items > 0
+            ? 'ПОКАЗАТЬ КОРЗИНУ'
+            : 'ПУСТО'
+        )}
         {' '}
         {totals.items > 0 ? (
           `(${totals.items} ${itemsWord} на 

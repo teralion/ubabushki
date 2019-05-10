@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
+import useStoreon from 'storeon/react';
 import cloneDeep from 'lodash.clonedeep';
 
 import ContactInfo from 'app/sections/ContactInfo';
-import MainHeader from 'app/sections/MainHeader';
+import MainHeader from 'app/sections/Header';
 import OrderInputs from 'app/sections/OrderInputs';
-import CatalogSection from 'app/sections/CatalogSection';
-import CartSection from 'app/sections/CartSection';
-import NotificationsSection from 'app/sections/NotificationsSection';
+import Catalog from 'app/sections/Catalog';
+import Cart from 'app/sections/Cart';
+import Notifications from 'app/sections/Notifications';
+
+import { changeOrder } from 'app/flux/order';
 
 import moment, { toISOString } from 'helpers/moment';
 
@@ -114,7 +117,14 @@ export default function Main() {
   const [guests, handleGuests] = useState(MIN_GUESTS);
   const [guest, handleGuest] = useState(FIRST_GUEST);
   const [day, handleDay] = useState(toISOString(NOW));
-  const [order, handleOrder] = useState({});
+  const {
+    order,
+    dispatch: dispatchOrder,
+  } = useStoreon('order');
+
+  const handleOrder = nextOrder => (
+    changeOrder(dispatchOrder, nextOrder)
+  );
 
   const state = {
     guest,
@@ -145,7 +155,7 @@ export default function Main() {
           handleDay={updateDay(state)}
           order={order}
         />
-        <CatalogSection
+        <Catalog
           day={day}
           guest={guest}
           guests={guests}
@@ -155,7 +165,7 @@ export default function Main() {
         />
       </main>
 
-      <CartSection
+      <Cart
         day={day}
         order={order}
         guest={guest}
@@ -164,7 +174,7 @@ export default function Main() {
         updateOrder={updateOrder(state)}
       />
 
-      <NotificationsSection order={order} />
+      <Notifications order={order} />
     </>
   );
 }

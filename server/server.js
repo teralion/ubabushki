@@ -24,7 +24,7 @@ app.use(filename);
 
 router
   .get(`${GLOBALS.PUBLIC_PATH}*`, protector, assets)
-  .get('/', prerender);
+  .get('*', prerender);
 
 app.use(router.routes());
 

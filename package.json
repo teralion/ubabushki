@@ -47,6 +47,7 @@
     "react-swipeable-views": "^0.13.1",
     "react-swipeable-views-utils": "^0.13.1",
     "request": "^2.88.0",
+    "storeon": "^0.8.2",
     "stylus": "^0.54.5",
     "webpack": "^4.29.6"
   },

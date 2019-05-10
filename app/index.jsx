@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 
+import store from 'app/flux/index';
+import StoreContext from 'storeon/react/context';
+
 import 'app/styles/app.styl';
 
 //* components
@@ -9,9 +12,11 @@ import Routes from 'app/routes';
 
 function render() {
   return (
-    <BrowserRouter>
-      <Routes />
-    </BrowserRouter>
+    <StoreContext.Provider value={store}>
+      <BrowserRouter>
+        <Routes />
+      </BrowserRouter>
+    </StoreContext.Provider>
   );
 }
 

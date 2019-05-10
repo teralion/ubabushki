@@ -11,12 +11,12 @@ import Checkout from 'app/pages/Checkout';
 function Routes() {
   return (
     <Switch>
-      <Route path="/" render={() => <Main />} exact />
+      <Route path="/" render={props => <Main {...props} />} exact />
+      <Route path="/checkout" render={props => <Checkout {...props} />} exact />
       <Route path="/delivery" render={Delivery} />
       <Route path="/contacts" render={Contacts} />
       <Route path="/privacy" render={Privacy} />
       <Route path="/about" render={About} />
-      <Route path="/checkout" render={Checkout} />
     </Switch>
   );
 }
