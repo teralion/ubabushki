@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import T from 'prop-types';
 import Scrollbar from 'react-custom-scrollbars';
 
@@ -81,7 +81,7 @@ function renderItemMeta(fullItem, orderItem) {
       fullItem.nameRoot,
       fullItem.endings,
       countInCart,
-    ) : fullItem.name
+    ) : fullItem.name;
 
   const itemData = { ...fullItem, ...itemOption };
   return (
@@ -159,10 +159,42 @@ function renderOrderList(params, props) {
   ));
 }
 
+function handleHover(state) {
+  return function onHover() {
+    const { toggleList, listVisibilityTimer } = state;
+
+    toggleList(true);
+    clearTimeout(listVisibilityTimer);
+  };
+}
+
+function handleBlur(state) {
+  return function onBlur() {
+    const { toggleList, handleTimer } = state;
+
+    handleTimer(setTimeout(() => {
+      toggleList(false);
+    }, 1500));
+  };
+}
+
 export default function CartSection(props) {
   const { order, className } = props;
 
-  const listRef = useRef(null);
+  const [
+    shouldShowList,
+    toggleList,
+  ] = useState(false);
+  const [
+    listVisibilityTimer,
+    handleTimer,
+  ] = useState(null);
+  const state = {
+    shouldShowList,
+    toggleList,
+    listVisibilityTimer,
+    handleTimer,
+  };
 
   const menWhoOrdered = Object.keys(order).sort();
   const isOrder = menWhoOrdered.length > 0;
@@ -176,13 +208,19 @@ export default function CartSection(props) {
     <div
       className={cx(
         css.wrap, className,
-        { [css.disabled]: !isOrder },
+        {
+          [css.disabled]: !isOrder,
+          [css.show]: shouldShowList,
+        },
       )}
     >
       <div
-        ref={listRef}
-        className={css.orderList}
+        onFocus={handleHover(state)}
+        onMouseOver={handleHover(state)}
+        onBlur={handleBlur(state)}
+        onMouseOut={handleBlur(state)}
         style={{ ...styles.style }}
+        className={css.orderList}
       >
         {/* <Scrollbar style={{ ...styles.scrollbarStyle }}> */}
         {renderOrderList({
@@ -192,6 +230,10 @@ export default function CartSection(props) {
         {/* </Scrollbar> */}
       </div>
       <button
+        onFocus={handleHover(state)}
+        onMouseOver={handleHover(state)}
+        onBlur={handleBlur(state)}
+        onMouseOut={handleBlur(state)}
         type="button"
         className={css.orderButton}
       >
