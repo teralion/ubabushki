@@ -15,9 +15,6 @@ export default function Tooltip(props) {
     ...otherProps
   } = props;
 
-  const cl = cx(css.main, {
-    [className]: className,
-  });
   const tooltipCl = cx(css.tooltip, {
     [tooltipClassName]: tooltipClassName,
     [css[direction]]: direction,
@@ -25,7 +22,7 @@ export default function Tooltip(props) {
 
   return (
     <div
-      className={cl}
+      className={cx(css.main, className)}
       role="presentation"
       tabIndex={-1}
       {...otherProps}

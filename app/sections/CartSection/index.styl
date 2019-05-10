@@ -1,6 +1,27 @@
 
-.orderButton
+.wrap
   max-height x(60)
+  width 100%
+  height 100%
+
+  &:hover
+    .orderList
+      opacity 1
+
+  &.disabled
+    .orderButton
+      cursor default
+      opacity 0.5
+
+    .orderList
+      opacity 0
+
+.orderList
+  opacity 0
+  position absolute
+  top x(0)
+
+.orderButton
   width 100%
   height 100%
   background-color $green
@@ -10,6 +31,4 @@
   opacity 1
   transition opacity .3s ease-in-out
 
-  &.disabled
-    opacity 0.5
-    cursor default
+

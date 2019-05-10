@@ -4,7 +4,6 @@ import ContactInfo from 'app/sections/ContactInfo';
 import MainHeader from 'app/sections/MainHeader';
 import OrderInputs from 'app/sections/OrderInputs';
 import CatalogSection from 'app/sections/CatalogSection';
-import TotalSection from 'app/sections/TotalSection';
 import CartSection from 'app/sections/CartSection';
 import NotificationsSection from 'app/sections/NotificationsSection';
 
@@ -93,12 +92,6 @@ export default function Main() {
           order={order}
           handleOrder={handleOrder}
         />
-        {/*<TotalSection
-          day={day}
-          order={order}
-          guest={guest}
-          guests={guests}
-        />*/}
       </main>
 
       <CartSection

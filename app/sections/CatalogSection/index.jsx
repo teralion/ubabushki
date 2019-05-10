@@ -72,18 +72,35 @@ function updateOrder(state, props, rest) {
     }
 
     const nextOptionId = optionId || null;
-    const item = nextOrder[guest].find(v => v.id === id);
-    if (!item) {
+
+    let itemIndex;
+    const item = nextOrder[guest].find((v, i) => {
+      if (v.id === id) itemIndex = i;
+      return v.id === id;
+    });
+
+    if (!item && amount > 0) {
       nextOrder[guest].push({
         id,
         label,
         countInCart: amount,
         optionId: nextOptionId,
       });
-    } else {
+    } else if (item) {
       item.countInCart = amount;
       item.optionId = nextOptionId;
       item.label = label;
+    }
+
+    if (
+      amount === 0
+      && typeof itemIndex === 'number'
+    ) {
+      nextOrder[guest].splice(itemIndex, 1);
+    }
+
+    if (nextOrder[guest].length === 0) {
+      delete nextOrder[guest];
     }
 
     handleOrder(nextOrder);

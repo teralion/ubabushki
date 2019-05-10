@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import T from 'prop-types';
+import pick from 'lodash.pick';
 
 import ModalWrap from 'app/elements/ModalWrap';
 import Image from 'app/elements/Image';
 import Counter from 'app/elements/Counter';
 import Radio, { RadioGroup } from 'app/elements/Radio';
-
-import pick from 'lodash.pick';
 
 import cx from 'classnames';
 import css from './index.styl';
