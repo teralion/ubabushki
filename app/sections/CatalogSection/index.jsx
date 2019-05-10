@@ -54,61 +54,8 @@ function getItems(type, state, props) {
   }).filter(Boolean);
 }
 
-function updateOrder(state, props, rest) {
-  return function updateOrderValues(params) {
-    const { guest, order, handleOrder } = props;
-    const { label: parentLabel } = rest;
-    const {
-      id,
-      amount,
-      optionId,
-      label: childLabel,
-    } = params;
-
-    const label = parentLabel || childLabel || '';
-    const nextOrder = cloneDeep(order);
-    if (!nextOrder[guest]) {
-      nextOrder[guest] = [];
-    }
-
-    const nextOptionId = optionId || null;
-
-    let itemIndex;
-    const item = nextOrder[guest].find((v, i) => {
-      if (v.id === id) itemIndex = i;
-      return v.id === id;
-    });
-
-    if (!item && amount > 0) {
-      nextOrder[guest].push({
-        id,
-        label,
-        countInCart: amount,
-        optionId: nextOptionId,
-      });
-    } else if (item) {
-      item.countInCart = amount;
-      item.optionId = nextOptionId;
-      item.label = label;
-    }
-
-    if (
-      amount === 0
-      && typeof itemIndex === 'number'
-    ) {
-      nextOrder[guest].splice(itemIndex, 1);
-    }
-
-    if (nextOrder[guest].length === 0) {
-      delete nextOrder[guest];
-    }
-
-    handleOrder(nextOrder);
-  };
-}
-
 function renderSections(state, props) {
-  const { guest, day } = props;
+  const { guest, day, updateOrder } = props;
   const labels = Object.keys(items);
 
   return labels.map((label) => {
@@ -129,10 +76,8 @@ function renderSections(state, props) {
           key={`guest-${guest}-day-${day}`}
           name={label}
           items={getItems(label, state, props)}
-          updateOrder={updateOrder(
-            state,
-            props,
-            { label },
+          updateOrder={params => (
+            updateOrder({ ...params, label })
           )}
           slideClassName={css.ease}
           className={cx(
@@ -211,6 +156,7 @@ CatalogSection.propTypes = {
   guests: T.number,
   order: T.object,
   handleOrder: T.func,
+  updateOrder: T.func,
 }
 CatalogSection.defaultProps = {
   className: '',
@@ -219,5 +165,6 @@ CatalogSection.defaultProps = {
   guests: MIN_GUESTS,
   order: {},
   handleOrder: () => {},
+  updateOrder: () => {},
 }
 /* eslint-enable */

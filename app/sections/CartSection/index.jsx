@@ -1,12 +1,16 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import T from 'prop-types';
 import Scrollbar from 'react-custom-scrollbars';
 
 import Image from 'app/elements/Image';
 import Counter from 'app/elements/Counter';
 
-import { FIRST_GUEST, MIN_GUESTS } from 'app/pages/Main';
 import pluralizeWord from 'helpers/pluralizeWord';
+import {
+  FIRST_GUEST,
+  MIN_GUESTS,
+  FREE_DELIVERY_FROM,
+} from 'app/pages/Main';
 
 import items from 'helpers/data';
 
@@ -86,12 +90,7 @@ function renderItemMeta(fullItem, orderItem) {
   const itemData = { ...fullItem, ...itemOption };
   return (
     <>
-      <span className={css.volume}>
-        {`
-          ${itemData.piece} 
-          ${itemData.entity}
-        `}
-      </span>
+      {`${itemData.piece} ${itemData.entity}`}
       <span className={css.count}>
         {`✕ 
           ${countInCart} 
@@ -104,7 +103,7 @@ function renderItemMeta(fullItem, orderItem) {
 }
 
 function renderOrderList(params, props) {
-  const { order } = props;
+  const { order, updateOrder } = props;
   const { guests, totals } = params;
 
   return guests.map(guest => (
@@ -112,7 +111,7 @@ function renderOrderList(params, props) {
       key={`guest-${guest}-order-list`}
       className={css.guest}
     >
-      <div>
+      <div className={css.guestTitle}>
         {`Гость ${guest}`}
         <span>{`${totals[guest]} руб.`}</span>
       </div>
@@ -120,7 +119,11 @@ function renderOrderList(params, props) {
       <div className={css.separator} />
 
       {order[guest].map((orderItem) => {
-        const { id, label } = orderItem;
+        const {
+          id,
+          label,
+          countInCart,
+        } = orderItem;
 
         const fullItem = findItem(id, label);
         const { url, title } = fullItem;
@@ -138,20 +141,38 @@ function renderOrderList(params, props) {
             />
 
             <div className={css.itemMeta}>
-              <div className={css.itemTitle}>
-                {title}
-              </div>
+              {title}
               <div className={css.itemCount}>
                 {renderItemMeta(fullItem, orderItem)}
               </div>
-              {/*
-              <Counter />
-*/}
+
+              <Counter
+                minValue={0}
+                value={countInCart}
+                handleChange={nextValue => updateOrder({
+                  id,
+                  label,
+                  guest,
+                  amount: nextValue,
+                })}
+                className={css.counter}
+                inputClassName={css.counterInput}
+                buttonClassName={css.counterButton}
+              />
             </div>
 
-            <span className={css.crossIcon}>
+            <button
+              type="button"
+              className={css.crossIcon}
+              onClick={() => updateOrder({
+                id,
+                label,
+                guest,
+                amount: 0,
+              })}
+            >
               ✕
-            </span>
+            </button>
           </div>
         );
       })}
@@ -161,20 +182,31 @@ function renderOrderList(params, props) {
 
 function handleHover(state) {
   return function onHover() {
-    const { toggleList, listVisibilityTimer } = state;
+    const {
+      toggleList,
+      handleTimer,
+      listVisibilityTimer,
+    } = state;
 
-    toggleList(true);
     clearTimeout(listVisibilityTimer);
+    handleTimer(setTimeout(() => {
+      toggleList(true);
+    }, 500));
   };
 }
 
 function handleBlur(state) {
   return function onBlur() {
-    const { toggleList, handleTimer } = state;
+    const {
+      toggleList,
+      handleTimer,
+      listVisibilityTimer,
+    } = state;
 
+    clearTimeout(listVisibilityTimer);
     handleTimer(setTimeout(() => {
       toggleList(false);
-    }, 1500));
+    }, 800));
   };
 }
 
@@ -190,7 +222,6 @@ export default function CartSection(props) {
     handleTimer,
   ] = useState(null);
   const state = {
-    shouldShowList,
     toggleList,
     listVisibilityTimer,
     handleTimer,
@@ -199,6 +230,9 @@ export default function CartSection(props) {
   const menWhoOrdered = Object.keys(order).sort();
   const isOrder = menWhoOrdered.length > 0;
   const totals = getTotals(menWhoOrdered, props);
+  const shouldShowDeliveryLabel = totals.total > 300;
+  const isFreeDelivery = totals.total >= FREE_DELIVERY_FROM;
+  const buyForFreeDelivery = FREE_DELIVERY_FROM - totals.total;
   const itemsWord = pluralizeWord(
     'блюд', ['о', 'а', ''], totals.items,
   );
@@ -229,6 +263,17 @@ export default function CartSection(props) {
         }, props)}
         {/* </Scrollbar> */}
       </div>
+      {shouldShowDeliveryLabel && !isFreeDelivery && (
+        <div className={css.noteLabel}>
+          {`Возьмите еще на ${buyForFreeDelivery} 
+          рублей для бесплатной доставки!`}
+        </div>
+      )}
+      {isFreeDelivery && (
+        <div className={css.noteLabel}>
+          у вас бесплатная доставка
+        </div>
+      )}
       <button
         onFocus={handleHover(state)}
         onMouseOver={handleHover(state)}
@@ -255,6 +300,7 @@ CartSection.propTypes = {
   guests: T.number,
   order: T.object,
   className: T.string,
+  updateOrder: T.func,
 };
 CartSection.defaultProps = {
   day: '',
@@ -262,5 +308,6 @@ CartSection.defaultProps = {
   guests: MIN_GUESTS,
   order: {},
   className: '',
+  updateOrder: () => {},
 };
 /* eslint-enable */
