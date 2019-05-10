@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import T from 'prop-types';
 import Scrollbar from 'react-custom-scrollbars';
 
@@ -6,6 +6,7 @@ import Image from 'app/elements/Image';
 import Counter from 'app/elements/Counter';
 
 import pluralizeWord from 'helpers/pluralizeWord';
+import isServer from 'helpers/isServer';
 import {
   FIRST_GUEST,
   MIN_GUESTS,
@@ -63,10 +64,23 @@ function getTotals(whoOrdered, props) {
   return totals;
 }
 
-function getStyles() {
+function getStyles(listRef) {
+  if (
+    isServer
+    || !(listRef || {}).current
+  ) {
+    return {};
+  }
+
+  const params = listRef.current.getBoundingClientRect();
+  const scrollbarStyle = {
+    width: `${params.width}px`,
+    height: `${params.height}px`,
+  };
+
   return {
     style: {},
-    scrollbarStyle: {},
+    scrollbarStyle,
   };
 }
 
@@ -227,6 +241,8 @@ export default function CartSection(props) {
     handleTimer,
   };
 
+  const listRef = useRef(null);
+
   const menWhoOrdered = Object.keys(order).sort();
   const isOrder = menWhoOrdered.length > 0;
   const totals = getTotals(menWhoOrdered, props);
@@ -236,7 +252,7 @@ export default function CartSection(props) {
   const itemsWord = pluralizeWord(
     'блюд', ['о', 'а', ''], totals.items,
   );
-  const styles = getStyles();
+  const styles = getStyles(listRef);
 
   return (
     <div
@@ -249,6 +265,7 @@ export default function CartSection(props) {
       )}
     >
       <div
+        ref={listRef}
         onFocus={handleHover(state)}
         onMouseOver={handleHover(state)}
         onBlur={handleBlur(state)}
@@ -256,12 +273,12 @@ export default function CartSection(props) {
         style={{ ...styles.style }}
         className={css.orderList}
       >
-        {/* <Scrollbar style={{ ...styles.scrollbarStyle }}> */}
-        {renderOrderList({
-          totals,
-          guests: menWhoOrdered,
-        }, props)}
-        {/* </Scrollbar> */}
+        <Scrollbar style={{ ...styles.scrollbarStyle }}>
+          {renderOrderList({
+            totals,
+            guests: menWhoOrdered,
+          }, props)}
+        </Scrollbar>
       </div>
       {shouldShowDeliveryLabel && !isFreeDelivery && (
         <div className={css.noteLabel}>
