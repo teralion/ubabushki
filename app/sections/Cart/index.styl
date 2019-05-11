@@ -27,8 +27,8 @@
   position absolute
   visibility hidden
   opacity 0
-  left unquote('calc(50%' + ' - ' + x(190) + ')')
-  bottom unquote('calc(' + x(90) + ' + ' + x(15) + ')')
+  right x(70)
+  bottom unquote('calc(' + x(130) + ' + ' + x(15) + ')')
   max-width x(380)
   min-width x(240)
   width 100%
@@ -136,6 +136,23 @@
   text-align center
   opacity 1
   transition opacity .3s ease-in-out
+
+.cartIconWrap
+  flexCenter()
+  position fixed
+  right x(20)
+  bottom x(100)
+  width x(50)
+  height x(50)
+  min-width x(50)
+  border-radius x(25)
+  background-color $yellow
+  box-shadow 0 0 x(12) x(-1) $orange
+  color $white
+  cursor pointer
+
+  .icon
+    font-size x(30)
 
 .noteLabel
   flexCenter()

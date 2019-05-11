@@ -1,9 +1,12 @@
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import T from 'prop-types';
+import { Link } from 'react-router-dom';
 import Scrollbar from 'react-custom-scrollbars';
 
 import Image from 'app/elements/Image';
 import Counter from 'app/elements/Counter';
+
+import ShoppingCart from 'app/assets/icons/shoppingCart';
 
 import pluralizeWord from 'helpers/pluralizeWord';
 import isServer from 'helpers/isServer';
@@ -255,16 +258,22 @@ export default function CartSection(props) {
 
   const listRef = useRef(null);
 
+  useEffect(() => () => {
+    clearTimeout(listVisibilityTimer);
+  }, [listVisibilityTimer]);
+
   const menWhoOrdered = Object.keys(order).sort();
   const isOrder = menWhoOrdered.length > 0;
   const totals = getTotals(menWhoOrdered, props);
+
   const shouldShowDeliveryLabel = totals.total > 300;
   const isFreeDelivery = totals.total >= FREE_DELIVERY_FROM;
   const buyForFreeDelivery = FREE_DELIVERY_FROM - totals.total;
+
+  const styles = getStyles(listRef);
   const itemsWord = pluralizeWord(
     'блюд', ['о', 'а', ''], totals.items,
   );
-  const styles = getStyles(listRef);
 
   return (
     <div
@@ -303,25 +312,30 @@ export default function CartSection(props) {
           у вас бесплатная доставка
         </div>
       )}
+      {/* eslint-disable-next-line */}
+      <Link to={totals.items > 0 ? '/checkout' : '#'}>
+        <button
+          type="button"
+          className={css.orderButton}
+        >
+          {totals.items > 0 ? 'ОФОРМИТЬ' : 'ПУСТО'}
+          {' '}
+          {totals.items > 0 ? (
+            `(${totals.items} ${itemsWord} на 
+            ${totals.total} руб.)`
+          ) : ''}
+        </button>
+      </Link>
+
       <button
+        type="button"
+        className={css.cartIconWrap}
         onFocus={handleHover(state)}
         onMouseOver={handleHover(state)}
         onBlur={handleBlur(state)}
         onMouseOut={handleBlur(state)}
-        type="button"
-        className={css.orderButton}
       >
-        {shouldShowList && 'ОФОРМИТЬ'}
-        {!shouldShowList && (
-          totals.items > 0
-            ? 'ПОКАЗАТЬ КОРЗИНУ'
-            : 'ПУСТО'
-        )}
-        {' '}
-        {totals.items > 0 ? (
-          `(${totals.items} ${itemsWord} на 
-          ${totals.total} руб.)`
-        ) : ''}
+        <ShoppingCart />
       </button>
     </div>
   );
