@@ -11,8 +11,16 @@ import Checkout from 'app/pages/Checkout';
 function Routes() {
   return (
     <Switch>
-      <Route path="/" render={props => <Main {...props} />} exact />
-      <Route path="/checkout" render={props => <Checkout {...props} />} exact />
+      <Route
+        exact
+        path="/"
+        render={props => <Main {...props} />}
+      />
+      <Route
+        exact
+        path="/checkout"
+        render={props => <Checkout {...props} />}
+      />
       <Route path="/delivery" render={Delivery} />
       <Route path="/contacts" render={Contacts} />
       <Route path="/privacy" render={Privacy} />

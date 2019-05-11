@@ -4,7 +4,19 @@ import T from 'prop-types';
 import css from './index.styl';
 
 export default function OrderList(props) {
-  return null;
+  return (
+    <>
+      <h1 className={css.header}>
+        Оформление заказа
+      </h1>
+    </>
+  );
 }
-OrderList.propTypes = {};
-OrderList.defaultProps = {};
+OrderList.propTypes = {
+  order: T.object,
+  handleOrder: T.func,
+};
+OrderList.defaultProps = {
+  order: {},
+  handleOrder: () => {},
+};

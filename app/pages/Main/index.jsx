@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import useStoreon from 'storeon/react';
-import cloneDeep from 'lodash.clonedeep';
 
 import ContactInfo from 'app/sections/ContactInfo';
 import MainHeader from 'app/sections/Header';
 import OrderInputs from 'app/sections/OrderInputs';
 import Catalog from 'app/sections/Catalog';
 import Cart from 'app/sections/Cart';
-import Notifications from 'app/sections/Notifications';
 
-import { changeOrder } from 'app/flux/order';
+import {
+  changeOrder,
+  updateOrder as fluxUpdateOrder,
+} from 'app/flux/order';
 
 import moment, { toISOString } from 'helpers/moment';
 
@@ -55,61 +56,20 @@ function updateDay(state) {
   };
 }
 
-function updateOrder(props) {
+function localUpdateOrder(props) {
   return function updateOrderValues(params) {
     const {
       order,
-      handleOrder,
+      dispatchOrder,
       guest: parentGuest,
     } = props;
 
-    const {
-      id,
-      amount,
-      optionId,
-      label = '',
-      guest: childGuest,
-    } = params;
+    const { guest: childGuest } = params;
 
-    const guest = childGuest || parentGuest;
-    const nextOrder = cloneDeep(order);
-    if (!nextOrder[guest]) {
-      nextOrder[guest] = [];
-    }
-
-    const nextOptionId = optionId || null;
-
-    let itemIndex;
-    const item = nextOrder[guest].find((v, i) => {
-      if (v.id === id) itemIndex = i;
-      return v.id === id;
+    return fluxUpdateOrder({ dispatch: dispatchOrder, order }, {
+      ...params,
+      guest: childGuest || parentGuest,
     });
-
-    if (!item && amount > 0) {
-      nextOrder[guest].push({
-        id,
-        label,
-        countInCart: amount,
-        optionId: nextOptionId,
-      });
-    } else if (item) {
-      item.countInCart = amount;
-      item.optionId = nextOptionId;
-      item.label = label;
-    }
-
-    if (
-      amount === 0
-      && typeof itemIndex === 'number'
-    ) {
-      nextOrder[guest].splice(itemIndex, 1);
-    }
-
-    if (nextOrder[guest].length === 0) {
-      delete nextOrder[guest];
-    }
-
-    handleOrder(nextOrder);
   };
 }
 
@@ -135,6 +95,7 @@ export default function Main() {
     handleDay,
     order,
     handleOrder,
+    dispatchOrder,
   };
 
   return (
@@ -161,7 +122,7 @@ export default function Main() {
           guests={guests}
           order={order}
           handleOrder={handleOrder}
-          updateOrder={updateOrder(state)}
+          updateOrder={localUpdateOrder(state)}
         />
       </main>
 
@@ -171,10 +132,8 @@ export default function Main() {
         guest={guest}
         guests={guests}
         className={css.cartSection}
-        updateOrder={updateOrder(state)}
+        updateOrder={localUpdateOrder(state)}
       />
-
-      <Notifications order={order} />
     </>
   );
 }
