@@ -3,10 +3,11 @@ import T from 'prop-types';
 import { Link } from 'react-router-dom';
 import Scrollbar from 'react-custom-scrollbars';
 
-import Image from 'app/elements/Image';
-import Counter from 'app/elements/Counter';
+import OrderList from 'app/components/OrderList';
 
 import ShoppingCart from 'app/assets/icons/shoppingCart';
+
+import getTotals from 'app/utils/orderTotals';
 
 import pluralizeWord from 'helpers/pluralizeWord';
 import isServer from 'helpers/isServer';
@@ -16,56 +17,8 @@ import {
   FREE_DELIVERY_FROM,
 } from 'app/pages/Main';
 
-import items from 'helpers/data';
-
 import cx from 'classnames';
 import css from './index.styl';
-
-function findItem(id, label) {
-  return items[label].find(v => (v || {}).id === id);
-}
-
-function findItemOption(fullItem, orderItem) {
-  if (
-    !orderItem.optionId
-    || orderItem.optionId === fullItem.id
-  ) {
-    return fullItem;
-  }
-
-  return fullItem.options.find(v => (
-    v.id === orderItem.optionId
-  )) || {};
-}
-
-function getMansTotal(mansOrder) {
-  let total = 0;
-  mansOrder.forEach((orderItem) => {
-    const { countInCart } = orderItem;
-
-    const fullItem = findItem(orderItem.id, orderItem.label);
-    const optionItem = findItemOption(fullItem, orderItem);
-    total += (optionItem.price || 0) * countInCart;
-  });
-
-  return total;
-}
-
-function getTotals(whoOrdered, props) {
-  const { order } = props;
-
-  const totals = {
-    total: 0,
-    items: 0,
-  };
-  whoOrdered.forEach((man) => {
-    totals[man] = getMansTotal(order[man]);
-    totals.total += totals[man];
-    totals.items += order[man].length;
-  });
-
-  return totals;
-}
 
 function getStyles(listRef) {
   if (
@@ -85,128 +38,6 @@ function getStyles(listRef) {
     style: {},
     scrollbarStyle,
   };
-}
-
-function renderItemMeta(fullItem, orderItem) {
-  const { countInCart } = orderItem;
-
-  const itemOption = findItemOption(
-    fullItem, orderItem,
-  );
-  const itemTotalPrice = (
-    (itemOption.price || 0) * countInCart
-  );
-
-  /* eslint-disable-next-line prefer-destructuring */
-  let name = fullItem.name;
-  if (itemOption.nameRoot && itemOption.endings) {
-    name = pluralizeWord(
-      itemOption.nameRoot,
-      itemOption.endings,
-      countInCart,
-    );
-  } else if (itemOption.name) {
-    /* eslint-disable-next-line prefer-destructuring */
-    name = itemOption.name;
-  } else if (fullItem.nameRoot && fullItem.endings) {
-    name = pluralizeWord(
-      fullItem.nameRoot,
-      fullItem.endings,
-      countInCart,
-    );
-  }
-
-  const itemData = { ...fullItem, ...itemOption };
-  return (
-    <>
-      {`${itemData.piece} ${itemData.entity}`}
-      <span className={css.count}>
-        {`✕ 
-          ${countInCart} 
-          ${name} =
-          ${itemTotalPrice} руб. 
-        `}
-      </span>
-    </>
-  );
-}
-
-function renderOrderList(params, props) {
-  const { order, updateOrder } = props;
-  const { guests, totals } = params;
-
-  return guests.map(guest => (
-    <div
-      key={`guest-${guest}-order-list`}
-      className={css.guest}
-    >
-      <div className={css.guestTitle}>
-        {`Гость ${guest}`}
-        <span>{`${totals[guest]} руб.`}</span>
-      </div>
-
-      <div className={css.separator} />
-
-      {order[guest].map((orderItem) => {
-        const {
-          id,
-          label,
-          countInCart,
-        } = orderItem;
-
-        const fullItem = findItem(id, label);
-        const { url, title } = fullItem;
-
-        return (
-          <div
-            key={`guest-${guest}-item-${id}`}
-            className={css.itemRow}
-          >
-            <Image
-              src={url}
-              alt={title}
-              id={`${id}-item-image`}
-              className={css.itemImage}
-            />
-
-            <div className={css.itemMeta}>
-              {title}
-              <div className={css.itemCount}>
-                {renderItemMeta(fullItem, orderItem)}
-              </div>
-
-              <Counter
-                minValue={0}
-                value={countInCart}
-                handleChange={nextValue => updateOrder({
-                  id,
-                  label,
-                  guest,
-                  amount: nextValue,
-                })}
-                className={css.counter}
-                inputClassName={css.counterInput}
-                buttonClassName={css.counterButton}
-              />
-            </div>
-
-            <button
-              type="button"
-              className={css.crossIcon}
-              onClick={() => updateOrder({
-                id,
-                label,
-                guest,
-                amount: 0,
-              })}
-            >
-              ✕
-            </button>
-          </div>
-        );
-      })}
-    </div>
-  ));
 }
 
 function handleHover(state) {
@@ -240,7 +71,7 @@ function handleBlur(state) {
 }
 
 export default function CartSection(props) {
-  const { order, className } = props;
+  const { order, className, updateOrder } = props;
 
   const [
     shouldShowList,
@@ -295,10 +126,10 @@ export default function CartSection(props) {
         className={css.orderList}
       >
         <Scrollbar style={{ ...styles.scrollbarStyle }}>
-          {renderOrderList({
-            totals,
-            guests: menWhoOrdered,
-          }, props)}
+          <OrderList
+            order={order}
+            updateOrder={updateOrder}
+          />
         </Scrollbar>
       </div>
       {shouldShowDeliveryLabel && !isFreeDelivery && (

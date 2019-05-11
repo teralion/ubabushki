@@ -1,0 +1,85 @@
+
+.guest
+  flexCenter()
+  flex-flow column nowrap
+  width 100%
+  padding x(12)
+
+.guestTitle
+  display flex
+  flex-flow row nowrap
+  justify-content space-between
+  align-items center
+  font-size x(16)
+  width 100%
+
+  > span
+    color $orange
+
+.itemRow
+  display flex
+  justify-content space-between
+  align-items center
+  flex-flow row nowrap
+  position relative
+  width 100%
+  margin-top x(10)
+
+.itemImage
+  max-width x(80)
+  width 100%
+  object-fit cover
+  border-radius x(8)
+
+.itemMeta
+  width 100%
+  align-self flex-start
+  margin-left x(10)
+  font-size x(16)
+
+  .itemCount
+    font-size x(12)
+
+  .count
+    color $orange
+    margin-left x(4)
+
+.counter
+  align-self flex-end
+  max-width x(130)
+  margin-top x(12)
+
+.counter
+.counterInput
+.counterButton
+  height x(25)
+
+.counterInput
+.counterButton
+  font-size x(16)
+
+.counterInput
+  max-width none
+
+.counterButton
+  width x(30)
+
+.crossIcon
+  flexCenter()
+  position absolute
+  right x(5)
+  top x(5)
+  width x(24)
+  height x(24)
+  background-color $white
+  cursor pointer
+  border-radius x(12)
+  font-size x(16)
+
+  &:hover
+    background-color $lightGrayActive
+
+.separator
+  width 100%
+  border-bottom x(1) solid $gray
+  margin-top x(5)

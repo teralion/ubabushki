@@ -5,7 +5,7 @@ import ContactInfo from 'app/sections/ContactInfo';
 import Header from 'app/sections/Header';
 import OrderList from 'app/sections/OrderList';
 
-import { changeOrder } from 'app/flux/order';
+import { changeOrder, updateOrder } from 'app/flux/order';
 
 import cx from 'classnames';
 import css from './index.styl';
