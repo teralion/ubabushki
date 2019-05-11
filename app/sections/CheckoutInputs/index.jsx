@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
+import T from 'prop-types';
 
+import Radio, { RadioGroup } from 'app/elements/Radio';
+
+import cx from 'classnames';
 import css from './index.styl';
 
 const inputs = [
@@ -41,15 +45,9 @@ const inputs = [
   },
 ];
 
-export default function CheckoutInputs() {
-  const [name, handleName] = useState('');
-  const [phone, handlePhone] = useState('');
-  const [address, handleAddress] = useState('');
-  const [time, handleTime] = useState('');
-  const [date, handleDate] = useState('');
-  const [comment, handleComment] = useState('');
-
-  const state = {
+export default function CheckoutInputs(props) {
+  /* eslint-disable */
+  const {
     name,
     handleName,
     phone,
@@ -62,7 +60,12 @@ export default function CheckoutInputs() {
     handleDate,
     comment,
     handleComment,
-  };
+    payment,
+    handlePayment,
+    delivery,
+    handleDelivery,
+  } = props;
+  /* eslint-enable */
 
   return (
     <>
@@ -84,17 +87,101 @@ export default function CheckoutInputs() {
             </div>
             <input
               type={type}
-              value={state[id]}
+              value={props[id]}
               onChange={e => (
-                state[handler]((e.target || {}).value || '')
+                props[handler]((e.target || {}).value || '')
               )}
               className={css.input}
             />
           </div>
         );
       })}
+
+      <div className={css.radioGroup}>
+        <div className={cx(css.label, css.radioLabel)}>
+          Оплата
+        </div>
+        <RadioGroup
+          name="payment-radio-group"
+          selectedValue={payment}
+          handleChange={handlePayment}
+          className={css.radioButton}
+        >
+          <Radio
+            value="cash"
+            label={(
+              <div className={css.option}>
+                картой онлайн
+              </div>
+            )}
+          />
+          <Radio
+            value="courier"
+            label={(
+              <div className={css.option}>
+                наличными курьеру
+              </div>
+            )}
+          />
+        </RadioGroup>
+      </div>
+
+      <div className={css.radioGroup}>
+        <div className={cx(css.label, css.radioLabel)}>
+          Доставка
+        </div>
+        <RadioGroup
+          name="delivery-radio-group"
+          selectedValue={delivery}
+          handleChange={handleDelivery}
+          className={css.radioButton}
+        >
+          <Radio
+            value="courier"
+            label={(
+              <div className={css.option}>
+                курьерская доставка
+              </div>
+            )}
+          />
+          <Radio
+            value="pickup"
+            label={(
+              <div className={css.option}>
+                самовывоз из кафе
+              </div>
+            )}
+          />
+        </RadioGroup>
+      </div>
     </>
   );
 }
-CheckoutInputs.propTypes = {};
-CheckoutInputs.defaultProps = {};
+CheckoutInputs.propTypes = {
+  name: T.string,
+  handleName: T.func.isRequired,
+  phone: T.string,
+  handlePhone: T.func.isRequired,
+  address: T.string,
+  handleAddress: T.func.isRequired,
+  time: T.string,
+  handleTime: T.func.isRequired,
+  date: T.string,
+  handleDate: T.func.isRequired,
+  comment: T.string,
+  handleComment: T.func.isRequired,
+  payment: T.string,
+  handlePayment: T.func.isRequired,
+  delivery: T.string,
+  handleDelivery: T.func.isRequired,
+};
+CheckoutInputs.defaultProps = {
+  name: '',
+  phone: '',
+  address: '',
+  time: '',
+  date: '',
+  comment: '',
+  payment: '',
+  delivery: '',
+};

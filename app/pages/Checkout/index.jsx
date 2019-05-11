@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useStoreon from 'storeon/react';
 
 import ContactInfo from 'app/sections/ContactInfo';
@@ -17,6 +17,15 @@ function localUpdateOrder(state) {
 }
 
 export default function Checkout() {
+  const [name, handleName] = useState('');
+  const [phone, handlePhone] = useState('');
+  const [address, handleAddress] = useState('');
+  const [time, handleTime] = useState('');
+  const [date, handleDate] = useState('');
+  const [comment, handleComment] = useState('');
+  const [payment, handlePayment] = useState('cash');
+  const [delivery, handleDelivery] = useState('courier');
+
   const {
     order,
     dispatch: dispatchOrder,
@@ -25,6 +34,22 @@ export default function Checkout() {
   const state = {
     order,
     dispatch: dispatchOrder,
+    name,
+    handleName,
+    phone,
+    handlePhone,
+    address,
+    handleAddress,
+    time,
+    handleTime,
+    date,
+    handleDate,
+    comment,
+    handleComment,
+    payment,
+    handlePayment,
+    delivery,
+    handleDelivery,
   };
 
   return (
@@ -36,8 +61,16 @@ export default function Checkout() {
           order={order}
           updateOrder={localUpdateOrder(state)}
         />
-        <CheckoutInputs />
+        <CheckoutInputs {...state} />
       </main>
+
+      <button
+        type="button"
+        onClick={() => alert('confirmed!')}
+        className={css.confirmButton}
+      >
+        отправить заказ!
+      </button>
     </>
   );
 }
