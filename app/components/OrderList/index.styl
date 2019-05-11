@@ -5,6 +5,12 @@
   width 100%
   padding x(12)
 
+  &.grey
+    background-color $lightGray
+
+  &.white
+    background-color $white
+
 .guestTitle
   display flex
   flex-flow row nowrap
@@ -12,6 +18,9 @@
   align-items center
   font-size x(16)
   width 100%
+
+  &section
+    font-size x(28)
 
   > span
     color $orange
@@ -25,11 +34,18 @@
   width 100%
   margin-top x(10)
 
+  &section
+    margin-top x(20)
+
 .itemImage
   max-width x(80)
   width 100%
   object-fit cover
   border-radius x(8)
+
+  &section
+    max-width x(120)
+    width 100%
 
 .itemMeta
   width 100%
@@ -37,8 +53,16 @@
   margin-left x(10)
   font-size x(16)
 
+  &section
+    align-self center
+    margin-left x(20)
+    font-size x(28)
+
   .itemCount
     font-size x(12)
+
+    &section
+      font-size x(18)
 
   .count
     color $orange
@@ -49,13 +73,18 @@
   max-width x(130)
   margin-top x(12)
 
+  &section
+    margin-top x(0)
+
 .counter
 .counterInput
 .counterButton
+.deleteButton
   height x(25)
 
 .counterInput
 .counterButton
+.deleteButton
   font-size x(16)
 
 .counterInput
@@ -78,6 +107,28 @@
 
   &:hover
     background-color $lightGrayActive
+
+.deleteButton
+  background-color $white
+  border-radius x(8)
+  border x(1) solid $gray
+  margin-top x(10)
+  width 100%
+  cursor pointer
+
+  &:hover
+    background-color $lightGray
+
+  &:active
+    background-color $lightGrayActive
+
+.rowActionButtons
+  display flex
+  flex-flow column nowrap
+  justify-content center
+  align-items flex-end
+  max-width x(130)
+  width 100%
 
 .separator
   width 100%

@@ -5,10 +5,16 @@ import ContactInfo from 'app/sections/ContactInfo';
 import Header from 'app/sections/Header';
 import OrderList from 'app/sections/OrderList';
 
-import { changeOrder, updateOrder } from 'app/flux/order';
+import { updateOrder as fluxUpdateOrder } from 'app/flux/order';
 
 import cx from 'classnames';
 import css from './index.styl';
+
+function localUpdateOrder(state) {
+  return function updateOrderState(params) {
+    return fluxUpdateOrder(state, params);
+  };
+}
 
 export default function Checkout() {
   const {
@@ -16,9 +22,10 @@ export default function Checkout() {
     dispatch: dispatchOrder,
   } = useStoreon('order');
 
-  const handleOrder = nextOrder => (
-    changeOrder(dispatchOrder, nextOrder)
-  );
+  const state = {
+    order,
+    dispatch: dispatchOrder,
+  };
 
   return (
     <>
@@ -27,7 +34,7 @@ export default function Checkout() {
       <main className={css.main}>
         <OrderList
           order={order}
-          handleOrder={handleOrder}
+          updateOrder={localUpdateOrder(state)}
         />
       </main>
     </>
