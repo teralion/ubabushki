@@ -17,14 +17,13 @@ export default function OrderList(props) {
         Оформление заказа
       </h1>
 
-      <div className={css.itemsList}>
-        <ItemsList
-          isStripesMode
-          mode="section"
-          order={order}
-          updateOrder={updateOrder}
-        />
-      </div>
+      <ItemsList
+        isStripesMode
+        shouldShowWholeTotal
+        mode="section"
+        order={order}
+        updateOrder={updateOrder}
+      />
     </>
   );
 }

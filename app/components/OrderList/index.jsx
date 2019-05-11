@@ -62,141 +62,152 @@ export default function OrderList(props) {
     order,
     updateOrder,
     isStripesMode,
+    shouldShowWholeTotal,
   } = props;
 
   const guests = Object.keys(order).sort();
   const totals = getTotals(guests, { order });
 
-  return guests.map((guest, i) => {
-    const color = i % 2 === 0 ? 'grey' : 'white';
-    const className = cx(css.guest, {
-      [css[`guest${mode}`]]: true,
-      [css[color]]: isStripesMode,
-    });
-    const titleClassName = cx(css.guestTitle, {
-      [css[`guestTitle${mode}`]]: true,
-    });
-    const itemRowClassName = cx(css.itemRow, {
-      [css[`itemRow${mode}`]]: true,
-    });
-    const itemImageClassName = cx(css.itemImage, {
-      [css[`itemImage${mode}`]]: true,
-    });
-    const itemMetaClassName = cx(css.itemMeta, {
-      [css[`itemMeta${mode}`]]: true,
-    });
-    const itemCountClassName = cx(css.itemCount, {
-      [css[`itemCount${mode}`]]: true,
-    });
-    const counterClassName = cx(css.counter, {
-      [css[`counter${mode}`]]: true,
-    });
+  return (
+    <>
+      {guests.map((guest, i) => {
+        const color = i % 2 === 0 ? 'grey' : 'white';
+        const className = cx(css.guest, {
+          [css[`guest${mode}`]]: true,
+          [css[color]]: isStripesMode,
+        });
+        const headlineClassName = cx(css.headline, {
+          [css[`headline${mode}`]]: true,
+        });
+        const itemRowClassName = cx(css.itemRow, {
+          [css[`itemRow${mode}`]]: true,
+        });
+        const itemImageClassName = cx(css.itemImage, {
+          [css[`itemImage${mode}`]]: true,
+        });
+        const itemMetaClassName = cx(css.itemMeta, {
+          [css[`itemMeta${mode}`]]: true,
+        });
+        const itemCountClassName = cx(css.itemCount, {
+          [css[`itemCount${mode}`]]: true,
+        });
+        const counterClassName = cx(css.counter, {
+          [css[`counter${mode}`]]: true,
+        });
 
-    return (
-      <div
-        key={`guest-${guest}-order-list`}
-        className={className}
-      >
-        <div className={titleClassName}>
-          { `Гость ${guest}` }
-          <span>{ `${totals[guest]} руб.` }</span>
-        </div>
-
-        <div className={css.separator} />
-
-        { order[guest].map((orderItem) => {
-          const {
-            id,
-            label,
-            countInCart,
-          } = orderItem;
-
-          const fullItem = findItem(id, label);
-          const { url, title } = fullItem;
-
-          return (
-            <div
-              key={`guest-${guest}-item-${id}`}
-              className={itemRowClassName}
-            >
-              <Image
-                src={url}
-                alt={title}
-                id={`${id}-item-image`}
-                className={itemImageClassName}
-              />
-
-              <div className={itemMetaClassName}>
-                { title }
-                <div className={itemCountClassName}>
-                  { renderItemMeta(fullItem, orderItem) }
-                </div>
-
-                {mode === 'modal' && (
-                  <Counter
-                    minValue={0}
-                    value={countInCart}
-                    handleChange={nextValue => updateOrder({
-                      id,
-                      label,
-                      guest,
-                      amount: nextValue,
-                    })}
-                    className={css.counter}
-                    inputClassName={css.counterInput}
-                    buttonClassName={css.counterButton}
-                  />
-                )}
-              </div>
-
-              {mode === 'section' ? (
-                <div className={css.rowActionButtons}>
-                  <Counter
-                    minValue={0}
-                    value={countInCart}
-                    handleChange={nextValue => updateOrder({
-                      id,
-                      label,
-                      guest,
-                      amount: nextValue,
-                    })}
-                    className={counterClassName}
-                    inputClassName={css.counterInput}
-                    buttonClassName={css.counterButton}
-                  />
-                  <button
-                    type="button"
-                    className={css.deleteButton}
-                    onClick={() => updateOrder({
-                      id,
-                      label,
-                      guest,
-                      amount: 0,
-                    })}
-                  >
-                    Убрать
-                  </button>
-                </div>
-              ) : (
-                <button
-                  type="button"
-                  className={css.crossIcon}
-                  onClick={() => updateOrder({
-                    id,
-                    label,
-                    guest,
-                    amount: 0,
-                  })}
-                >
-                  ✕
-                </button>
-              )}
+        return (
+          <div
+            key={`guest-${guest}-order-list`}
+            className={className}
+          >
+            <div className={headlineClassName}>
+              { `Гость ${guest}` }
+              <span>{ `${totals[guest]} руб.` }</span>
             </div>
-          );
-        }) }
-      </div>
-    );
-  });
+
+            <div className={css.separator} />
+
+            { order[guest].map((orderItem) => {
+              const {
+                id,
+                label,
+                countInCart,
+              } = orderItem;
+
+              const fullItem = findItem(id, label);
+              const { url, title } = fullItem;
+
+              return (
+                <div
+                  key={`guest-${guest}-item-${id}`}
+                  className={itemRowClassName}
+                >
+                  <Image
+                    src={url}
+                    alt={title}
+                    id={`${id}-item-image`}
+                    className={itemImageClassName}
+                  />
+
+                  <div className={itemMetaClassName}>
+                    { title }
+                    <div className={itemCountClassName}>
+                      { renderItemMeta(fullItem, orderItem) }
+                    </div>
+
+                    {mode === 'modal' && (
+                      <Counter
+                        minValue={0}
+                        value={countInCart}
+                        handleChange={nextValue => updateOrder({
+                          id,
+                          label,
+                          guest,
+                          amount: nextValue,
+                        })}
+                        className={css.counter}
+                        inputClassName={css.counterInput}
+                        buttonClassName={css.counterButton}
+                      />
+                    )}
+                  </div>
+
+                  {mode === 'section' ? (
+                    <div className={css.rowActionButtons}>
+                      <Counter
+                        minValue={0}
+                        value={countInCart}
+                        handleChange={nextValue => updateOrder({
+                          id,
+                          label,
+                          guest,
+                          amount: nextValue,
+                        })}
+                        className={counterClassName}
+                        inputClassName={css.counterInput}
+                        buttonClassName={css.counterButton}
+                      />
+                      <button
+                        type="button"
+                        className={css.deleteButton}
+                        onClick={() => updateOrder({
+                          id,
+                          label,
+                          guest,
+                          amount: 0,
+                        })}
+                      >
+                        Убрать
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      className={css.crossIcon}
+                      onClick={() => updateOrder({
+                        id,
+                        label,
+                        guest,
+                        amount: 0,
+                      })}
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
+              );
+            }) }
+          </div>
+        );
+      })}
+      {shouldShowWholeTotal && (
+        <div className={cx(css.headline, css.wholeTotal)}>
+          Итого
+          <span>{`${totals.total} руб.`}</span>
+        </div>
+      )}
+    </>
+  );
 }
 
 /* eslint-disable react/forbid-prop-types */
@@ -204,11 +215,13 @@ OrderList.propTypes = {
   order: T.object.isRequired,
   updateOrder: T.func.isRequired,
   isStripesMode: T.bool,
+  shouldShowWholeTotal: T.bool,
   mode: T.oneOf(['modal', 'section']),
   className: T.string,
 };
 OrderList.defaultProps = {
   isStripesMode: false,
+  shouldShowWholeTotal: false,
   mode: 'modal',
   className: '',
 };

@@ -137,6 +137,7 @@ export default function ItemCard(props) {
   );
 }
 
+/* eslint-disable react/forbid-prop-types */
 ItemCard.propTypes = {
   title: T.string,
   url: T.string,
@@ -178,3 +179,4 @@ ItemCard.itemProps = [
   'optionId',
   'countInCart',
 ];
+/* eslint-enable */

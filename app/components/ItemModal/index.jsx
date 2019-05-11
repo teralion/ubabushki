@@ -11,6 +11,7 @@ import cx from 'classnames';
 import css from './index.styl';
 
 const INITIAL_OPTION_INDEX = 0;
+const INITIAL_COUNT_IN_CART = 0;
 
 const rowValues = [
   'id',
@@ -86,6 +87,18 @@ function renderOptions(state, props) {
   });
 }
 
+function updateItemOption(state, props) {
+  return function onItemOptionUpdate(nextOption) {
+    const { handleOption } = state;
+    const { handleChange } = props;
+
+    handleOption(nextOption);
+    handleChange(INITIAL_COUNT_IN_CART, {
+      optionId: nextOption,
+    });
+  };
+}
+
 export default function ItemModal(props) {
   const {
     id,
@@ -139,7 +152,7 @@ export default function ItemModal(props) {
         <RadioGroup
           name={`${title}-radio-options`}
           selectedValue={selectedOption}
-          handleChange={handleOption}
+          handleChange={updateItemOption(state, props)}
           className={css.radioOption}
         >
           {renderOptions(state, props)}

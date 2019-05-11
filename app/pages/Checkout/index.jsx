@@ -4,10 +4,10 @@ import useStoreon from 'storeon/react';
 import ContactInfo from 'app/sections/ContactInfo';
 import Header from 'app/sections/Header';
 import OrderList from 'app/sections/OrderList';
+import CheckoutInputs from 'app/sections/CheckoutInputs';
 
 import { updateOrder as fluxUpdateOrder } from 'app/flux/order';
 
-import cx from 'classnames';
 import css from './index.styl';
 
 function localUpdateOrder(state) {
@@ -36,6 +36,7 @@ export default function Checkout() {
           order={order}
           updateOrder={localUpdateOrder(state)}
         />
+        <CheckoutInputs />
       </main>
     </>
   );
