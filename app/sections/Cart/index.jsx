@@ -335,7 +335,13 @@ export default function CartSection(props) {
         onBlur={handleBlur(state)}
         onMouseOut={handleBlur(state)}
       >
-        <ShoppingCart />
+        <ShoppingCart
+          style={{
+            width: '30px',
+            height: '30px',
+          }}
+          fill="#3F3B3B"
+        />
       </button>
     </div>
   );

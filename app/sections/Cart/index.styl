@@ -21,6 +21,10 @@
     .orderList
       display none
 
+    .cartIconWrap
+      opacity 0.5
+      cursor default
+
 .orderList
   flexCenter()
   flex-flow column nowrap
@@ -150,6 +154,7 @@
   box-shadow 0 0 x(12) x(-1) $orange
   color $white
   cursor pointer
+  transition opacity .3s ease-in-out
 
   .icon
     font-size x(30)
