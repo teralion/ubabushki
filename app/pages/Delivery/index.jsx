@@ -4,7 +4,7 @@ import TextPageWrap from 'app/components/TextPageWrap';
 
 import css from './index.styl';
 
-export default function Main() {
+export default function DeliveryPage() {
   return (
     <>
       <TextPageWrap className={css.main}>

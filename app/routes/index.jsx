@@ -3,8 +3,8 @@ import { Route, Switch } from 'react-router-dom';
 
 import Main from 'app/pages/Main';
 import Delivery from 'app/pages/Delivery';
+import Payment from 'app/pages/Payment';
 import Contacts from 'app/pages/Contacts';
-import Privacy from 'app/pages/Privacy';
 import About from 'app/pages/About';
 import Checkout from 'app/pages/Checkout';
 
@@ -33,8 +33,8 @@ function Routes() {
       />
       <Route
         exact
-        path="/privacy"
-        render={props => <Privacy {...props} />}
+        path="/payment"
+        render={props => <Payment {...props} />}
       />
       <Route
         exact
