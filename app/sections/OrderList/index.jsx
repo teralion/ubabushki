@@ -27,6 +27,7 @@ export default function OrderList(props) {
     </>
   );
 }
+/* eslint-disable */
 OrderList.propTypes = {
   order: T.object,
   updateOrder: T.func,
@@ -35,3 +36,4 @@ OrderList.defaultProps = {
   order: {},
   updateOrder: () => {},
 };
+/* eslint-enable */

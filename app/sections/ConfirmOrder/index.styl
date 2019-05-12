@@ -1,13 +1,17 @@
 
 .confirmButton
   flexCenter()
+  position fixed
+  bottom x(0)
   background-color $green
   margin-top x(30)
   color $white
   width 100%
-  height x(90)
+  height x(60)
   cursor pointer
-  font-size x(50)
+  font-size x(30)
+  opacity 1
+  transition opacity .3s ease-in-out
 
   &.disabled
     cursor default

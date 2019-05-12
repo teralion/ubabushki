@@ -12,7 +12,7 @@ export default function checkout(store) {
       delivery: 'courier',
     },
   }));
-  store.on('change', (state, { key, value }) => ({
+  store.on('changeCheckout', (state, { key, value }) => ({
     ...state,
     checkout: {
       ...state.checkout,
@@ -22,5 +22,5 @@ export default function checkout(store) {
 }
 
 export function changeCheckout(dispatch, key, value) {
-  dispatch('change', { key, value });
+  dispatch('changeCheckout', { key, value });
 }

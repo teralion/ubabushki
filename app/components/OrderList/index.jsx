@@ -210,7 +210,7 @@ export default function OrderList(props) {
   );
 }
 
-/* eslint-disable react/forbid-prop-types */
+/* eslint-disable */
 OrderList.propTypes = {
   order: T.object.isRequired,
   updateOrder: T.func.isRequired,

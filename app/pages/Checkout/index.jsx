@@ -16,6 +16,8 @@ import {
   changeCheckout as fluxUpdateCheckout,
 } from 'app/flux/checkout';
 
+import getTotals from 'app/utils/orderTotals';
+
 function localUpdateOrder(state) {
   return function updateOrderState(params) {
     const { dispatchOrder: dispatch, order } = state;
@@ -34,6 +36,14 @@ function handler(params) {
 }
 
 function defineIfShouldSubmit(state) {
+  const { order } = state;
+  const menWhoOrdered = Object.keys(order).sort();
+  const totals = getTotals(menWhoOrdered, { order });
+
+  if (totals.total === 0) {
+    return false;
+  }
+
   return !requiredInputs.find(id => !state[id]);
 }
 
@@ -47,7 +57,7 @@ export default function Checkout() {
 
   const state = {
     order,
-    dispatch: dispatchOrder,
+    dispatchOrder,
     handleName: handler({
       dispatchCheckout,
       key: 'name',
