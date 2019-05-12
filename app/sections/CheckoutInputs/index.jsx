@@ -6,6 +6,7 @@ import Radio, { RadioGroup } from 'app/elements/Radio';
 import cx from 'classnames';
 import css from './index.styl';
 
+export const requiredInputs = ['phone', 'address', 'date'];
 const inputs = [
   {
     id: 'name',
@@ -65,12 +66,19 @@ export default function CheckoutInputs(props) {
           type,
         } = input;
 
+        const isRequired = requiredInputs.includes(id);
+
         return (
           <div
             key={id}
             className={css.inputBlock}
           >
-            <div className={css.label}>
+            <div
+              className={cx(
+                css.label,
+                isRequired && css.required,
+              )}
+            >
               { label }
             </div>
             <input
@@ -171,7 +179,7 @@ CheckoutInputs.defaultProps = {
   time: '',
   date: '',
   comment: '',
-  payment: '',
-  delivery: '',
+  payment: 'cash',
+  delivery: 'delivery',
 };
 /* eslint-enable */

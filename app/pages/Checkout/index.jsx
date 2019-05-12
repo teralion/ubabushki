@@ -4,18 +4,28 @@ import useStoreon from 'storeon/react';
 import ContactInfo from 'app/sections/ContactInfo';
 import Header from 'app/sections/Header';
 import OrderList from 'app/sections/OrderList';
-import CheckoutInputs from 'app/sections/CheckoutInputs';
+import
+CheckoutInputs, {
+  requiredInputs,
+} from 'app/sections/CheckoutInputs';
 import ConfirmOrder from 'app/sections/ConfirmOrder';
 
-import { updateOrder as fluxUpdateOrder } from 'app/flux/order';
-import { changeCheckout as fluxUpdateCheckout } from 'app/flux/checkout';
+import {
+  updateOrder as fluxUpdateOrder,
+} from 'app/flux/order';
+import {
+  changeCheckout as fluxUpdateCheckout,
+} from 'app/flux/checkout';
 
 import css from './index.styl';
 
 function localUpdateOrder(state) {
   return function updateOrderState(params) {
     const { dispatchOrder: dispatch, order } = state;
-    return fluxUpdateOrder({ order, dispatch }, params);
+    return fluxUpdateOrder(
+      { order, dispatch },
+      params,
+    );
   };
 }
 
@@ -24,6 +34,10 @@ function handler(params) {
     const { dispatchCheckout, key } = params;
     fluxUpdateCheckout(dispatchCheckout, key, value);
   };
+}
+
+function defineIfShouldSubmit(state) {
+  return !requiredInputs.find(id => !state[id]);
 }
 
 export default function Checkout() {
@@ -37,14 +51,38 @@ export default function Checkout() {
   const state = {
     order,
     dispatch: dispatchOrder,
-    handleName: handler({ dispatchCheckout, key: 'name' }),
-    handlePhone: handler({ dispatchCheckout, key: 'phone' }),
-    handleAddress: handler({ dispatchCheckout, key: 'address' }),
-    handleTime: handler({ dispatchCheckout, key: 'time' }),
-    handleDate: handler({ dispatchCheckout, key: 'date' }),
-    handleComment: handler({ dispatchCheckout, key: 'comment' }),
-    handlePayment: handler({ dispatchCheckout, key: 'payment' }),
-    handleDelivery: handler({ dispatchCheckout, key: 'delivery' }),
+    handleName: handler({
+      dispatchCheckout,
+      key: 'name',
+    }),
+    handlePhone: handler({
+      dispatchCheckout,
+      key: 'phone',
+    }),
+    handleAddress: handler({
+      dispatchCheckout,
+      key: 'address',
+    }),
+    handleTime: handler({
+      dispatchCheckout,
+      key: 'time',
+    }),
+    handleDate: handler({
+      dispatchCheckout,
+      key: 'date',
+    }),
+    handleComment: handler({
+      dispatchCheckout,
+      key: 'comment',
+    }),
+    handlePayment: handler({
+      dispatchCheckout,
+      key: 'payment',
+    }),
+    handleDelivery: handler({
+      dispatchCheckout,
+      key: 'delivery',
+    }),
     ...checkout,
   };
 
@@ -60,7 +98,9 @@ export default function Checkout() {
         <CheckoutInputs {...state} />
       </main>
 
-      <ConfirmOrder />
+      <ConfirmOrder
+        shouldSubmit={defineIfShouldSubmit(state)}
+      />
     </>
   );
 }

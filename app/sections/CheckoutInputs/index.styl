@@ -8,6 +8,14 @@
   &.radioLabel
     margin-bottom x(18)
 
+  &.required
+    &:after
+      content '*'
+      color $red
+      margin-left x(5)
+      font-size x(18)
+      vertical-align top
+
 .input
   display block
   height auto
