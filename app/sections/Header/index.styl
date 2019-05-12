@@ -18,6 +18,9 @@
     text-decoration none
     text-transform lowercase
 
+    &:hover
+      color $orange
+
   .logo
     flexCenter()
     height x(60)
@@ -27,4 +30,12 @@
     text-transform uppercase
     color $logo
     font-size x(50)
+
+    &:hover
+      color $logo
+
+.separator
+  width 100%
+  border-bottom x(2) solid rgba(63, 59, 59, 0.4)
+  box-shadow x(0) x(1) x(2) rgba(63, 59, 59, 0.25)
 

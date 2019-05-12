@@ -1,11 +1,16 @@
 import React from 'react';
-import T from 'prop-types';
+
+import TextPageWrap from 'app/components/TextPageWrap';
 
 import cx from 'classnames';
 import css from './index.styl';
 
 export default function Main() {
-  return (<></>);
+  return (
+    <>
+      <TextPageWrap>
+        content
+      </TextPageWrap>
+    </>
+  );
 }
-
-Main.propTypes = {};

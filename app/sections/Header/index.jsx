@@ -56,29 +56,40 @@ function renderBareHeader() {
 }
 
 export default function Header(props) {
-  const { className, shouldRenderLinks } = props;
+  const {
+    className,
+    shouldRenderLinks,
+    shouldShowSeparator,
+  } = props;
 
   return (
-    <nav
-      className={cx(
-        css.header, className,
-        { [css.bare]: !shouldRenderLinks },
+    <>
+      <nav
+        className={cx(
+          css.header, className,
+          { [css.bare]: !shouldRenderLinks },
+        )}
+      >
+        {shouldRenderLinks
+          ? renderHeaderWithLinks()
+          : renderBareHeader()
+        }
+      </nav>
+      {shouldShowSeparator && (
+        <div className={css.separator} />
       )}
-    >
-      {shouldRenderLinks
-        ? renderHeaderWithLinks()
-        : renderBareHeader()
-      }
-    </nav>
+    </>
   );
 }
 
 /* eslint-disable */
 Header.propTypes = {
+  shouldShowSeparator: T.bool,
   shouldRenderLinks: T.bool,
   className: T.string,
 };
 Header.defaultProps = {
+  shouldShowSeparator: true,
   shouldRenderLinks: true,
   className: '',
 };

@@ -1,8 +1,7 @@
 import React from 'react';
 import useStoreon from 'storeon/react';
 
-import ContactInfo from 'app/sections/ContactInfo';
-import Header from 'app/sections/Header';
+import CheckoutWrap from 'app/components/TextPageWrap';
 import OrderList from 'app/sections/OrderList';
 import
 CheckoutInputs, {
@@ -16,8 +15,6 @@ import {
 import {
   changeCheckout as fluxUpdateCheckout,
 } from 'app/flux/checkout';
-
-import css from './index.styl';
 
 function localUpdateOrder(state) {
   return function updateOrderState(params) {
@@ -88,15 +85,16 @@ export default function Checkout() {
 
   return (
     <>
-      <ContactInfo />
-      <Header shouldRenderLinks={false} />
-      <main className={css.main}>
+      <CheckoutWrap
+        shouldRenderLinks={false}
+        shouldShowSeparator={false}
+      >
         <OrderList
           order={order}
           updateOrder={localUpdateOrder(state)}
         />
         <CheckoutInputs {...state} />
-      </main>
+      </CheckoutWrap>
 
       <ConfirmOrder
         shouldSubmit={defineIfShouldSubmit(state)}

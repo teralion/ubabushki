@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import useStoreon from 'storeon/react';
 
-import ContactInfo from 'app/sections/ContactInfo';
-import MainHeader from 'app/sections/Header';
+import MainPageWrap from 'app/components/TextPageWrap';
 import OrderInputs from 'app/sections/OrderInputs';
 import Catalog from 'app/sections/Catalog';
 import Cart from 'app/sections/Cart';
@@ -100,12 +99,7 @@ export default function Main() {
 
   return (
     <>
-      <ContactInfo />
-      <MainHeader />
-
-      <div className={css.separator} />
-
-      <main className={css.main}>
+      <MainPageWrap>
         <OrderInputs
           className={css.inputs}
           guest={guest}
@@ -124,7 +118,7 @@ export default function Main() {
           handleOrder={handleOrder}
           updateOrder={localUpdateOrder(state)}
         />
-      </main>
+      </MainPageWrap>
 
       <Cart
         day={day}

@@ -21,10 +21,26 @@ function Routes() {
         path="/checkout"
         render={props => <Checkout {...props} />}
       />
-      <Route path="/delivery" render={Delivery} />
-      <Route path="/contacts" render={Contacts} />
-      <Route path="/privacy" render={Privacy} />
-      <Route path="/about" render={About} />
+      <Route
+        exact
+        path="/delivery"
+        render={props => <Delivery {...props} />}
+      />
+      <Route
+        exact
+        path="/contacts"
+        render={props => <Contacts {...props} />}
+      />
+      <Route
+        exact
+        path="/privacy"
+        render={props => <Privacy {...props} />}
+      />
+      <Route
+        exact
+        path="/about"
+        render={props => <About {...props} />}
+      />
     </Switch>
   );
 }
