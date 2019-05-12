@@ -7,7 +7,7 @@ export default function checkout(store) {
       address: '',
       time: '',
       date: '',
-      comment: ',',
+      comment: '',
       payment: 'cash',
       delivery: 'courier',
     },
