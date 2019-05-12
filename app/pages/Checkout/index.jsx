@@ -1,55 +1,51 @@
-import React, { useState } from 'react';
+import React from 'react';
 import useStoreon from 'storeon/react';
 
 import ContactInfo from 'app/sections/ContactInfo';
 import Header from 'app/sections/Header';
 import OrderList from 'app/sections/OrderList';
 import CheckoutInputs from 'app/sections/CheckoutInputs';
+import ConfirmOrder from 'app/sections/ConfirmOrder';
 
 import { updateOrder as fluxUpdateOrder } from 'app/flux/order';
+import { changeCheckout as fluxUpdateCheckout } from 'app/flux/checkout';
 
 import css from './index.styl';
 
 function localUpdateOrder(state) {
   return function updateOrderState(params) {
-    return fluxUpdateOrder(state, params);
+    const { dispatchOrder: dispatch, order } = state;
+    return fluxUpdateOrder({ order, dispatch }, params);
+  };
+}
+
+function handler(params) {
+  return function onChange(value) {
+    const { dispatchCheckout, key } = params;
+    fluxUpdateCheckout(dispatchCheckout, key, value);
   };
 }
 
 export default function Checkout() {
-  const [name, handleName] = useState('');
-  const [phone, handlePhone] = useState('');
-  const [address, handleAddress] = useState('');
-  const [time, handleTime] = useState('');
-  const [date, handleDate] = useState('');
-  const [comment, handleComment] = useState('');
-  const [payment, handlePayment] = useState('cash');
-  const [delivery, handleDelivery] = useState('courier');
-
   const {
-    order,
-    dispatch: dispatchOrder,
+    order, dispatch: dispatchOrder,
   } = useStoreon('order');
+  const {
+    checkout, dispatch: dispatchCheckout,
+  } = useStoreon('checkout');
 
   const state = {
     order,
     dispatch: dispatchOrder,
-    name,
-    handleName,
-    phone,
-    handlePhone,
-    address,
-    handleAddress,
-    time,
-    handleTime,
-    date,
-    handleDate,
-    comment,
-    handleComment,
-    payment,
-    handlePayment,
-    delivery,
-    handleDelivery,
+    handleName: handler({ dispatchCheckout, key: 'name' }),
+    handlePhone: handler({ dispatchCheckout, key: 'phone' }),
+    handleAddress: handler({ dispatchCheckout, key: 'address' }),
+    handleTime: handler({ dispatchCheckout, key: 'time' }),
+    handleDate: handler({ dispatchCheckout, key: 'date' }),
+    handleComment: handler({ dispatchCheckout, key: 'comment' }),
+    handlePayment: handler({ dispatchCheckout, key: 'payment' }),
+    handleDelivery: handler({ dispatchCheckout, key: 'delivery' }),
+    ...checkout,
   };
 
   return (
@@ -64,13 +60,7 @@ export default function Checkout() {
         <CheckoutInputs {...state} />
       </main>
 
-      <button
-        type="button"
-        onClick={() => alert('confirmed!')}
-        className={css.confirmButton}
-      >
-        отправить заказ!
-      </button>
+      <ConfirmOrder />
     </>
   );
 }

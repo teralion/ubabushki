@@ -48,18 +48,6 @@ const inputs = [
 export default function CheckoutInputs(props) {
   /* eslint-disable */
   const {
-    name,
-    handleName,
-    phone,
-    handlePhone,
-    address,
-    handleAddress,
-    time,
-    handleTime,
-    date,
-    handleDate,
-    comment,
-    handleComment,
     payment,
     handlePayment,
     delivery,
@@ -157,6 +145,7 @@ export default function CheckoutInputs(props) {
     </>
   );
 }
+/* eslint-disable */
 CheckoutInputs.propTypes = {
   name: T.string,
   handleName: T.func.isRequired,
@@ -185,3 +174,4 @@ CheckoutInputs.defaultProps = {
   payment: '',
   delivery: '',
 };
+/* eslint-enable */
