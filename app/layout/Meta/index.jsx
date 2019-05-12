@@ -25,7 +25,11 @@ export default function Meta() {
           Калининграду — Кафе «У Бабушки», +7 4012 523-090`}
         </title>
         {metaInfos.map(info => (
-          <meta name={info.name} content={info.content} />
+          <meta
+            key={info.name}
+            name={info.name}
+            content={info.content}
+          />
         ))}
       </Helmet>
     </>

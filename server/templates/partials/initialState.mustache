@@ -1,8 +1,0 @@
-{{^initialState}}
-  <!-- no initial state -->
-  <script>window.INITIAL_STATE = {};</script>
-{{/initialState}}
-
-{{#initialState}}
-  <script>window.INITIAL_STATE = { {{{initialState}}} };</script>
-{{/initialState}}

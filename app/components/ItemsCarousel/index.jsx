@@ -4,6 +4,8 @@ import SwipeableViews from 'react-swipeable-views';
 
 import ItemCard from 'app/components/ItemCard';
 
+import ArrowIcon from 'app/assets/icons/arrow';
+
 import cx from 'classnames';
 import css from './index.styl';
 
@@ -92,7 +94,7 @@ export default function ItemsCarousel(props) {
         )}
         onClick={updateIndexFunc(index - 1)}
       >
-        <div className={css.icon}>←</div>
+        <ArrowIcon />
       </button>
 
       <SwipeableViews
@@ -113,7 +115,7 @@ export default function ItemsCarousel(props) {
         )}
         onClick={updateIndexFunc(index + 1)}
       >
-        <div className={css.icon}>→</div>
+        <ArrowIcon className={css.right} />
       </button>
     </div>
   );
