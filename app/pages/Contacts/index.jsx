@@ -1,9 +1,10 @@
 import React from 'react';
 
+import Map from 'app/elements/Map';
+
 import ContactsPageWrap from 'app/components/TextPageWrap';
 
 import css from './index.styl';
-import TextPageWrap from "../../components/TextPageWrap";
 
 export default function Main() {
   return (
@@ -37,6 +38,8 @@ export default function Main() {
         Телефон:
         {' '}
         <a href="tel:+74012523090">+7 (4012) 523-090</a>
+
+        <Map className={css.map} />
       </ContactsPageWrap>
     </>
   );
