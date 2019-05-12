@@ -1,6 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
+import store from 'app/flux/index';
+import StoreContext from 'storeon/react/context';
+
+import { Helmet } from 'app/layout/Meta';
 
 import Routes from 'app/routes';
 
@@ -12,13 +16,32 @@ function prerender(ctx) {
   const statics = getStatics();
 
   let html = '';
+  let helmet = {};
 
   if (process.env.NODE_ENV === 'production') {
     html = ReactDOM.renderToString(
       <StaticRouter location={ctx.url} context={context}>
-        <Routes />
+        <StoreContext.Provider value={store}>
+          <Routes />
+        </StoreContext.Provider>
       </StaticRouter>,
     );
+
+    const {
+      meta,
+      link,
+      script,
+      title,
+      description,
+    } = Helmet.renderStatic();
+
+    helmet = {
+      meta: meta ? meta.toString() : '',
+      link: link ? link.toString() : '',
+      script: script ? script.toString() : '',
+      title: title ? title.toString() : '',
+      description: description ? description.toString() : '',
+    };
   }
 
   if (context.url) {
@@ -33,6 +56,7 @@ function prerender(ctx) {
     html,
     statics,
     GLOBALS,
+    helmet,
   }, partials);
 }
 

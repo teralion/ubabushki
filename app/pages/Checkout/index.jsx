@@ -1,7 +1,7 @@
 import React from 'react';
 import useStoreon from 'storeon/react';
 
-import CheckoutWrap from 'app/components/TextPageWrap';
+import CheckoutWrap from 'app/layout/TextPageWrap';
 import OrderList from 'app/sections/OrderList';
 import
 CheckoutInputs, {

@@ -12,11 +12,11 @@ import Routes from 'app/routes';
 
 function render() {
   return (
-    <StoreContext.Provider value={store}>
-      <BrowserRouter>
+    <BrowserRouter>
+      <StoreContext.Provider value={store}>
         <Routes />
-      </BrowserRouter>
-    </StoreContext.Provider>
+      </StoreContext.Provider>
+    </BrowserRouter>
   );
 }
 

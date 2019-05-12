@@ -1,6 +1,6 @@
 import React from 'react';
 
-import PaymentPageWrap from 'app/components/TextPageWrap';
+import PaymentPageWrap from 'app/layout/TextPageWrap';
 
 import css from './index.styl';
 

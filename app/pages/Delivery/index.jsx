@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TextPageWrap from 'app/components/TextPageWrap';
+import TextPageWrap from 'app/layout/TextPageWrap';
 
 import css from './index.styl';
 

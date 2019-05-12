@@ -2,7 +2,7 @@ import React from 'react';
 
 import Map from 'app/elements/Map';
 
-import ContactsPageWrap from 'app/components/TextPageWrap';
+import ContactsPageWrap from 'app/layout/TextPageWrap';
 
 import css from './index.styl';
 

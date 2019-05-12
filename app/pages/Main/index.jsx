@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import useStoreon from 'storeon/react';
 
-import MainPageWrap from 'app/components/TextPageWrap';
+import MainPageWrap from 'app/layout/TextPageWrap';
 import OrderInputs from 'app/sections/OrderInputs';
 import Catalog from 'app/sections/Catalog';
 import Cart from 'app/sections/Cart';
