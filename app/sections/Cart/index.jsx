@@ -82,11 +82,16 @@ function handleClick(state) {
   };
 }
 
-function getCartActionProps(state) {
+function getCartActionProps(
+  state,
+  shouldCloseOnClick = true,
+) {
   const { isMobile } = state;
   return isMobile
     ? {
-      onClick: handleClick(state),
+      onClick: shouldCloseOnClick
+        ? handleClick(state)
+        : () => {},
     } : {
       onFocus: handleHover(state),
       onMouseOver: handleHover(state),
@@ -111,15 +116,16 @@ export default function CartSection(props) {
     listVisibilityTimer,
     handleTimer,
   ] = useState(null);
+  const listRef = useRef(null);
+
   const state = {
     isMobile,
     toggleList,
     shouldShowList,
     listVisibilityTimer,
     handleTimer,
+    listRef,
   };
-
-  const listRef = useRef(null);
 
   useEffect(() => () => {
     clearTimeout(listVisibilityTimer);
@@ -138,8 +144,6 @@ export default function CartSection(props) {
     'блюд', ['о', 'а', ''], totals.items,
   );
 
-  const cartActionProps = getCartActionProps(state);
-
   return (
     <div
       className={cx(
@@ -154,7 +158,7 @@ export default function CartSection(props) {
         ref={listRef}
         style={{ ...styles.style }}
         className={css.orderList}
-        {...cartActionProps}
+        {...getCartActionProps(state, false)}
       >
         <Scrollbar style={{ ...styles.scrollbarStyle }}>
           <OrderList
@@ -192,7 +196,7 @@ export default function CartSection(props) {
       <button
         type="button"
         className={css.cartIconWrap}
-        {...cartActionProps}
+        {...getCartActionProps(state)}
       >
         <ShoppingCart
           style={isMobile ? {
