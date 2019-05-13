@@ -1,14 +1,23 @@
 import cloneDeep from 'lodash.clonedeep';
 
-export default function order(store) {
-  store.on('@init', () => ({ order: {} }));
-  store.on('changeOrder', (state, { nextOrder = {} }) => ({
-    order: nextOrder,
-  }));
+const prefix = 'order';
+const t = {
+  change: `${prefix}/change`,
+};
+
+export default function initOrder(initialOrder) {
+  return function order(store) {
+    store.on('@init', () => ({
+      order: initialOrder || {},
+    }));
+    store.on(t.change, (state, { nextOrder = {} }) => ({
+      order: { ...nextOrder },
+    }));
+  };
 }
 
 export function changeOrder(dispatch, nextOrder) {
-  dispatch('changeOrder', { nextOrder });
+  dispatch(t.change, { nextOrder });
 }
 
 export function updateOrder(state, params) {

@@ -8,12 +8,17 @@ import { Helmet } from 'app/layout/Meta';
 
 import Routes from 'app/routes';
 
+import getResponsive from './getResponsive';
 import getStatics from './getStatics';
+import getInitial from './getInitial';
+
 import { app, partials } from '../templates';
 
 function prerender(ctx) {
   const context = {};
   const statics = getStatics();
+  const responsive = getResponsive(ctx.userAgent);
+  const initial = getInitial({ responsive });
 
   let html = '';
   let helmet = {};
@@ -30,8 +35,8 @@ function prerender(ctx) {
     const {
       meta,
       link,
-      script,
       title,
+      script,
       description,
     } = Helmet.renderStatic();
 
@@ -54,9 +59,11 @@ function prerender(ctx) {
   ctx.status = 200;
   ctx.body = app.render({
     html,
+    helmet,
+    initial,
     statics,
     GLOBALS,
-    helmet,
+    responsive,
   }, partials);
 }
 

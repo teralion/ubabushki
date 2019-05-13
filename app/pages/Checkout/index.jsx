@@ -20,7 +20,7 @@ import getTotals from 'app/utils/orderTotals';
 
 function localUpdateOrder(state) {
   return function updateOrderState(params) {
-    const { dispatchOrder: dispatch, order } = state;
+    const { dispatch, order } = state;
     return fluxUpdateOrder(
       { order, dispatch },
       params,
@@ -30,8 +30,8 @@ function localUpdateOrder(state) {
 
 function handler(params) {
   return function onChange(value) {
-    const { dispatchCheckout, key } = params;
-    fluxUpdateCheckout(dispatchCheckout, key, value);
+    const { dispatch, key } = params;
+    fluxUpdateCheckout(dispatch, key, value);
   };
 }
 
@@ -49,47 +49,20 @@ function defineIfShouldSubmit(state) {
 
 export default function Checkout() {
   const {
-    order, dispatch: dispatchOrder,
-  } = useStoreon('order');
-  const {
-    checkout, dispatch: dispatchCheckout,
-  } = useStoreon('checkout');
+    order, checkout, dispatch,
+  } = useStoreon('order', 'checkout');
 
   const state = {
     order,
-    dispatchOrder,
-    handleName: handler({
-      dispatchCheckout,
-      key: 'name',
-    }),
-    handlePhone: handler({
-      dispatchCheckout,
-      key: 'phone',
-    }),
-    handleAddress: handler({
-      dispatchCheckout,
-      key: 'address',
-    }),
-    handleTime: handler({
-      dispatchCheckout,
-      key: 'time',
-    }),
-    handleDate: handler({
-      dispatchCheckout,
-      key: 'date',
-    }),
-    handleComment: handler({
-      dispatchCheckout,
-      key: 'comment',
-    }),
-    handlePayment: handler({
-      dispatchCheckout,
-      key: 'payment',
-    }),
-    handleDelivery: handler({
-      dispatchCheckout,
-      key: 'delivery',
-    }),
+    dispatch,
+    handleName: handler({ dispatch, key: 'name' }),
+    handlePhone: handler({ dispatch, key: 'phone' }),
+    handleAddress: handler({ dispatch, key: 'address' }),
+    handleTime: handler({ dispatch, key: 'time' }),
+    handleDate: handler({ dispatch, key: 'date' }),
+    handleComment: handler({ dispatch, key: 'comment' }),
+    handlePayment: handler({ dispatch, key: 'payment' }),
+    handleDelivery: handler({ dispatch, key: 'delivery' }),
     ...checkout,
   };
 

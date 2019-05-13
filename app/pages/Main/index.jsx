@@ -59,13 +59,13 @@ function localUpdateOrder(props) {
   return function updateOrderValues(params) {
     const {
       order,
-      dispatchOrder,
+      dispatch,
       guest: parentGuest,
     } = props;
 
     const { guest: childGuest } = params;
 
-    return fluxUpdateOrder({ dispatch: dispatchOrder, order }, {
+    return fluxUpdateOrder({ dispatch, order }, {
       ...params,
       guest: childGuest || parentGuest,
     });
@@ -77,12 +77,11 @@ export default function Main() {
   const [guest, handleGuest] = useState(FIRST_GUEST);
   const [day, handleDay] = useState(toISOString(NOW));
   const {
-    order,
-    dispatch: dispatchOrder,
-  } = useStoreon('order');
+    order, dispatch,
+  } = useStoreon('order', 'responsive');
 
   const handleOrder = nextOrder => (
-    changeOrder(dispatchOrder, nextOrder)
+    changeOrder(dispatch, nextOrder)
   );
 
   const state = {
@@ -94,7 +93,7 @@ export default function Main() {
     handleDay,
     order,
     handleOrder,
-    dispatchOrder,
+    dispatch,
   };
 
   return (
