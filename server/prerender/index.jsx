@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
-import store from 'app/flux/index';
+import createStore from 'app/flux/index';
 import StoreContext from 'storeon/react/context';
 
 import { Helmet } from 'app/layout/Meta';
@@ -24,9 +24,13 @@ function prerender(ctx) {
   let helmet = {};
 
   if (process.env.NODE_ENV === 'production') {
+    const initialServer = {
+      responsive,
+    };
+
     html = ReactDOM.renderToString(
       <StaticRouter location={ctx.url} context={context}>
-        <StoreContext.Provider value={store}>
+        <StoreContext.Provider value={createStore(initialServer)}>
           <Routes />
         </StoreContext.Provider>
       </StaticRouter>,

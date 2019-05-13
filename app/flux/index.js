@@ -1,18 +1,24 @@
 import persistState from '@storeon/localstorage';
-import createStore from 'storeon';
-
-import isServer from 'helpers/isServer';
+import create from 'storeon';
 
 import order from './order';
 import checkout from './checkout';
 import responsive from './responsive';
 
-export default createStore([
-  order(),
-  checkout(),
-  responsive(isServer ? {} : (window.initial || {}).responsive),
-  persistState(
-    ['order', 'checkout'],
-    { key: 'ubabushki' },
-  ),
-]);
+export default function createStore(initial) {
+  const {
+    order: initialOrder,
+    checkout: initialCheckout,
+    responsive: initialResponsive,
+  } = initial;
+
+  return create([
+    order(initialOrder),
+    checkout(initialCheckout),
+    responsive(initialResponsive),
+    persistState(
+      ['order', 'checkout'],
+      { key: 'ubabushki' },
+    ),
+  ]);
+}

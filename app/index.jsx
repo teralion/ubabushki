@@ -2,7 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 
-import store from 'app/flux/index';
+import isServer from 'helpers/isServer';
+
+import createStore from 'app/flux/index';
 import StoreContext from 'storeon/react/context';
 
 import 'app/styles/app.styl';
@@ -11,9 +13,15 @@ import 'app/styles/app.styl';
 import Routes from 'app/routes';
 
 function render() {
+  const initial = {
+    responsive: isServer
+      ? {}
+      : (window.initial || {}).responsive,
+  };
+
   return (
     <BrowserRouter>
-      <StoreContext.Provider value={store}>
+      <StoreContext.Provider value={createStore(initial)}>
         <Routes />
       </StoreContext.Provider>
     </BrowserRouter>
