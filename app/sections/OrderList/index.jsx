@@ -1,4 +1,5 @@
 import React from 'react';
+import useStoreon from 'storeon/react';
 import T from 'prop-types';
 
 import ItemsList from 'app/components/OrderList';
@@ -11,6 +12,12 @@ export default function OrderList(props) {
     updateOrder,
   } = props;
 
+  const {
+    responsive: {
+      isMobile = false,
+    } = {},
+  } = useStoreon('responsive');
+
   return (
     <>
       <h1 className={css.header}>
@@ -20,7 +27,7 @@ export default function OrderList(props) {
       <ItemsList
         isStripesMode
         shouldShowWholeTotal
-        mode="section"
+        mode={isMobile ? 'modal' : 'section'}
         order={order}
         updateOrder={updateOrder}
       />
