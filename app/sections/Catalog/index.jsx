@@ -4,6 +4,7 @@ import React, {
   useEffect,
 } from 'react';
 import T from 'prop-types';
+import useStoreon from 'storeon/react';
 import cloneDeep from 'lodash.clonedeep';
 
 import CatalogButton from 'app/components/CatalogButton';
@@ -56,7 +57,9 @@ function getItems(type, state, props) {
 
 function renderSections(state, props) {
   const { guest, day, updateOrder } = props;
+  const { isMobile } = state;
   const labels = Object.keys(items);
+  const itemsPerSlide = isMobile ? 1 : 3;
 
   return labels.map((label) => {
     const openState = state[`${label}SectionIsOpen`];
@@ -76,6 +79,7 @@ function renderSections(state, props) {
           key={`guest-${guest}-day-${day}`}
           name={label}
           items={getItems(label, state, props)}
+          itemsPerSlide={itemsPerSlide}
           updateOrder={params => (
             updateOrder({ ...params, label })
           )}
@@ -107,6 +111,11 @@ function clearGuests(state, props) {
 
 export default function CatalogSection(props) {
   const { guests } = props;
+  const {
+    responsive: {
+      isMobile = false,
+    } = {},
+  } = useStoreon('responsive');
   const [
     soupsSectionIsOpen,
     soupsSectionToggle,
@@ -129,6 +138,7 @@ export default function CatalogSection(props) {
   ] = useState(false);
 
   const state = {
+    isMobile,
     soupsSectionIsOpen,
     soupsSectionToggle,
     mainSectionIsOpen,
