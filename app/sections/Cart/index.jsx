@@ -71,9 +71,38 @@ function handleBlur(state) {
   };
 }
 
+function handleClick(state) {
+  return function onClick() {
+    const {
+      toggleList,
+      shouldShowList,
+    } = state;
+
+    toggleList(!shouldShowList);
+  };
+}
+
+function getCartActionProps(state) {
+  const { isMobile } = state;
+  return isMobile
+    ? {
+      onClick: handleClick(state),
+    } : {
+      onFocus: handleHover(state),
+      onMouseOver: handleHover(state),
+      onBlur: handleBlur(state),
+      onMouseOut: handleBlur(state),
+    };
+}
+
 export default function CartSection(props) {
   const { order, className, updateOrder } = props;
 
+  const {
+    responsive: {
+      isMobile = false,
+    } = {},
+  } = useStoreon('responsive');
   const [
     shouldShowList,
     toggleList,
@@ -83,15 +112,12 @@ export default function CartSection(props) {
     handleTimer,
   ] = useState(null);
   const state = {
+    isMobile,
     toggleList,
+    shouldShowList,
     listVisibilityTimer,
     handleTimer,
   };
-  const {
-    responsive: {
-      isMobile = false,
-    } = {},
-  } = useStoreon('responsive');
 
   const listRef = useRef(null);
 
@@ -112,6 +138,8 @@ export default function CartSection(props) {
     'блюд', ['о', 'а', ''], totals.items,
   );
 
+  const cartActionProps = getCartActionProps(state);
+
   return (
     <div
       className={cx(
@@ -124,12 +152,9 @@ export default function CartSection(props) {
     >
       <div
         ref={listRef}
-        onFocus={handleHover(state)}
-        onMouseOver={handleHover(state)}
-        onBlur={handleBlur(state)}
-        onMouseOut={handleBlur(state)}
         style={{ ...styles.style }}
         className={css.orderList}
+        {...cartActionProps}
       >
         <Scrollbar style={{ ...styles.scrollbarStyle }}>
           <OrderList
@@ -167,10 +192,7 @@ export default function CartSection(props) {
       <button
         type="button"
         className={css.cartIconWrap}
-        onFocus={handleHover(state)}
-        onMouseOver={handleHover(state)}
-        onBlur={handleBlur(state)}
-        onMouseOut={handleBlur(state)}
+        {...cartActionProps}
       >
         <ShoppingCart
           style={isMobile ? {
