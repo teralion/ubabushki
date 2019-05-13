@@ -1,11 +1,51 @@
 import React from 'react';
 import T from 'prop-types';
+import useStoreon from 'storeon/react';
 import { Link } from 'react-router-dom';
 
 import cx from 'classnames';
 import css from './index.styl';
 
-function renderHeaderWithLinks() {
+function mobileHeaderWithLinks() {
+  return (
+    <>
+      <Link
+        to="/"
+        className={cx(css.navLink, css.logo)}
+      >
+        У бабушки
+      </Link>
+      <div className={css.navBlock}>
+        <Link
+          to="/about"
+          className={css.navLink}
+        >
+          О нас
+        </Link>
+        <Link
+          to="/contacts"
+          className={css.navLink}
+        >
+          Контакты
+        </Link>
+        <Link
+          to="/delivery"
+          className={css.navLink}
+        >
+          Доставка
+        </Link>
+        <Link
+          to="/payment"
+          className={css.navLink}
+        >
+          Оплата
+        </Link>
+      </div>
+    </>
+  );
+}
+
+function desktopHeaderWithLinks() {
   return (
     <>
       <Link
@@ -40,6 +80,18 @@ function renderHeaderWithLinks() {
       </Link>
     </>
   );
+}
+
+function renderHeaderWithLinks() {
+  const {
+    responsive: {
+      isMobile = false,
+    } = {},
+  } = useStoreon('responsive');
+
+  return isMobile
+    ? mobileHeaderWithLinks()
+    : desktopHeaderWithLinks();
 }
 
 function renderBareHeader() {

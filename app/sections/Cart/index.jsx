@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import T from 'prop-types';
+import useStoreon from 'storeon/react';
 import { Link } from 'react-router-dom';
 import Scrollbar from 'react-custom-scrollbars';
 
@@ -86,6 +87,11 @@ export default function CartSection(props) {
     listVisibilityTimer,
     handleTimer,
   };
+  const {
+    responsive: {
+      isMobile = false,
+    } = {},
+  } = useStoreon('responsive');
 
   const listRef = useRef(null);
 
@@ -167,7 +173,10 @@ export default function CartSection(props) {
         onMouseOut={handleBlur(state)}
       >
         <ShoppingCart
-          style={{
+          style={isMobile ? {
+            width: '24px',
+            height: '24px',
+          } : {
             width: '30px',
             height: '30px',
           }}

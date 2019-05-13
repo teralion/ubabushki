@@ -1,11 +1,31 @@
+html[data-layout="mobile"]
+  .orderButton
+    height auto
+    padding-top x(8)
+    padding-bottom @padding-top
+    text-align center
+    font-size x(24)
+
+  .noteLabel
+    height auto
+    padding-top x(4)
+    padding-bottom @padding-top
+    font-size x(14)
+    text-align center
+
+  .cartIconWrap
+    width x(40)
+    height x(40)
+    min-width x(20)
+    bottom x(80)
+    right x(15)
 
 .wrap
   display flex
   flex-flow column
   justify-content flex-end
-  max-height x(90)
+  height auto
   width 100%
-  height 100%
 
   &.show
     .orderList
@@ -70,9 +90,6 @@
   color $white
   cursor pointer
   transition opacity .3s ease-in-out
-
-  .icon
-    font-size x(30)
 
 .noteLabel
   flexCenter()

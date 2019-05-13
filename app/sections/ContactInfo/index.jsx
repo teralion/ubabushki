@@ -3,8 +3,7 @@ import React from 'react';
 import cx from 'classnames';
 import css from './index.styl';
 
-export default function
-  ContactInfoSection() {
+export default function ContactInfoSection() {
   return (
     <div className={css.info}>
       <a

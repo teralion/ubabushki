@@ -1,5 +1,6 @@
 import React from 'react';
 import T from 'prop-types';
+import useStoreon from 'storeon/react';
 
 import Counter from 'app/elements/Counter';
 import Dropdown from 'app/elements/Dropdown';
@@ -61,6 +62,12 @@ export default function OrderInputs(props) {
     className,
   } = props;
 
+  const {
+    responsive: {
+      isMobile = false,
+    } = {},
+  } = useStoreon('responsive');
+
   const hideTooltip = Object.keys(order).length === 0;
 
   return (
@@ -92,6 +99,7 @@ export default function OrderInputs(props) {
           minValue={MIN_GUESTS}
           value={guests}
           handleChange={handleGuests}
+          inputClassName={css.counterInput}
         />
       </div>
       <div>

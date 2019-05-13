@@ -76,9 +76,7 @@ export default function Main() {
   const [guests, handleGuests] = useState(MIN_GUESTS);
   const [guest, handleGuest] = useState(FIRST_GUEST);
   const [day, handleDay] = useState(toISOString(NOW));
-  const {
-    order, dispatch,
-  } = useStoreon('order', 'responsive');
+  const {dispatch, order} = useStoreon('order');
 
   const handleOrder = nextOrder => (
     changeOrder(dispatch, nextOrder)

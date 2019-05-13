@@ -1,3 +1,33 @@
+html[data-layout="mobile"]
+  .header
+    flex-flow column nowrap
+    margin-top x(12)
+    height auto
+
+    .navBlock
+      flexCenter()
+      flex-flow row wrap
+      margin-left x(-10)
+      margin-top x(6)
+      margin-bottom x(12)
+      padding-left x(10)
+      padding-right @padding-left
+
+      .navLink
+        font-size x(16)
+        margin-left x(10)
+
+    .logo
+      max-width x(200)
+      max-height x(40)
+      width auto
+      height auto
+      padding x(6) x(10)
+      font-size x(24)
+      white-space nowrap
+
+  .separator
+    border-bottom-width x(1)
 
 .header
   flexCenter()
@@ -13,7 +43,7 @@
 
   .navLink
     font-family $fontRegular
-    font-size x(24 )
+    font-size x(24)
     color $gray
     text-decoration none
     text-transform lowercase

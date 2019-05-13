@@ -1,3 +1,20 @@
+html[data-layout="mobile"]
+  .inputs
+    flex-flow column nowrap
+
+    > div + div
+      margin-left x(0)
+
+    > div
+      min-width x(240)
+      margin-top x(10)
+
+      .label
+        font-size x(20)
+        margin-bottom x(5)
+
+    .counterInput
+      max-width x(150)
 
 .inputs
   display flex
