@@ -12,12 +12,6 @@ export default function OrderList(props) {
     updateOrder,
   } = props;
 
-  const {
-    responsive: {
-      isMobile = false,
-    } = {},
-  } = useStoreon('responsive');
-
   return (
     <>
       <h1 className={css.header}>
@@ -27,7 +21,7 @@ export default function OrderList(props) {
       <ItemsList
         isStripesMode
         shouldShowWholeTotal
-        mode={isMobile ? 'modal' : 'section'}
+        mode="section"
         order={order}
         updateOrder={updateOrder}
       />
